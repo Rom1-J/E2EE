@@ -1,0 +1,61 @@
+{% load static i18n compress %}
+{% get_current_language as LANGUAGE_CODE %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}Chat{% endblock title %}</title>
+
+
+    <meta name="description" content="E2EE Chat">
+    <meta name="author" content="Romain J.">
+
+    <link rel="icon" href="{% static 'images/favicons/favicon.ico' %}">
+
+    {% block css %}
+        {% compress css %}
+            <link href="{% static 'css/project.css' %}" rel="stylesheet">
+
+            {% block inline_stylesheet %}{% endblock inline_stylesheet %}
+        {% endcompress %}
+    {% endblock %}
+
+    {% block javascript %}
+        {% compress js %}
+            <script defer src="{% static 'js/project.js' %}"></script>
+        {% endcompress %}
+    {% endblock javascript %}
+</head>
+
+<body>
+
+<div id="app">
+    {% block sidebar %}
+        {% include 'layouts/parts/sidebar.html' %}
+    {% endblock sidebar %}
+
+    <div id="body">
+        {% block navbar %}
+            {% include 'layouts/parts/navbar.html' %}
+        {% endblock navbar %}
+
+        <div id="content">
+            {% block content %}{% endblock content %}
+        </div>
+    </div>
+
+    {% block footer %}
+        {% include 'layouts/parts/footer.html' %}
+    {% endblock footer %}
+</div>
+
+
+{% block modal %}{% endblock modal %}
+
+{% block inline_javascript %}{% endblock inline_javascript %}
+
+</body>
+</html>
