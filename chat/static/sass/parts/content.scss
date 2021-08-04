@@ -1,0 +1,17 @@
+#body {
+    width: calc(100% - 250px);
+}
+
+#content {
+    border-top: 1px solid #e5aca9;
+
+    height: calc(100% - 44px);
+    width: 100%;
+
+}
+
+@media only screen and (max-width: 950px) {
+    #body {
+        width: 100%;
+    }
+}

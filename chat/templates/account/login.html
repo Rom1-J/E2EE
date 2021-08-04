@@ -1,47 +1,77 @@
-{% extends "account/base.html" %}
+{% extends "layouts/base.html" %}
 
 {% load i18n %}
 {% load account socialaccount %}
 {% load crispy_forms_tags %}
 
-{% block head_title %}{% translate "Sign In" %}{% endblock %}
+{% block title %}{% translate "Sign In" %}{% endblock %}
 
-{% block inner %}
+{% block content %}
+    {#    <h1>{% translate "Sign In" %}</h1>#}
+    {##}
+    {#    <p>#}
+    {#        {% blocktranslate %}#}
+    {#            If you have not created an account yet, then please#}
+    {#            <a href="{{ signup_url }}">sign up</a> first.#}
+    {#        {% endblocktranslate %}#}
+    {#    </p>#}
+    {##}
+    {#    <form class="login" method="POST" action="{% url 'account_login' %}">#}
+    {#        {% csrf_token %}#}
+    {#        {{ form|crispy }}#}
+    {#        {% if redirect_field_value %}#}
+    {#            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>#}
+    {#        {% endif %}#}
+    {#        <a class="button secondaryAction"#}
+    {#           href="{% url 'account_reset_password' %}">{% translate "Forgot Password?" %}</a>#}
+    {#        <button class="primaryAction btn btn-primary" type="submit">{% translate "Sign In" %}</button>#}
+    {#    </form>#}
 
-<h1>{% translate "Sign In" %}</h1>
+    <form class="flex justify-center align-center height-100 text-center" autocomplete="off" method="post"
+          action="{% url "account_login" %}">
+        {% csrf_token %}
 
-{% get_providers as socialaccount_providers %}
+        <div class="form form-medium">
+            <fieldset class="fieldset">
+                <legend class="legend h1">Sign in to {{ APP_NAME }}</legend>
 
-{% if socialaccount_providers %}
-<p>{% blocktranslate with site.name as site_name %}Please sign in with one
-of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
-for a {{ site_name }} account and sign in below:{% endblocktranslate %}</p>
+                {{ form.errors }}
 
-<div class="socialaccount_ballot">
+                <div class="form-progressive">
+                    <div class="inline no-radius">
+                        <label>
+                            <input name="{{ form.login.name }}"
+                                   class="input {% if form.login.errors %}input-error{% endif %}"
+                                   placeholder="{% trans "Username" %}" type="text">
+                        </label>
+                    </div>
 
-  <ul class="socialaccount_providers">
-    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
-  </ul>
+                    <div class="inline visible">
+                        <label>
+                            <input name="{{ form.password.name }}"
+                                   class="input input-icon-right {% if form.password.errors %}input-error{% endif %}"
+                                   placeholder="{% trans "Password" %}" type="password">
+                        </label>
 
-  <div class="login-or">{% translate 'or' %}</div>
+                        <button type="submit" class="form-icon form-icon-flip" aria-label="Sign In">
+                            <svg viewBox="0 0 114 114" width="114" height="114" xmlns="http://www.w3.org/2000/svg">
+                                <g transform="translate(-8.74023,85.0586)">
+                                    <rect width="60.472443" height="18.897638" x="27.637867" y="-37.814507"/>
+                                    <path d="m 65.433391,-85.0586 c -31.014242,0 -56.693161,25.678567 -56.693161,56.692914 0,30.958808 25.734468,56.692913 56.74871,56.692913 30.958694,0 56.63712,-25.734105 56.63712,-56.692913 0,-31.014347 -25.734089,-56.692914 -56.692669,-56.692914 z m 0,9.448838 c 26.234293,0 47.188349,21.009686 47.188349,47.244076 0,26.17884 -20.898507,47.244075 -47.1328,47.244075 -26.234292,0 -47.2439,-21.065235 -47.29968,-47.244075 -0.0558,-26.23439 21.009839,-47.244076 47.244131,-47.244076 z"/>
+                                    <path d="m 84.800349,-46.074699 c 0,0 17.784831,17.710097 17.784831,17.710097 0,0 -17.784831,17.710097 -17.784831,17.710097 0,0 0,-35.420194 0,-35.420194 z"/>
+                                </g>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
 
-</div>
-
-{% include "socialaccount/snippets/login_extra.html" %}
-
-{% else %}
-<p>{% blocktranslate %}If you have not created an account yet, then please
-<a href="{{ signup_url }}">sign up</a> first.{% endblocktranslate %}</p>
-{% endif %}
-
-<form class="login" method="POST" action="{% url 'account_login' %}">
-  {% csrf_token %}
-  {{ form|crispy }}
-  {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-  {% endif %}
-  <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% translate "Forgot Password?" %}</a>
-  <button class="primaryAction btn btn-primary" type="submit">{% translate "Sign In" %}</button>
-</form>
-
+                <div class="margin">
+                    <label class="label">
+                        <input type="checkbox" class="checkbox" name="{{ form.remember.name }}">
+                        <span>Keep me signed in</span>
+                    </label>
+                </div>
+            </fieldset>
+        </div>
+    </form>
 {% endblock %}

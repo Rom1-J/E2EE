@@ -45,19 +45,18 @@
             margin-top: 10px;
 
             a {
-                color: #007aff;
+                color: $anchor-color;
                 text-decoration: none;
 
                 font-size: 1.2em;
                 font-weight: 500;
 
-                padding-right: 4px;
+                padding-right: 16px;
+                margin-right: -8px;
             }
 
             span {
-                fill: #007aff;
-                top: 1px;
-                position: relative;
+                fill: $anchor-color;
             }
         }
 

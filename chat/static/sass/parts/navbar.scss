@@ -1,0 +1,182 @@
+$background-image: linear-gradient(#fdfdfd, #f9f9f9);
+;
+
+$header-height: 44px;
+
+
+#navbar {
+    height: $header-height;
+    width: 100%;
+
+    background-image: $background-image;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 20px;
+
+    font-size: 21px;
+    font-weight: 300;
+
+    .navbar-guild, .navbar-home {
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        * {
+            color: #fff;
+            fill: #fff;
+            text-decoration: none;
+        }
+
+        a {
+            font-size: 21px;
+            font-weight: 600;
+        }
+
+        .chevron {
+            margin-top: -26px;
+            margin-left: 4px;
+            width: 10px;
+            height: 6px;
+        }
+    }
+
+    .navbar-title {
+        ::before {
+            content: "#";
+            opacity: .4;
+
+            font-weight: 600;
+            margin-right: 7px;
+        }
+    }
+
+    .navbar-settings {
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+    }
+}
+
+.navbar-userSettings {
+    transform-origin: 50% 0;
+
+    height: max-content;
+    width: 258px;
+
+    position: fixed;
+    background: #fff;
+    display: none;
+
+    border: 1px solid #d5d5d5;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .1);
+
+    border-radius: 8px;
+
+    z-index: 2;
+    padding: 0;
+
+    top: 50px;
+    bottom: 0;
+    left: auto;
+    right: 11px;
+
+    .cancel {
+        transform: translateX(calc(10px - 100vw + 258px)) translateY(-51px);
+
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        width: 100vw;
+        height: 100vh;
+
+        cursor: default;
+
+        z-index: -1;
+    }
+
+    &:target {
+        display: block;
+    }
+
+    .navbar-userSettings-arrow {
+        transform: translate(200px, -9px);
+        position: absolute;
+
+        background-size: 19px 9px;
+
+        width: 19px;
+        height: 9px;
+
+        &::before {
+            content: "";
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 10px 10px 10px;
+            border-color: transparent transparent #ffffff transparent;
+            position: absolute;
+        }
+    }
+
+    .navbar-userSettings-container {
+        .navbar-userAction {
+            border-top: 1px solid rgba(0, 0, 0, .1);
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            text-decoration: none;
+
+            &:first-child {
+                border: none;
+            }
+
+            margin-left: 10px;
+            padding: 7px 0 7px 6px;
+
+            .navbar-userAction-text {
+                padding-top: 8px;
+                padding-bottom: 8px;
+                padding-right: 20px;
+
+                font-size: 17px;
+                font-weight: 400;
+                color: #000;
+                -webkit-padding-before: 8px;
+                padding-block-start: 8px;
+                -webkit-padding-after: 8px;
+                padding-block-end: 8px;
+                -webkit-padding-end: 20px;
+                padding-inline-end: 20px;
+                white-space: normal;
+            }
+
+            .navbar-userAction-icon {
+                display: flex;
+
+                svg {
+                    width: 57.34161342185139px;
+                    height: 43.140462363654px;
+
+                    fill: #969696;
+                }
+            }
+        }
+    }
+}
+
+
+@media only screen and (min-width: 950px) {
+    #navbar {
+        .navbar-guild {
+            display: none;
+        }
+    }
+}

@@ -1,5 +1,18 @@
+@import "variables";
+@import "fixes";
+
+
 ////////////////////////////////
-		// Components //
+// Tags //
+////////////////////////////////
+@import "tags/typography";
+@import "tags/fieldset";
+@import "tags/forms";
+@import "tags/aligns";
+
+
+////////////////////////////////
+// Components //
 ////////////////////////////////
 @import "components/guildSwitcher";
 
@@ -14,5 +27,5 @@
 		// Site parts //
 ////////////////////////////////
 @import "parts/content";
-@import "parts/navebar";
+@import "parts/navbar";
 @import "parts/sidebar";

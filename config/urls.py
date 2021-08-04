@@ -15,7 +15,9 @@ urlpatterns = [
     # User management
     path("users/", include("chat.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
+
     # Your stuff: custom urls includes go here
+    path("guild/", include("chat.guild.urls", namespace="guild")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

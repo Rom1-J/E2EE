@@ -134,6 +134,11 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.common.BrokenLinkEmailsMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+
+    "django.middleware.gzip.GZipMiddleware",
+
+    "chat.utils.middleware.SpacelessMiddleware",
+    "chat.utils.middleware.ForceDefaultLanguageMiddleware",
 ]
 
 # STATIC
@@ -276,3 +281,4 @@ STATICFILES_FINDERS += ["compressor.finders.CompressorFinder"]
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+APP_NAME = "E2EE Chat"

@@ -19,6 +19,27 @@
         {% compress css %}
             <link href="{% static 'css/project.css' %}" rel="stylesheet">
 
+            {% if not request.user.is_connected %}
+                <style>
+                    #body {
+                        width: 100%;
+                    }
+
+                    #navbar {
+                        background-color: #323232;
+                        background-image: none;
+                    }
+
+                    #navbar .navbar-home span, #navbar .navbar-settings a {
+                        color: #fff !important;
+                    }
+
+                    #content {
+                        border-top: none;
+                    }
+                </style>
+            {% endif %}
+
             {% block inline_stylesheet %}{% endblock inline_stylesheet %}
         {% endcompress %}
     {% endblock %}
@@ -34,7 +55,9 @@
 
 <div id="app">
     {% block sidebar %}
-        {% include 'layouts/parts/sidebar.html' %}
+        {% if request.user.is_connected %}
+            {% include 'layouts/parts/sidebar.html' %}
+        {% endif %}
     {% endblock sidebar %}
 
     <div id="body">
@@ -48,7 +71,9 @@
     </div>
 
     {% block footer %}
-        {% include 'layouts/parts/footer.html' %}
+        {% if request.user.is_connected %}
+            {% include 'layouts/parts/footer.html' %}
+        {% endif %}
     {% endblock footer %}
 </div>
 

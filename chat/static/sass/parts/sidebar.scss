@@ -1,0 +1,297 @@
+$background-color: #efeeea;
+$width: 250px;
+
+$header-height: 44px;
+$footer-height: 44px;
+
+
+#sidebar {
+    background: $background-color;
+
+    width: $width;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    grid-area: sidebar;
+
+    .sidebar-header, .sidebar-body, .sidebar-footer {
+        border-right: 1px solid #ddd;
+    }
+
+    .sidebar-header {
+        background: #ebeae6;
+        height: $header-height;
+
+        .sidebar-header-controls {
+            display: flex;
+            height: $header-height;
+            width: 100%;
+            align-items: center;
+            justify-content: center;
+
+
+            * {
+                color: #000;
+                fill: #000;
+                text-decoration: none;
+            }
+
+            a {
+                font-size: 21px;
+                font-weight: 600;
+            }
+
+            .chevron {
+                margin-top: -16px;
+                margin-left: 4px;
+                width: 10px;
+                height: 6px;
+            }
+        }
+    }
+
+    .sidebar-body {
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+        flex: 1;
+
+        border-top: 1px solid #d7a09b;
+        border-bottom: 1px solid #ccc;
+
+        overflow: scroll;
+        overflow-x: hidden;
+
+        .sidebar-body-group {
+            border: none;
+
+            margin-inline-start: 0;
+            margin-inline-end: 0;
+
+            padding-inline-start: 0;
+            padding-inline-end: 0;
+
+            padding-block-start: 0;
+            padding-block-end: 0;
+
+            legend {
+                background-color: #e4e2dc;
+
+                width: 100%;
+                height: 46px;
+
+                padding-left: 10px;
+
+                font-weight: 600;
+                line-height: 46px;
+            }
+
+            .sidebar-body-channel {
+                padding-left: 20px;
+            }
+        }
+
+        .sidebar-body-channel {
+            height: 32px;
+            line-height: 32px;
+
+            font-size: 17px;
+            color: #171717;
+
+            border-top: 1px solid #cecac0;
+            text-decoration: none;
+
+            display: block;
+
+            padding-left: 10px;
+
+            &:first-of-type {
+                border-top: none;
+            }
+
+            &.active {
+                text-decoration: underline;
+                opacity: 1;
+            }
+
+            &:hover {
+                background-color: darken(#e4e2dc, 5%);
+            }
+
+            ::before {
+                content: "#";
+                opacity: .5;
+
+                font-weight: 600;
+                margin-right: 7px;
+            }
+        }
+    }
+
+    .sidebar-footer {
+        height: $footer-height;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        padding-right: 10px;
+
+        overflow: hidden;
+
+        .sidebar-footer-add {
+            height: $footer-height;
+
+            a {
+                svg {
+                    width: 44px;
+                    height: 44px;
+
+                    fill: $anchor-footer-color;
+                    color: $anchor-footer-color;
+                }
+            }
+        }
+
+        .sidebar-footer-edit {
+            height: $footer-height;
+
+            a {
+                text-decoration: none;
+                color: $anchor-footer-color;
+                font-size: 19px;
+                line-height: $footer-height;
+                margin-top: -13px;
+                padding: 0 0 0 0;
+            }
+        }
+    }
+}
+
+.sidebar-guildSelector {
+    height: 302px;
+    width: 642px;
+    max-width: calc(100% - 20px);
+
+    position: fixed;
+    background: #fff;
+    display: none;
+
+    border: 1px solid #d5d5d5;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .1);
+
+    border-radius: 8px;
+
+    z-index: 2;
+    padding: 0;
+
+    top: 50px;
+    bottom: 0;
+    left: 11px;
+    right: auto;
+
+    .cancel {
+        transform: translateX(-12px) translateY(-51px);
+
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        width: 100vw;
+        height: 100vh;
+
+        cursor: default;
+
+        z-index: -1;
+    }
+
+    &:target {
+        display: block;
+    }
+
+    .sidebar-guildSelector-arrow {
+        transform: translate(87px, -9px);
+        position: absolute;
+
+        background-size: 19px 9px;
+
+        width: 19px;
+        height: 9px;
+
+        &::before {
+            content: "";
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 10px 10px 10px;
+            border-color: transparent transparent #ffffff transparent;
+            position: absolute;
+        }
+    }
+
+    .sidebar-guildSelector-container {
+        padding: 15px 8px;
+
+        .guildSwitcher {
+            max-height: 230px;
+
+            &::-webkit-scrollbar {
+                width: 7px;
+                background-color: transparent;
+                border: none;
+                display: block;
+                position: absolute;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background: rgba(0, 0, 0, .5);
+                border-radius: 7px;
+            }
+
+            &::-webkit-scrollbar-thumb:hover {
+                background: rgba(0, 0, 0, .6);
+            }
+
+            &::-webkit-scrollbar-thumb:active {
+                background: rgba(0, 0, 0, .7);
+            }
+        }
+
+        .links-section {
+            border-top: 1px solid #f1f1f1;
+            margin: 8px 8px 0;
+
+            .account-settings-link-view {
+                display: inline-block;
+
+                div {
+                    padding: 13px 13px 0;
+                    font-size: 15px;
+                    font-weight: 500;
+                    justify-content: center;
+                    position: relative;
+
+                    a {
+                        color: $anchor-color;
+                        padding-right: 4px;
+                    }
+
+                    span {
+                        fill: $anchor-color;
+                        top: 1px;
+                        position: relative;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 950px) {
+    #sidebar {
+        display: none;
+    }
+}
