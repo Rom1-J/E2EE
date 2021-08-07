@@ -1,4 +1,5 @@
 {% extends "layouts/base.html" %}
+{% load static %}
 {% load good_morning i18n %}
 
 {% block footer %}{% endblock footer %}
@@ -40,10 +41,10 @@
             <div class="home-guilds">
                 <div class="guildSwitcher guildSwitcher-center guildSwitcher-large">
                     {% for foo in "x"|rjust:"22" %}
-                        <a href="{% url 'about' %}" class="guildSwitcher-item-view">
+                        <a href="{% url 'pages:about' %}" class="guildSwitcher-item-view">
                             <div class="guildSwitcher-item-content">
                                 <div class="icon-container">
-                                    <img src="https://cdn.discordapp.com/icons/280805240977227776/a_b4e129f64277b7c1b8af3329c27a0b3b.png"
+                                    <img src="{% static "images/gnous.png" %}"
                                          alt="{{ foo }} Icon">
                                 </div>
                                 <div class="icon-name">
@@ -52,7 +53,7 @@
                             </div>
                         </a>
                     {% endfor %}
-                    <a href="{% url 'about' %}" class="guildSwitcher-item-view guildSwitcher-item-view-new"
+                    <a href="{% url 'pages:about' %}" class="guildSwitcher-item-view guildSwitcher-item-view-new"
                        aria-label="{% trans "Create guild" %}">
                         <div class="guildSwitcher-item-content">
                             <div class="icon-container">

@@ -1,11 +1,10 @@
 from django.conf import settings
 
 
-def settings_context(_request):
-    """Settings available by default to the templates context."""
-    # Note: we intentionally do NOT expose the entire settings
-    # to prevent accidental leaking of sensitive information
+def settings_context(request):
     return {
         "DEBUG": settings.DEBUG,
-        "APP_NAME": settings.APP_NAME
+        "APP_NAME": settings.APP_NAME,
+
+        "SHOW_SIDEBAR": request.resolver_match.url_name in ["about"]
     }

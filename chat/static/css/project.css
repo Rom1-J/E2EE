@@ -28,6 +28,63 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-margin-end: 0;
           margin-inline-end: 0; }
 
+.link {
+  color: #0056B4;
+  text-decoration: none; }
+  .link:hover {
+    text-decoration: underline; }
+
+.alert {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  position: relative;
+  padding: 15px 29px 15px 15px;
+  background: #f8f8f8;
+  color: #666; }
+
+.alert-danger {
+  background: #fef4f6;
+  color: #f0506e; }
+
+.flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex; }
+
+.flex-column {
+  -webkit-box-orient: vertical !important;
+  -webkit-box-direction: normal !important;
+      -ms-flex-direction: column !important;
+          flex-direction: column !important; }
+
+.flex-row {
+  -webkit-box-orient: horizontal !important;
+  -webkit-box-direction: normal !important;
+      -ms-flex-direction: row !important;
+          flex-direction: row !important; }
+
+.justify-center {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center; }
+
+.align-center {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center; }
+
+.height-100 {
+  height: 100%; }
+
+.text-center {
+  text-align: center; }
+
+.margin {
+  margin-top: 20px !important; }
+
+.margin-bottom {
+  margin-bottom: 20px !important; }
+
 .fieldset {
   border: none;
   margin: 0;
@@ -88,6 +145,25 @@ h1, h2, h3, h4, h5, h6 {
   .form .form-progressive .inline.no-radius .input {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0; }
+  .form .form-errors {
+    text-align: left; }
+    .form .form-errors ul {
+      -webkit-padding-start: 10px;
+              padding-inline-start: 10px;
+      list-style: none; }
+  .form .form-separator {
+    width: 100%;
+    max-width: 224px;
+    height: 1px;
+    margin: auto;
+    border-top: 1px solid #e6e6e6; }
+  .form .form-logo {
+    height: 69px;
+    width: 69px;
+    margin: 20px;
+    -webkit-box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
+    border-radius: 25%; }
 
 input {
   border: 1px solid #d6d6d6;
@@ -161,30 +237,6 @@ input {
     font-weight: 400;
     position: relative;
     vertical-align: top; }
-
-.flex {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex; }
-
-.justify-center {
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center; }
-
-.align-center {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center; }
-
-.height-100 {
-  height: 100%; }
-
-.text-center {
-  text-align: center; }
-
-.margin {
-  margin-top: 20px !important; }
 
 .guildSwitcher {
   overflow: scroll;

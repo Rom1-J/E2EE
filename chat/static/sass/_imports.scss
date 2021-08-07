@@ -3,12 +3,18 @@
 
 
 ////////////////////////////////
+// Misc //
+////////////////////////////////
+@import "misc/typography";
+@import "misc/alert";
+@import "misc/aligns";
+
+
+////////////////////////////////
 // Tags //
 ////////////////////////////////
-@import "tags/typography";
 @import "tags/fieldset";
-@import "tags/forms";
-@import "tags/aligns";
+@import "tags/form";
 
 
 ////////////////////////////////

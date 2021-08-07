@@ -282,3 +282,8 @@ STATICFILES_FINDERS += ["compressor.finders.CompressorFinder"]
 # Your stuff...
 # ------------------------------------------------------------------------------
 APP_NAME = "E2EE Chat"
+
+ACCOUNT_USERNAME_VALIDATORS = 'chat.users.validators.custom_username_validators'
+ACCOUNT_FORMS = {
+    "login": "chat.users.forms.LoginForm"
+}

@@ -18,3 +18,4 @@ def good_morning(username: str):
         return _("Good afternoon {username}").format(username=username)
 
     return _("Good morning {username}").format(username=username)
+
