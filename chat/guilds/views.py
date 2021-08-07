@@ -50,37 +50,34 @@ class GuildHomeView(LoginRequiredMixin, View):
 class GuildDetailView(IsInGuildMixin, View):
     template_name = template_path + "detail.html"
 
-    def get(self, request: WSGIRequest, guild_id: uuid.UUID):
+    def get(self, request: WSGIRequest, guild_id: uuid.UUID) -> HttpResponse:
         raise Http404()
 
 
-class GuildInviteView(LoginRequiredMixin, View):
+class GuildInviteView(IsInGuildMixin, View):
     template_name = template_path + "invite.html"
 
-    def get(self, request: WSGIRequest, guild_id: str, key: str = None):
-        if key is None:
-            if not is_in_guild(request, guild_id=guild_id):
-                return redirect(
-                    "guild:create",
+    def get(self, request: WSGIRequest, guild_id: uuid.UUID) -> HttpResponse:
+        if guild := Guild.objects.filter(uuid=guild_id).first():
+            if not (
+                invite := Invite.objects.filter(guild_id=guild.id).first()
+            ):
+                invite = Invite(
+                    guild=guild,
+                    author=self.request.user,  # type: ignore
+                    key="".join(random.choices(string.ascii_letters, k=10)),
                 )
+                invite.save()
 
-            if guild := Guild.objects.filter(id=guild_id).first():
-                if not (
-                    invite := Invite.objects.filter(guild_id=guild.id).first()
-                ):
-                    invite = Invite(
-                        guild=guild,
-                        author=self.request.user,  # type: ignore
-                        key="".join(
-                            random.choices(string.ascii_letters, k=10)
-                        ),
-                    )
-                    invite.save()
+            return render(request, self.template_name, {"invite": invite})
 
-                return render(request, self.template_name, {"invite": invite})
+        return redirect("guild:create")
 
-            return redirect("guild:create")
 
+class GuildCreateInviteView(LoginRequiredMixin, View):
+    def get(
+        self, request: WSGIRequest, guild_id: uuid.UUID, key: str
+    ) -> HttpResponse:
         # pylint: disable=superfluous-parens
         if not (invite := Invite.objects.filter(key=key).first()):
             raise Http404()
@@ -88,7 +85,7 @@ class GuildInviteView(LoginRequiredMixin, View):
         guild = invite.guild
 
         if request.user in guild.members.all():
-            return redirect("guild:detail", guild_id=guild.id)
+            return redirect("guild:detail", guild_id=guild.uuid)
 
         invite.uses += 1
         guild.members.add(self.request.user)  # type: ignore
@@ -102,29 +99,11 @@ class GuildInviteView(LoginRequiredMixin, View):
         return redirect("guild:detail", guild_id=guild.id)
 
 
-class GuildCreateView(LoginRequiredMixin, View):
-    template_name = template_path + "create.html"
-
-    def get(self, request: WSGIRequest):
-        form = GuildCreationForm()
-        return render(request, self.template_name, {"form": form})
-
-    def post(self, request: WSGIRequest):
-        form = GuildCreationForm(request.POST, request.FILES)
-
-        if form.is_valid():
-            form.save()
-            form.instance.members.add(self.request.user)
-            form.save()
-
-            return redirect("guild:invite", guild_id=form.instance.pk)
-
-        return render(request, self.template_name, {"form": form})
-
-
 class GuildDeleteInviteView(IsInGuildMixin, View):
     # noinspection PyMethodMayBeStatic
-    def post(self, request: WSGIRequest, guild_id: str, key: str):
+    def post(
+        self, request: WSGIRequest, guild_id: uuid.UUID, key: str
+    ) -> HttpResponse:
         if invite := Invite.objects.filter(key=key).first():
             invite.delete()
             messages.add_message(
@@ -134,14 +113,36 @@ class GuildDeleteInviteView(IsInGuildMixin, View):
         return redirect("guild:detail", guild_id=guild_id)
 
 
+class GuildCreateView(LoginRequiredMixin, View):
+    template_name = template_path + "create.html"
+
+    def get(self, request: WSGIRequest) -> HttpResponse:
+        form = GuildCreationForm(user=request.user)
+        return render(request, self.template_name, {"form": form})
+
+    def post(self, request: WSGIRequest) -> HttpResponse:
+        form = GuildCreationForm(
+            request.POST, request.FILES, user=request.user
+        )
+
+        if form.is_valid():
+            form.save()
+            form.instance.members.add(self.request.user)
+            form.save()
+
+            return redirect("guild:invite", guild_id=str(form.instance.uuid))
+
+        return render(request, self.template_name, {"form": form})
+
+
 class GuildMembersView(IsInGuildMixin, View):
     template_name = template_path + "members.html"
 
-    def get(self, request: WSGIRequest, guild_id: str):
-        if guild := Guild.objects.filter(id=guild_id).first():
+    def get(self, request: WSGIRequest, guild_id: uuid.UUID) -> HttpResponse:
+        if guild := Guild.objects.filter(uuid=guild_id).first():
             return render(request, self.template_name, {"guild": guild})
 
         raise Http404()
 
-    def post(self, request: WSGIRequest, guild_id: int):
+    def post(self, request: WSGIRequest, guild_id: int) -> HttpResponse:
         raise Http404()

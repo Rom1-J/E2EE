@@ -4,19 +4,14 @@ from io import BytesIO
 from django import template
 import qrcode
 
-from co_habit.groups.models import Invite
+from chat.guilds.models import Invite
 
 register = template.Library()
 
 
 @register.filter
-def abs_url(path, request):
-    return request.build_absolute_uri(path)
-
-
-@register.filter
-def generate_qr_code(invite: Invite, request):
-    url = request.build_absolute_uri(invite.key_url())
+def generate_qr_code(invite: Invite):
+    url = "http://127.0.0.1:3000" + invite.key_url()
 
     qr = qrcode.QRCode(
         version=1,

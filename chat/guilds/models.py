@@ -14,6 +14,10 @@ class Guild(models.Model):
     name = models.CharField(_("Guild Name"), max_length=42)
     avatar = models.ImageField(_("Guild Avatar"))
 
+    owner = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="owner"
+    )
+
     members = models.ManyToManyField(User)
 
     def absolute_url(self):
@@ -50,13 +54,13 @@ class Invite(models.Model):
     def get_absolute_url(self):
         return reverse(
             "guild:invite_join",
-            kwargs={"guild_id": self.guild.id, "key": self.key},
+            kwargs={"guild_id": self.guild.uuid, "key": self.key},
         )
 
     def key_url(self):
         return reverse(
             "guild:invite_join",
-            kwargs={"guild_id": self.guild.id, "key": self.key},
+            kwargs={"guild_id": self.guild.uuid, "key": self.key},
         )
 
     def __str__(self):

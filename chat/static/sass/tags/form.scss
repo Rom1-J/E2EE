@@ -33,12 +33,12 @@
             animation-name: co-fade-in;
             animation-duration: .25s;
 
-            svg {
+            img {
                 fill: #666;
                 opacity: .6;
 
-                width: auto;
-                height: auto;
+                width: 24px;
+                height: 24px;
             }
         }
 
@@ -94,14 +94,40 @@
     }
 
     .form-logo {
-        height: 69px;
-        width: 69px;
+        img, &:empty {
+            height: 69px;
+            width: 69px;
 
-        margin: 20px;
+            margin: 20px auto;
 
-        box-shadow: 0 0 5px 2px rgba(0, 0, 0, .2);
+            box-shadow: 0 0 5px 2px rgba(0, 0, 0, .2);
 
-        border-radius: 25%;
+            border-radius: 25%;
+
+            &:hover {
+                cursor: pointer;
+                opacity: .7;
+            }
+
+            &:active {
+                opacity: .5;
+            }
+
+            &.input-error {
+                box-shadow: 0 0 5px 2px rgb(255, 102, 102);
+            }
+        }
+
+        img {
+            padding: 15px;
+        }
+
+        &.form-logo-large {
+            img, &:empty {
+                height: 256px;
+                width: 256px;
+            }
+        }
     }
 }
 

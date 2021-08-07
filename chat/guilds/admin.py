@@ -5,7 +5,7 @@ from .models import Guild, Invite
 
 
 @admin.register(Guild)
-class GroupAdmin(admin.ModelAdmin):
+class GuildAdmin(admin.ModelAdmin):
     fieldsets = ((None, {"fields": ("name", "members", "avatar")}),)
     list_display = ["id", "uuid", "name", "members_count", "absolute_url"]
     search_fields = ["name"]

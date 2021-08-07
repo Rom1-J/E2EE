@@ -1,0 +1,58 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+{% load i18n %}
+{% load account %}
+
+{% block title %}{{ APP_NAME }} - {% trans 'Create' %}{% endblock %}
+
+{% block content %}
+    <form class="flex flex-column justify-center align-center height-100 text-center"
+          autocomplete="off" method="post"
+          action="{% url 'guild:create' %}" enctype="multipart/form-data">
+
+        {% csrf_token %}
+        {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+        {% endif %}
+
+        <div class="form form-medium margin">
+            <label class="form-logo" for="id_{{ form.avatar.name }}" tabindex="1">
+                <img class="{% if form.avatar.errors %} input-error {% endif %}" src="{% static "images/icons/image_upload.svg" %}" alt="+">
+                <input style="display: none" type="file" id="id_{{ form.avatar.name }}" name="{{ form.avatar.name }}">
+            </label>
+
+            <fieldset class="fieldset">
+                <legend class="legend h1">{% trans "Create a guild" %}</legend>
+
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger margin-bottom">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                <div class="form-progressive">
+                    <div class="inline">
+                        <label for="id_{{ form.name.name }}">
+                            <input class="input input-icon-right {% if form.name.errors %} input-error {% endif %}"
+                                   type="text" name="{{ form.name.name }}"
+                                   placeholder="{{ form.name.label }}"
+                                   required id="id_{{ form.name.name }}">
+                        </label>
+
+                        <button type="submit" class="form-icon form-icon-flip" aria-label="{% trans "Create" %}">
+                            <img src="{% static "images/icons/circle_plus.svg" %}" alt="+">
+                        </button>
+                    </div>
+                </div>
+
+                <div class="margin form-separator"></div>
+
+                <div class="margin">
+                    <a class="link" href="{% url "guild:home" %}">
+                        <span class="no-wrap sk-icon sk-icon-after sk-icon-external">{% trans "The group is already created? Then please join in by following its invitation link." %}</span>
+                    </a>
+                </div>
+            </fieldset>
+        </div>
+    </form>
+{% endblock %}

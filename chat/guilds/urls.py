@@ -5,6 +5,7 @@ from .views import (
     GuildDetailView,
     GuildCreateView,
     GuildInviteView,
+    GuildCreateInviteView,
     GuildDeleteInviteView,
     GuildMembersView,
 )
@@ -14,16 +15,18 @@ urlpatterns = [
     path("", view=GuildHomeView.as_view(), name="home"),
     path("create/", view=GuildCreateView.as_view(), name="create"),
     path(
-        "<int:guild_id>/invite/", view=GuildInviteView.as_view(), name="invite"
-    ),
-    path(
         "<uuid:guild_id>/members/",
         view=GuildMembersView.as_view(),
         name="members",
     ),
     path(
-        "<uuid:guild_id>/invite/<str:key>",
+        "<uuid:guild_id>/invite/",
         view=GuildInviteView.as_view(),
+        name="invite",
+    ),
+    path(
+        "<uuid:guild_id>/invite/<str:key>",
+        view=GuildCreateInviteView.as_view(),
         name="invite_join",
     ),
     path(
