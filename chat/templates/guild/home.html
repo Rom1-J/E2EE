@@ -40,12 +40,12 @@
 
             <div class="home-guilds">
                 <div class="guildSwitcher guildSwitcher-center guildSwitcher-large">
-                    {% for foo in "x"|rjust:"22" %}
-                        <a href="{% url 'pages:about' %}" class="guildSwitcher-item-view">
+                    {% for guild in guilds %}
+                        <a href="{% url "guild:detail" guild_id=guild.uuid %}" class="guildSwitcher-item-view">
                             <div class="guildSwitcher-item-content">
                                 <div class="icon-container">
-                                    <img src="{% static "images/gnous.png" %}"
-                                         alt="{{ foo }} Icon">
+                                    <img src="{{ guild.avatar.url }}"
+                                         alt="{{ guild.name }} Icon">
                                 </div>
                                 <div class="icon-name">
                                     <span>Gnous</span>
@@ -53,7 +53,7 @@
                             </div>
                         </a>
                     {% endfor %}
-                    <a href="{% url 'pages:about' %}" class="guildSwitcher-item-view guildSwitcher-item-view-new"
+                    <a href="{% url 'guild:create' %}" class="guildSwitcher-item-view guildSwitcher-item-view-new"
                        aria-label="{% trans "Create guild" %}">
                         <div class="guildSwitcher-item-content">
                             <div class="icon-container">

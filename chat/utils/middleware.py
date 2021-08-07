@@ -62,7 +62,7 @@ def strip_spaces_in_template(template_source):
 
 
 class SpacelessMiddleware(MiddlewareMixin):
-    """ trim spaces between tags if not in DEBUG """
+    """trim spaces between tags if not in DEBUG"""
 
     # pylint: disable=no-self-use
     def process_response(self, request, response):

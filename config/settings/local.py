@@ -27,13 +27,16 @@ CACHES = {
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
 EMAIL_BACKEND = env(
-    "DJANGO_EMAIL_BACKEND", default="django.core.mail.backends.console.EmailBackend"
+    "DJANGO_EMAIL_BACKEND",
+    default="django.core.mail.backends.console.EmailBackend",
 )
 
 # WhiteNoise
 # ------------------------------------------------------------------------------
 # http://whitenoise.evans.io/en/latest/django.html#using-whitenoise-in-development
-INSTALLED_APPS = ["whitenoise.runserver_nostatic"] + INSTALLED_APPS  # noqa F405
+INSTALLED_APPS = [
+    "whitenoise.runserver_nostatic"
+] + INSTALLED_APPS  # noqa F405
 
 
 # django-debug-toolbar
@@ -69,7 +72,9 @@ if not DEBUG:
     # https://django-compressor.readthedocs.io/en/latest/settings/#django.conf.settings.COMPRESS_URL
     COMPRESS_URL = STATIC_URL  # noqa F405
     # https://django-compressor.readthedocs.io/en/latest/settings/#django.conf.settings.COMPRESS_OFFLINE
-    COMPRESS_OFFLINE = True  # Offline compression is required when using Whitenoise
+    COMPRESS_OFFLINE = (
+        True  # Offline compression is required when using Whitenoise
+    )
     # https://django-compressor.readthedocs.io/en/latest/settings/#django.conf.settings.COMPRESS_FILTERS
     COMPRESS_FILTERS = {
         "css": [

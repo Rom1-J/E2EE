@@ -24,17 +24,18 @@ class UserCreationForm(admin_forms.UserCreationForm):
 
 # =============================================================================
 
+
 class DivErrorList(ErrorList):
     def __str__(self):
         return self.as_divs()
 
     def as_divs(self):
         if not self:
-            return ''
+            return ""
 
         return format_html(
             "<div>{}</div>",
-            format_html_join("", "<div>{}</div>", ((e,) for e in self))
+            format_html_join("", "<div>{}</div>", ((e,) for e in self)),
         )
 
 
