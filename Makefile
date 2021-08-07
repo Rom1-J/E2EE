@@ -3,7 +3,7 @@ PYTHON_PATH := $(VIRTUAL_ENV)/bin/python
 
 MANAGE_PY := DJANGO_READ_DOT_ENV_FILE=True $(PYTHON_PATH) manage.py
 
-TESTS := chat/pages/tests/ chat/users/tests/ chat/guild/tests/
+TESTS := chat/pages/tests/ chat/users/tests/ chat/guilds/tests/
 
 #######################
 # Dev

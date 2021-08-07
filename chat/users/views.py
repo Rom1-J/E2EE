@@ -24,9 +24,6 @@ class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     fields = ["name"]
     success_message = _("Information successfully updated")
 
-    def get_success_url(self):
-        return self.request.user.get_absolute_url()  # type: ignore [union-attr]
-
     def get_object(self):
         return self.request.user
 

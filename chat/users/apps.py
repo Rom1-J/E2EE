@@ -8,6 +8,7 @@ class UsersConfig(AppConfig):
 
     def ready(self):
         try:
+            # pylint: disable=import-outside-toplevel,unused-import
             import chat.users.signals  # noqa F401
         except ImportError:
             pass

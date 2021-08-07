@@ -1,5 +1,9 @@
 [MASTER]
 load-plugins=pylint_django
+disable=
+	W0221,  # arguments-differ
+	R0201,  # no-self-use
+	R0903,  # too-few-public-methods
 
 [FORMAT]
 max-line-length=120

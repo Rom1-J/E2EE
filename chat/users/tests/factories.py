@@ -12,6 +12,7 @@ class UserFactory(DjangoModelFactory):
     name = Faker("name")
 
     @post_generation
+    # pylint: disable=unused-argument
     def password(self, create: bool, extracted: Sequence[Any], **kwargs):
         password = (
             extracted

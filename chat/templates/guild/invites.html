@@ -22,7 +22,7 @@
 
 {% block content %}
     <form class="flex flex-column justify-center align-center height-100 text-center" autocomplete="off" method="post"
-          action="{% url "guild:invite_delete" invite.guild.uuid invite.key %}">
+          action="{% url "guild:invite_delete" invite.key %}">
         {% csrf_token %}
 
         <div class="form form-medium margin">

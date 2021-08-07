@@ -40,7 +40,7 @@ class Guild(models.Model):
             img.save(self.avatar.path)
 
     def __str__(self):
-        return "#%d - %s" % (self.uuid or -1, self.name)
+        return "#%s - %s" % (str(self.uuid) or "-1", self.name)
 
 
 class Invite(models.Model):
@@ -54,13 +54,13 @@ class Invite(models.Model):
     def get_absolute_url(self):
         return reverse(
             "guild:invite_join",
-            kwargs={"guild_id": self.guild.uuid, "key": self.key},
+            kwargs={"key": self.key},
         )
 
     def key_url(self):
         return reverse(
             "guild:invite_join",
-            kwargs={"guild_id": self.guild.uuid, "key": self.key},
+            kwargs={"key": self.key},
         )
 
     def __str__(self):
