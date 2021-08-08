@@ -325,3 +325,5 @@ chat/media/
 .pytest_cache/
 
 
+dump.rdb
+.envs/.production
