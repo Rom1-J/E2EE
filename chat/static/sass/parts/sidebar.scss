@@ -17,11 +17,11 @@ $footer-height: 44px;
     grid-area: sidebar;
 
     .sidebar-header, .sidebar-body, .sidebar-footer {
-        border-right: 1px solid #ddd;
+        border-right: 1px solid $nav-border-color;
     }
 
     .sidebar-header {
-        background: #ebeae6;
+        background: $nav-background-color;
         height: $header-height;
 
         .sidebar-header-controls {
@@ -33,21 +33,26 @@ $footer-height: 44px;
 
 
             * {
-                color: #000;
-                fill: #000;
+                color: #fff;
+                fill: #fff;
                 text-decoration: none;
             }
 
             a {
+                display: flex;
+                gap: 5px;
+
                 font-size: 21px;
                 font-weight: 600;
-            }
 
-            .chevron {
-                margin-top: -16px;
-                margin-left: 4px;
-                width: 10px;
-                height: 6px;
+                .chevron {
+                    width: 10px;
+                    height: 6px;
+
+                    svg {
+                        margin-bottom: 2px;
+                    }
+                }
             }
         }
     }
@@ -59,7 +64,7 @@ $footer-height: 44px;
 
         flex: 1;
 
-        border-top: 1px solid #d7a09b;
+        border-top: 1px solid $nav-border-color;
         border-bottom: 1px solid #ccc;
 
         overflow: scroll;
@@ -172,7 +177,7 @@ $footer-height: 44px;
 }
 
 .sidebar-guildSelector {
-    height: 302px;
+    height: fit-content;
     width: 642px;
     max-width: calc(100% - 20px);
 

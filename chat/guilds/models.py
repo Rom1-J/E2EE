@@ -20,11 +20,20 @@ class Guild(models.Model):
 
     members = models.ManyToManyField(User)
 
+    channels = models.ManyToManyField("Channel")
+    categories = models.ManyToManyField("Category")
+
     def absolute_url(self):
-        return reverse("guild:detail", kwargs={"guild_id": str(self.uuid)})
+        return reverse("guild:view", kwargs={"guild_id": str(self.uuid)})
 
     def members_count(self):
         return self.members.count()
+
+    def channels_count(self):
+        return self.channels.count()
+
+    def categories_count(self):
+        return self.categories.count()
 
     def save(self, *args, **kwargs):
         self.uuid = uuid.uuid1()
@@ -40,7 +49,36 @@ class Guild(models.Model):
             img.save(self.avatar.path)
 
     def __str__(self):
-        return "#%s - %s" % (str(self.uuid) or "-1", self.name)
+        return "#%s - %s" % (self.name, str(self.uuid) or "-1")
+
+
+# =============================================================================
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=50)
+
+    channels = models.ManyToManyField("Channel")
+
+    def channels_count(self):
+        return self.channels.count()
+
+
+class Channel(models.Model):
+    uuid = models.UUIDField()
+
+    name = models.CharField(max_length=50)
+
+    def save(self, *args, **kwargs):
+        self.uuid = uuid.uuid1()
+
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return "#%s - %s" % (self.name, str(self.uuid) or "-1")
+
+
+# =============================================================================
 
 
 class Invite(models.Model):
@@ -54,14 +92,17 @@ class Invite(models.Model):
     def get_absolute_url(self):
         return reverse(
             "guild:invite_join",
-            kwargs={"key": self.key},
+            kwargs={"invite_key": self.key},
         )
 
     def key_url(self):
         return reverse(
             "guild:invite_join",
-            kwargs={"key": self.key},
+            kwargs={"invite_key": self.key},
         )
 
     def __str__(self):
         return self.get_absolute_url()
+
+
+# =============================================================================

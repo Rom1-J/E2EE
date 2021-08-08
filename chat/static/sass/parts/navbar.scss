@@ -1,6 +1,3 @@
-$background-image: linear-gradient(#fdfdfd, #f9f9f9);
-;
-
 $header-height: 44px;
 
 
@@ -8,7 +5,8 @@ $header-height: 44px;
     height: $header-height;
     width: 100%;
 
-    background-image: $background-image;
+    background: $nav-background-color;
+    color: #fff;
 
     display: flex;
     align-items: center;

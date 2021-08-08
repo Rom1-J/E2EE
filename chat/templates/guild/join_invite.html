@@ -1,0 +1,59 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+{% load abs_url %}
+{% load qr_generator %}
+{% load i18n %}
+
+{% block title %}{{ APP_NAME }} - {% trans 'Invite' %}{% endblock %}
+
+{% block breadcrumb %}
+    <ul class="uk-breadcrumb">
+        <li>
+            <a href="{% url 'guild:home' %}">{% trans "Groups" %}</a>
+        </li>
+        <li>
+            <a href="{% url 'guild:detail' invite.group.uuid %}">{{ invite.group.name }}</a>
+        </li>
+        <li>
+            <span>{% trans "Invite" %}</span>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+    <form class="flex flex-column justify-center align-center height-100 text-center" autocomplete="off" method="post"
+          action="{% url "guild:invite_empty_join" %}">
+        {% csrf_token %}
+
+        <div class="form form-medium margin">
+            <img class="form-logo" src="{% static "images/icons/circle_plus.svg" %}" alt="Plus Icon">
+
+            <fieldset class="fieldset">
+                <legend class="legend h1">{% trans "Join a guild" %}</legend>
+
+                <div class="form-progressive">
+                    <div class="inline">
+                        <label for="id_invite">
+                            <input class="input input-icon-right" type="text" name="invite_key"
+                                   placeholder="{{ "/invite/hi"|abs_url }}"
+                                   required id="id_invite">
+                        </label>
+
+                        <button type="submit" class="form-icon form-icon-flip" aria-label="{% trans "Create" %}">
+                            <img src="{% static "images/icons/circle_login.svg" %}" alt="+">
+                        </button>
+                    </div>
+                </div>
+
+                <div class="margin form-separator"></div>
+
+                <div class="margin">
+                    <a class="link" href="{% url "guild:create" %}">
+                        <span>{% trans "The group is not created? Then please create it in by following this link." %}</span>
+                    </a>
+                </div>
+            </fieldset>
+        </div>
+    </form>
+
+{% endblock %}

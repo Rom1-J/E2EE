@@ -1,6 +1,7 @@
 import string
 import random
 import uuid
+from typing import Optional, Any, Dict
 
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -11,31 +12,22 @@ from django.utils.translation import gettext as _
 from django.views import View
 
 from .forms import GuildCreationForm
+from .mixins import IsInGuildMixin, OwnsInvitationMixin
 from .models import Guild, Invite
 
 template_path = "guild/"
 
 
-def is_in_guild(request, *args, **kwargs):
-    guild_id: str = str(kwargs.pop("guild_id", ""))
+def get_guild(guild_id: uuid.UUID) -> Guild:
+    guild = Guild.objects.filter(uuid=guild_id).first()
 
-    if guild_id:
-        return (
-            guild := Guild.objects.filter(uuid=guild_id).first()
-        ) and request.user in guild.members.all()
+    if guild:
+        return guild
 
-    return False
+    raise Http404()
 
 
-class IsInGuildMixin(LoginRequiredMixin):
-    def dispatch(self, request, *args, **kwargs):
-        if not is_in_guild(request, *args, **kwargs):
-            return self.handle_no_permission()
-
-        return super().dispatch(request, *args, **kwargs)
-
-
-# ============================================================================
+# =============================================================================
 
 
 class GuildHomeView(LoginRequiredMixin, View):
@@ -47,7 +39,7 @@ class GuildHomeView(LoginRequiredMixin, View):
         return render(request, self.template_name, {"guilds": guilds})
 
 
-# ============================================================================
+# =============================================================================
 
 
 class GuildCreateView(LoginRequiredMixin, View):
@@ -55,6 +47,7 @@ class GuildCreateView(LoginRequiredMixin, View):
 
     def get(self, request: WSGIRequest) -> HttpResponse:
         form = GuildCreationForm(user=request.user)
+
         return render(request, self.template_name, {"form": form})
 
     def post(self, request: WSGIRequest) -> HttpResponse:
@@ -67,71 +60,101 @@ class GuildCreateView(LoginRequiredMixin, View):
             form.instance.members.add(self.request.user)
             form.save()
 
-            return redirect("guild:invite", guild_id=str(form.instance.uuid))
+            return redirect("guild:invites", guild_id=str(form.instance.uuid))
 
         return render(request, self.template_name, {"form": form})
 
 
-# ============================================================================
+# =============================================================================
 # Guild Routes
-# ============================================================================
+# =============================================================================
 
 
 class GuildDetailView(IsInGuildMixin, View):
-    template_name = template_path + "detail.html"
+    template_name = template_path + "details.html"
 
-    def get(self, request: WSGIRequest, guild_id: uuid.UUID) -> HttpResponse:
-        raise Http404()
+    def get(
+        self,
+        request: WSGIRequest,
+        guild_id: uuid.UUID,
+        channel_id: Optional[uuid.UUID] = None,
+    ) -> HttpResponse:
+        guilds = Guild.objects.filter(members__in=[request.user])
+        guild = get_guild(guild_id)
+
+        params: Dict[str, Any] = {"guild": guild, "guilds": guilds}
+
+        if channel_id:
+            channel = guild.channels.filter(uuid=channel_id).first()
+
+            if not channel:
+                return redirect("guild:view", guild_id=str(guild_id))
+
+            params["channel"] = channel
+
+        return render(request, self.template_name, params)
 
 
-# ============================================================================
+# =============================================================================
 
 
 class GuildInvitesView(IsInGuildMixin, View):
-    template_name = template_path + "invites.html"
+    template_name = template_path + "invite.html"
 
     def get(self, request: WSGIRequest, guild_id: uuid.UUID) -> HttpResponse:
-        if guild := Guild.objects.filter(uuid=guild_id).first():
-            if not (
-                invite := Invite.objects.filter(guild_id=guild.id).first()
-            ):
-                invite = Invite(
-                    guild=guild,
-                    author=self.request.user,  # type: ignore
-                    key="".join(random.choices(string.ascii_letters, k=10)),
-                )
-                invite.save()
+        guild = get_guild(guild_id)
 
-            return render(request, self.template_name, {"invite": invite})
+        if not (invite := Invite.objects.filter(guild_id=guild.id).first()):
+            invite = Invite(
+                guild=guild,
+                author=self.request.user,  # type: ignore
+                key="".join(random.choices(string.ascii_letters, k=10)),
+            )
+            invite.save()
 
-        return redirect("guild:create")
+        return render(request, self.template_name, {"invite": invite})
 
 
-# ============================================================================
+# =============================================================================
 
 
 class GuildMembersView(IsInGuildMixin, View):
     template_name = template_path + "members.html"
 
     def get(self, request: WSGIRequest, guild_id: uuid.UUID) -> HttpResponse:
-        if guild := Guild.objects.filter(uuid=guild_id).first():
-            return render(request, self.template_name, {"guild": guild})
+        guild = get_guild(guild_id)
 
-        raise Http404()
+        return render(request, self.template_name, {"guild": guild})
 
     def post(self, request: WSGIRequest, guild_id: int) -> HttpResponse:
         raise Http404()
 
 
-# ============================================================================
+# =============================================================================
 # Invite Routes
-# ============================================================================
+# =============================================================================
+
+
+class GuildJoinEmptyInviteView(LoginRequiredMixin, View):
+    template_name = template_path + "join_invite.html"
+
+    def get(self, request: WSGIRequest) -> HttpResponse:
+        return render(request, self.template_name)
+
+    # noinspection PyMethodMayBeStatic
+    def post(self, request: WSGIRequest) -> HttpResponse:
+        key = request.POST.get("invite_key", "-1").split("/")[-1]
+
+        return redirect("guild:invite_join", key=key)
+
+
+# =============================================================================
 
 
 class GuildJoinInviteView(LoginRequiredMixin, View):
-    def get(self, request: WSGIRequest, key: str) -> HttpResponse:
+    def get(self, request: WSGIRequest, invite_key: str) -> HttpResponse:
         # pylint: disable=superfluous-parens
-        if not (invite := Invite.objects.filter(key=key).first()):
+        if not (invite := Invite.objects.filter(key=invite_key).first()):
             raise Http404()
 
         guild = invite.guild
@@ -151,14 +174,14 @@ class GuildJoinInviteView(LoginRequiredMixin, View):
         return redirect("guild:detail", guild_id=guild.uuid)
 
 
-# ============================================================================
+# =============================================================================
 
 
-class GuildDeleteInviteView(IsInGuildMixin, View):
+class GuildDeleteInviteView(OwnsInvitationMixin, View):
     # noinspection PyMethodMayBeStatic
-    def post(self, request: WSGIRequest, key: str) -> HttpResponse:
+    def post(self, request: WSGIRequest, invite_key: str) -> HttpResponse:
         if invite := Invite.objects.filter(
-            key=key, author=request.user  # type: ignore
+            key=invite_key, author=request.user  # type: ignore
         ).first():
             guild_id = invite.guild.uuid
 
@@ -167,6 +190,6 @@ class GuildDeleteInviteView(IsInGuildMixin, View):
                 request, messages.INFO, _("Invitation deleted successfully")
             )
 
-            return redirect("guild:detail", guild_id=guild_id)
+            return redirect("guild:view", guild_id=guild_id)
 
         raise Http404()

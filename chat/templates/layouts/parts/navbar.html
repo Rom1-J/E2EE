@@ -2,7 +2,7 @@
 {% if SHOW_SIDEBAR %}
     <div id="navbar">
         <div class="navbar-guild">
-            <a href="#guild-select">Gnous</a>
+            <a href="#guild-select">{{ guild.name }}</a>
             <div class="chevron">
                 <svg viewBox="0 0 29.9332275390625 19.30755615234375" xmlns="http://www.w3.org/2000/svg">
                     <g transform="matrix(1 0 0 1 -4.2333862304687955 21.6357421875)">
@@ -13,9 +13,13 @@
             </div>
         </div>
 
-        <div class="navbar-title">
-            <span>discussion-gpl-friendly</span>
-        </div>
+        {% if channel %}
+            <div class="navbar-title">
+                <span>{{ channel.name }}</span>
+            </div>
+        {% else %}
+            <div></div>
+        {% endif %}
 
         <div class="navbar-settings">
             <a class="button" href="#user-settings">{{ user.username }}</a>

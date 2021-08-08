@@ -41,7 +41,7 @@
             <div class="home-guilds">
                 <div class="guildSwitcher guildSwitcher-center guildSwitcher-large">
                     {% for guild in guilds %}
-                        <a href="{% url "guild:detail" guild_id=guild.uuid %}" class="guildSwitcher-item-view">
+                        <a href="{% url "guild:view" guild_id=guild.uuid %}" class="guildSwitcher-item-view">
                             <div class="guildSwitcher-item-content">
                                 <div class="icon-container">
                                     <img src="{{ guild.avatar.url }}"
