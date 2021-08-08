@@ -1,6 +1,4 @@
 
-9
-	manage.py,3/1/3156ad13e4d695cd526bbb7b031016ecba842270
 <
 package.json,7/0/7030d0b2f71b999ff89a343de08c414af32fc93a
 7

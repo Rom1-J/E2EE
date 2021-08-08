@@ -18,21 +18,19 @@
     {% block css %}
         {% compress css %}
             <link href="{% static 'css/project.css' %}" rel="stylesheet">
-
-            {% if not SHOW_SIDEBAR %}
-                <style>
-                    #body {
-                        width: 100%;
-                    }
-
-                    #content {
-                        border-top: none;
-                    }
-                </style>
-            {% endif %}
-
             {% block inline_stylesheet %}{% endblock inline_stylesheet %}
         {% endcompress %}
+        {% if not SHOW_SIDEBAR %}
+            <style>
+                #body {
+                    width: 100%;
+                }
+
+                #content {
+                    border-top: none;
+                }
+            </style>
+        {% endif %}
     {% endblock %}
 
     {% block javascript %}

@@ -590,7 +590,7 @@ input {
     display: block; } }
 
 #sidebar {
-  background: #efeeea;
+  background: #3f3f3f;
   min-width: 250px;
   height: 100%;
   display: -webkit-box;
@@ -639,7 +639,7 @@ input {
         -ms-flex: 1;
             flex: 1;
     border-top: 1px solid #252525;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #000;
     overflow: scroll;
     overflow-x: hidden; }
     #sidebar .sidebar-body::-webkit-scrollbar {
@@ -659,7 +659,8 @@ input {
       -webkit-padding-after: 0;
               padding-block-end: 0; }
       #sidebar .sidebar-body .sidebar-body-group legend {
-        background-color: #e4e2dc;
+        background-color: #3a3a3a;
+        color: #e6e6e6;
         width: 100%;
         height: 46px;
         padding-left: 10px;
@@ -671,8 +672,8 @@ input {
       height: 32px;
       line-height: 32px;
       font-size: 17px;
-      color: #171717;
-      border-top: 1px solid #cecac0;
+      color: #e6e6e6;
+      border-top: 1px solid #0d0d0d;
       text-decoration: none;
       display: block;
       padding-left: 10px; }
@@ -682,7 +683,7 @@ input {
         text-decoration: underline;
         opacity: 1; }
       #sidebar .sidebar-body .sidebar-body-channel:hover {
-        background-color: #d9d6ce; }
+        background-color: #323232; }
       #sidebar .sidebar-body .sidebar-body-channel ::before {
         content: "#";
         opacity: .5;
@@ -714,12 +715,14 @@ input {
       #sidebar .sidebar-footer .sidebar-footer-add a {
         height: 24px; }
         #sidebar .sidebar-footer .sidebar-footer-add a img {
+          -webkit-filter: invert(1);
+                  filter: invert(1);
           width: 24px;
           height: 24px; }
     #sidebar .sidebar-footer .sidebar-footer-edit {
       height: 44px; }
       #sidebar .sidebar-footer .sidebar-footer-edit a {
-        color: #000;
+        color: #fff;
         font-size: 19px;
         line-height: 44px; }
 

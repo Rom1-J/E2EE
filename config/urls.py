@@ -4,6 +4,7 @@ from django.contrib import admin
 from django.urls import include, path
 from django.views import defaults as default_views
 
+# noinspection PyTypeChecker
 urlpatterns = [
     path("", include("chat.pages.urls", namespace="pages")),
     # Django Admin, use {% url 'admin:index' %}
@@ -14,6 +15,8 @@ urlpatterns = [
     path("guild/", include("chat.guilds.urls", namespace="guild"))
     # Your stuff: custom urls includes go here
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+print(settings.MEDIA_URL, settings.MEDIA_ROOT)
 
 
 if settings.DEBUG:

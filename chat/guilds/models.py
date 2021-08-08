@@ -20,8 +20,8 @@ class Guild(models.Model):
 
     members = models.ManyToManyField(User)
 
-    channels = models.ManyToManyField("Channel")
-    categories = models.ManyToManyField("Category")
+    channels = models.ManyToManyField("Channel", blank=True)
+    categories = models.ManyToManyField("Category", blank=True)
 
     def absolute_url(self):
         return reverse("guild:guild_view", kwargs={"guild_id": str(self.uuid)})
@@ -33,10 +33,13 @@ class Guild(models.Model):
         return self.channels.count()
 
     def categories_count(self):
-        return self.categories.count()
+        return self.categories.count() + sum(
+            [category.channels_count() for category in self.categories.all()]
+        )
 
     def save(self, *args, **kwargs):
-        self.uuid = uuid.uuid1()
+        if not self.uuid:
+            self.uuid = uuid.uuid1()
 
         super().save(*args, **kwargs)
 
@@ -50,59 +53,6 @@ class Guild(models.Model):
 
     def __str__(self):
         return "#%s - %s" % (self.name, str(self.uuid) or "-1")
-
-
-# =============================================================================
-
-
-class Category(models.Model):
-    name = models.CharField(max_length=50)
-
-    channels = models.ManyToManyField("Channel")
-
-    def channels_count(self):
-        return self.channels.count()
-
-
-class Channel(models.Model):
-    uuid = models.UUIDField()
-
-    name = models.CharField(max_length=50)
-
-    def save(self, *args, **kwargs):
-        self.uuid = uuid.uuid1()
-
-        super().save(*args, **kwargs)
-
-    def __str__(self):
-        return "#%s - %s" % (self.name, str(self.uuid) or "-1")
-
-
-# =============================================================================
-
-
-class Invite(models.Model):
-    guild = models.ForeignKey(Guild, on_delete=models.CASCADE)
-
-    key = models.CharField(max_length=10)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-
-    uses = models.IntegerField(default=0)
-
-    def get_absolute_url(self):
-        return reverse(
-            "guild:invite_join",
-            kwargs={"invite_key": self.key},
-        )
-
-    def key_url(self):
-        return reverse(
-            "guild:invite_join",
-            kwargs={"invite_key": self.key},
-        )
-
-    def __str__(self):
-        return self.get_absolute_url()
 
 
 # =============================================================================

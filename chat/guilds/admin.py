@@ -1,7 +1,9 @@
 from django.contrib import admin
 
 
-from .models import Guild, Invite, Category, Channel
+from .models import Guild
+from .features.invites.models import Invite
+from .features.channels.models import Category, Channel
 
 
 @admin.register(Guild)
@@ -47,8 +49,8 @@ class InviteAdmin(admin.ModelAdmin):
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    fieldsets = ((None, {"fields": ("name", "channels")}),)
-    list_display = ["guild", "name", "channels_count"]
+    fieldsets = ((None, {"fields": ("name", "channels", "position")}),)
+    list_display = ["name", "channels_count"]
     search_fields = ["name"]
 
 
@@ -57,6 +59,6 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Channel)
 class ChannelAdmin(admin.ModelAdmin):
-    fieldsets = ((None, {"fields": ("name",)}),)
-    list_display = ["guild", "uuid", "name"]
+    fieldsets = ((None, {"fields": ("name", "position")}),)
+    list_display = ["uuid", "name"]
     search_fields = ["name", "uuid"]
