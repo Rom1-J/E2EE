@@ -1,5 +1,5 @@
 import uuid
-from typing import Optional, Dict, Any
+from typing import Dict, Any
 
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import HttpResponse
@@ -13,26 +13,67 @@ from ...mixins import IsInGuildMixin
 from ...utils import get_guild
 
 
-class GuildDetailView(IsInGuildMixin, View):
+template_path += "channels/"
+
+
+def get_params(request: WSGIRequest, guild_id: uuid.UUID) -> Dict[str, Any]:
+    guilds = Guild.objects.filter(members__in=[request.user])
+    guild = get_guild(guild_id)
+
+    return {"guild": guild, "guilds": guilds}
+
+
+# =============================================================================
+
+
+class GuildChannelCreateView(IsInGuildMixin, View):
+    template_name = template_path + "create.html"
+
+    def get(
+        self,
+        request: WSGIRequest,
+        guild_id: uuid.UUID,
+    ) -> HttpResponse:
+        return render(
+            request, self.template_name, get_params(request, guild_id)
+        )
+
+
+# =============================================================================
+
+
+class GuildChannelEditView(IsInGuildMixin, View):
+    template_name = template_path + "edit.html"
+
+    def get(
+        self,
+        request: WSGIRequest,
+        guild_id: uuid.UUID,
+    ) -> HttpResponse:
+        return render(
+            request, self.template_name, get_params(request, guild_id)
+        )
+
+
+# =============================================================================
+
+
+class GuildChannelDetailView(IsInGuildMixin, View):
     template_name = template_path + "details.html"
 
     def get(
         self,
         request: WSGIRequest,
         guild_id: uuid.UUID,
-        channel_id: Optional[uuid.UUID] = None,
+        channel_id: uuid.UUID,
     ) -> HttpResponse:
-        guilds = Guild.objects.filter(members__in=[request.user])
-        guild = get_guild(guild_id)
+        params = get_params(request, guild_id)
 
-        params: Dict[str, Any] = {"guild": guild, "guilds": guilds}
+        channel = params["guild"].channels.filter(uuid=channel_id).first()
 
-        if channel_id:
-            channel = guild.channels.filter(uuid=channel_id).first()
+        if not channel:
+            return redirect("guild:guild_view", guild_id=str(guild_id))
 
-            if not channel:
-                return redirect("guild:guild_view", guild_id=str(guild_id))
-
-            params["channel"] = channel
+        params["channel"] = channel
 
         return render(request, self.template_name, params)

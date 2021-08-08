@@ -32,12 +32,12 @@
 
     <div class="sidebar-footer">
         <div class="sidebar-footer-add">
-            <a href="#">
+            <a href="{% url "guild:channel_create" guild.uuid %}">
                 <img src="{% static "images/icons/circle_plus.svg" %}" alt="+">
             </a>
         </div>
         <div class="sidebar-footer-edit">
-            <a href="#" class="link">{% trans "Edit" %}</a>
+            <a href="{% url "guild:channel_edit" guild.uuid %}" class="link">{% trans "Edit" %}</a>
         </div>
     </div>
 

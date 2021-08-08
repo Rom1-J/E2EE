@@ -13,8 +13,11 @@ from .models import Invite
 from .mixins import OwnsInvitationMixin
 
 
+template_path += "invite/"
+
+
 class GuildJoinEmptyInviteView(LoginRequiredMixin, View):
-    template_name = template_path + "join_invite.html"
+    template_name = template_path + "join.html"
 
     def get(self, request: WSGIRequest) -> HttpResponse:
         return render(request, self.template_name)

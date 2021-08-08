@@ -1,21 +1,25 @@
 from django.urls import path
 
-from .views import GuildDetailView
+from .views import (
+    GuildChannelCreateView,
+    GuildChannelEditView,
+    GuildChannelDetailView,
+)
 
 urlpatterns = [
     path(
         "<uuid:guild_id>/channel/create/",
-        view=GuildDetailView.as_view(),
+        view=GuildChannelCreateView.as_view(),
         name="channel_create",
     ),
     path(
-        "<uuid:guild_id>/channel/<uuid:channel_id>/",
-        view=GuildDetailView.as_view(),
-        name="channel_details",
+        "<uuid:guild_id>/channel/edit",
+        view=GuildChannelEditView.as_view(),
+        name="channel_edit",
     ),
     path(
         "<uuid:guild_id>/channel/<uuid:channel_id>/",
-        view=GuildDetailView.as_view(),
-        name="channel_edit",
+        view=GuildChannelDetailView.as_view(),
+        name="channel_details",
     ),
 ]
