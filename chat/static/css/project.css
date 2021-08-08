@@ -449,11 +449,33 @@ input {
     #navbar .navbar-guild a, #navbar .navbar-home a {
       font-size: 21px;
       font-weight: 600; }
-    #navbar .navbar-guild .chevron, #navbar .navbar-home .chevron {
-      margin-top: -26px;
-      margin-left: 4px;
-      width: 10px;
-      height: 6px; }
+  #navbar .navbar-guild {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    height: 44px;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center; }
+    #navbar .navbar-guild * {
+      color: #fff;
+      fill: #fff;
+      text-decoration: none; }
+    #navbar .navbar-guild a {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      gap: 5px;
+      font-size: 21px;
+      font-weight: 600; }
+      #navbar .navbar-guild a .chevron {
+        width: 10px;
+        height: 6px; }
+        #navbar .navbar-guild a .chevron svg {
+          margin-bottom: 2px; }
   #navbar .navbar-title {
     white-space: nowrap;
     overflow: hidden;
@@ -461,12 +483,23 @@ input {
     padding: 0 10px; }
     #navbar .navbar-title a {
       color: #fff;
-      text-decoration: none; }
-    #navbar .navbar-title ::before {
-      content: "#";
-      opacity: .4;
-      font-weight: 600;
-      margin-right: 7px; }
+      text-decoration: none;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex; }
+      #navbar .navbar-title a .chevron {
+        display: none;
+        margin-left: 5px;
+        width: 10px;
+        height: 6px; }
+        #navbar .navbar-title a .chevron svg {
+          fill: #fff;
+          margin-bottom: 2px; }
+      #navbar .navbar-title a::before {
+        content: "#";
+        opacity: .4;
+        font-weight: 600;
+        margin-right: 7px; }
   #navbar .navbar-settings a {
     text-decoration: none;
     color: inherit; }
@@ -552,7 +585,9 @@ input {
 
 @media only screen and (max-width: 950px) {
   #sidebar:target ~ #body > #navbar .navbar-guild {
-    display: none; } }
+    display: none; }
+  #navbar .navbar-title a .chevron {
+    display: block; } }
 
 #sidebar {
   background: #efeeea;

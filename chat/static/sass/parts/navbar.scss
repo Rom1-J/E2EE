@@ -33,12 +33,36 @@ $header-height: 44px;
             font-size: 21px;
             font-weight: 600;
         }
+    }
 
-        .chevron {
-            margin-top: -26px;
-            margin-left: 4px;
-            width: 10px;
-            height: 6px;
+    .navbar-guild {
+            display: flex;
+            height: $header-height;
+            align-items: center;
+            justify-content: center;
+
+
+            * {
+                color: #fff;
+                fill: #fff;
+                text-decoration: none;
+            }
+
+            a {
+                display: flex;
+                gap: 5px;
+
+                font-size: 21px;
+                font-weight: 600;
+
+                .chevron {
+                    width: 10px;
+                    height: 6px;
+
+                    svg {
+                        margin-bottom: 2px;
+                    }
+                }
         }
     }
 
@@ -51,14 +75,29 @@ $header-height: 44px;
         a {
             color: #fff;
             text-decoration: none;
-        }
 
-        ::before {
-            content: "#";
-            opacity: .4;
+            display: flex;
 
-            font-weight: 600;
-            margin-right: 7px;
+            .chevron {
+                display: none;
+                margin-left: 5px;
+
+                width: 10px;
+                height: 6px;
+
+                svg {
+                    fill: #fff;
+                    margin-bottom: 2px;
+                }
+            }
+
+            &::before {
+                content: "#";
+                opacity: .4;
+
+                font-weight: 600;
+                margin-right: 7px;
+            }
         }
     }
 
@@ -181,5 +220,9 @@ $header-height: 44px;
         .navbar-guild {
             display: none;
         }
+    }
+
+    #navbar .navbar-title a .chevron {
+        display: block;
     }
 }
