@@ -24,7 +24,7 @@ class Guild(models.Model):
     categories = models.ManyToManyField("Category")
 
     def absolute_url(self):
-        return reverse("guild:view", kwargs={"guild_id": str(self.uuid)})
+        return reverse("guild:guild_view", kwargs={"guild_id": str(self.uuid)})
 
     def members_count(self):
         return self.members.count()

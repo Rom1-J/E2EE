@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
 
 from .models import Guild, Invite
 
@@ -29,9 +30,11 @@ def owns_invitation(request, *args, **kwargs):
     invite_key: str = kwargs.pop("invite_key", "")
 
     if invite_key:
-        return Invite.objects.filter(
-            key=invite_key, author=request.user
-        ).first()
+        query = Q(author=request.user)
+        query.add(Q(guild__owner=request.user), Q.OR)
+        query.add(Q(key=invite_key), Q.AND)
+
+        return Invite.objects.filter(query).first()
 
     return False
 

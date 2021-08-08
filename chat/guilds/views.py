@@ -6,6 +6,7 @@ from typing import Optional, Any, Dict
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.handlers.wsgi import WSGIRequest
+from django.db.models import Q
 from django.http import Http404, HttpResponse
 from django.shortcuts import render, redirect
 from django.utils.translation import gettext as _
@@ -60,7 +61,9 @@ class GuildCreateView(LoginRequiredMixin, View):
             form.instance.members.add(self.request.user)
             form.save()
 
-            return redirect("guild:invites", guild_id=str(form.instance.uuid))
+            return redirect(
+                "guild:guild_invites", guild_id=str(form.instance.uuid)
+            )
 
         return render(request, self.template_name, {"form": form})
 
@@ -88,7 +91,7 @@ class GuildDetailView(IsInGuildMixin, View):
             channel = guild.channels.filter(uuid=channel_id).first()
 
             if not channel:
-                return redirect("guild:view", guild_id=str(guild_id))
+                return redirect("guild:guild_view", guild_id=str(guild_id))
 
             params["channel"] = channel
 
@@ -143,9 +146,9 @@ class GuildJoinEmptyInviteView(LoginRequiredMixin, View):
 
     # noinspection PyMethodMayBeStatic
     def post(self, request: WSGIRequest) -> HttpResponse:
-        key = request.POST.get("invite_key", "-1").split("/")[-1]
+        key = request.POST.get("invite_key", "-1").rstrip("/").split("/")[-1]
 
-        return redirect("guild:invite_join", key=key)
+        return redirect("guild:invite_join", invite_key=key)
 
 
 # =============================================================================
@@ -160,7 +163,7 @@ class GuildJoinInviteView(LoginRequiredMixin, View):
         guild = invite.guild
 
         if request.user in guild.members.all():
-            return redirect("guild:detail", guild_id=guild.uuid)
+            return redirect("guild:guild_details", guild_id=guild.uuid)
 
         invite.uses += 1
         guild.members.add(self.request.user)  # type: ignore
@@ -171,7 +174,7 @@ class GuildJoinInviteView(LoginRequiredMixin, View):
             request, messages.INFO, _("Guild joined successfully")
         )
 
-        return redirect("guild:detail", guild_id=guild.uuid)
+        return redirect("guild:guild_view", guild_id=guild.uuid)
 
 
 # =============================================================================
@@ -180,9 +183,11 @@ class GuildJoinInviteView(LoginRequiredMixin, View):
 class GuildDeleteInviteView(OwnsInvitationMixin, View):
     # noinspection PyMethodMayBeStatic
     def post(self, request: WSGIRequest, invite_key: str) -> HttpResponse:
-        if invite := Invite.objects.filter(
-            key=invite_key, author=request.user  # type: ignore
-        ).first():
+        query = Q(author=request.user)
+        query.add(Q(guild__owner=request.user), Q.OR)
+        query.add(Q(key=invite_key), Q.AND)
+
+        if invite := Invite.objects.filter(query).first():
             guild_id = invite.guild.uuid
 
             invite.delete()
@@ -190,6 +195,6 @@ class GuildDeleteInviteView(OwnsInvitationMixin, View):
                 request, messages.INFO, _("Invitation deleted successfully")
             )
 
-            return redirect("guild:view", guild_id=guild_id)
+            return redirect("guild:guild_view", guild_id=guild_id)
 
         raise Http404()

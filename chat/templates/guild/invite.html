@@ -6,20 +6,6 @@
 
 {% block title %}{{ APP_NAME }} - {% trans 'Invite' %}{% endblock %}
 
-{% block breadcrumb %}
-    <ul class="uk-breadcrumb">
-        <li>
-            <a href="{% url 'guild:home' %}">{% trans "Groups" %}</a>
-        </li>
-        <li>
-            <a href="{% url 'guild:detail' invite.group.uuid %}">{{ invite.group.name }}</a>
-        </li>
-        <li>
-            <span>{% trans "Invite" %}</span>
-        </li>
-    </ul>
-{% endblock %}
-
 {% block content %}
     <form class="flex flex-column justify-center align-center height-100 text-center" autocomplete="off" method="post"
           action="{% url "guild:invite_delete" invite.key %}">
@@ -48,7 +34,7 @@
                     <div class="margin form-separator"></div>
 
                     <div class="margin">
-                        <button type="submit" class="link button-link text-danger" href="{% url "guild:home" %}">
+                        <button type="submit" class="link button-link text-danger">
                             {% trans "Delete" %}
                         </button>
                     </div>

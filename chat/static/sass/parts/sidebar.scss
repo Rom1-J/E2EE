@@ -8,7 +8,7 @@ $footer-height: 44px;
 #sidebar {
     background: $background-color;
 
-    width: $width;
+    min-width: $width;
     height: 100%;
 
     display: flex;
@@ -143,20 +143,26 @@ $footer-height: 44px;
         align-items: center;
         justify-content: space-between;
 
-        padding-right: 10px;
+        padding: 0 10px;
 
         overflow: hidden;
+
+        a:hover {
+            opacity: $hover-opacity;
+        }
 
         .sidebar-footer-add {
             height: $footer-height;
 
-            a {
-                svg {
-                    width: 44px;
-                    height: 44px;
+            display: flex;
+            align-items: center;
 
-                    fill: $anchor-footer-color;
-                    color: $anchor-footer-color;
+            a {
+                height: 24px;
+
+                img {
+                    width: 24px;
+                    height: 24px;
                 }
             }
         }
@@ -165,12 +171,9 @@ $footer-height: 44px;
             height: $footer-height;
 
             a {
-                text-decoration: none;
-                color: $anchor-footer-color;
+                color: #000;
                 font-size: 19px;
                 line-height: $footer-height;
-                margin-top: -13px;
-                padding: 0 0 0 0;
             }
         }
     }
@@ -298,5 +301,26 @@ $footer-height: 44px;
 @media only screen and (max-width: 950px) {
     #sidebar {
         display: none;
+
+        &:target {
+            display: flex;
+        }
+
+        .cancel {
+            position: absolute;
+            top: 0;
+            right: 0;
+
+            width: calc(100vw - #{$width});
+            height: 100vh;
+
+            cursor: default;
+
+            z-index: 1;
+
+            &:focus {
+                box-shadow: none;
+            }
+        }
     }
 }

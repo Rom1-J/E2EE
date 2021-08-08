@@ -35,7 +35,7 @@
 
             img {
                 fill: #666;
-                opacity: .6;
+                opacity: $hover-opacity;
 
                 width: 24px;
                 height: 24px;
@@ -106,7 +106,7 @@
 
             &:hover {
                 cursor: pointer;
-                opacity: .7;
+                opacity: $hover-opacity;
             }
 
             &:active {

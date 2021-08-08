@@ -19,16 +19,18 @@ urlpatterns = [
 
 # Guild routes
 urlpatterns += [
-    path("<uuid:guild_id>/", view=GuildDetailView.as_view(), name="view"),
+    path(
+        "<uuid:guild_id>/", view=GuildDetailView.as_view(), name="guild_view"
+    ),
     path(
         "<uuid:guild_id>/members/",
         view=GuildMembersView.as_view(),
-        name="members",
+        name="guild_members",
     ),
     path(
         "<uuid:guild_id>/invites/",
         view=GuildInvitesView.as_view(),
-        name="invites",
+        name="guild_invites",
     ),
 ]
 
@@ -37,7 +39,12 @@ urlpatterns += [
     path(
         "<uuid:guild_id>/channel/<uuid:channel_id>/",
         view=GuildDetailView.as_view(),
-        name="details",
+        name="channel_details",
+    ),
+    path(
+        "<uuid:guild_id>/channel/<uuid:channel_id>/",
+        view=GuildDetailView.as_view(),
+        name="channel_edit",
     ),
 ]
 

@@ -28,7 +28,7 @@
         }
 
         &:hover {
-            opacity: .8;
+            opacity: $hover-opacity;
         }
 
         .guildSwitcher-item-content {

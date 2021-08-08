@@ -43,6 +43,16 @@ $header-height: 44px;
     }
 
     .navbar-title {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding: 0 10px;
+
+        a {
+            color: #fff;
+            text-decoration: none;
+        }
+
         ::before {
             content: "#";
             opacity: .4;
@@ -136,34 +146,21 @@ $header-height: 44px;
                 border: none;
             }
 
-            margin-left: 10px;
+            margin: 0 10px;
             padding: 7px 0 7px 6px;
 
             .navbar-userAction-text {
-                padding-top: 8px;
-                padding-bottom: 8px;
-                padding-right: 20px;
-
                 font-size: 17px;
                 font-weight: 400;
                 color: #000;
-                -webkit-padding-before: 8px;
-                padding-block-start: 8px;
-                -webkit-padding-after: 8px;
-                padding-block-end: 8px;
-                -webkit-padding-end: 20px;
-                padding-inline-end: 20px;
-                white-space: normal;
             }
 
             .navbar-userAction-icon {
                 display: flex;
 
-                svg {
-                    width: 57.34161342185139px;
-                    height: 43.140462363654px;
-
-                    fill: #969696;
+                img {
+                    width: 52px;
+                    height: 52px;
                 }
             }
         }
@@ -173,6 +170,14 @@ $header-height: 44px;
 
 @media only screen and (min-width: 950px) {
     #navbar {
+        .navbar-guild {
+            display: none;
+        }
+    }
+}
+
+@media only screen and (max-width: 950px) {
+    #sidebar:target ~ #body > #navbar {
         .navbar-guild {
             display: none;
         }
