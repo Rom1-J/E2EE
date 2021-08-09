@@ -17,12 +17,15 @@
 @import "tags/fieldset";
 @import "tags/form";
 @import "tags/button";
+@import "tags/table";
 
 
 ////////////////////////////////
 // Components //
 ////////////////////////////////
 @import "components/guildSwitcher";
+@import "components/guildDetails";
+@import "components/message";
 
 
 ////////////////////////////////

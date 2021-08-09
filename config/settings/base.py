@@ -297,3 +297,5 @@ ACCOUNT_USERNAME_VALIDATORS = (
     "chat.users.validators.custom_username_validators"
 )
 ACCOUNT_FORMS = {"login": "chat.users.forms.LoginForm"}
+
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"

@@ -1,3 +1,46 @@
 {% extends "layouts/base.html" %}
+{% load i18n %}
 
 {% block title %}{{ guild.name }} - {{ APP_NAME }}{% endblock %}
+
+{% block content %}
+    <div class="flex flex-column align-center height-100 text-center">
+        <h1>{% trans "Last active channels" %}</h1>
+
+        <div class="scrollable-y margin-left margin-right margin-bottom">
+            <table id="guildDetails" aria-label="messages" class="table table-striped">
+                <colgroup>
+                    <col>
+                    <col>
+                    <col>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th scope="col">Channel</th>
+                    <th scope="col">Last message</th>
+                    <th scope="col">Message count</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for i in '0123456789zdaazdcuihnFZU'|make_list %}
+                    <tr>
+                        <td>
+                            <a class="link link-arrow-after">#Test</a>
+                        </td>
+                        <td class="text-left overflow-x">
+                            {% include "layouts/components/message/block.html" with message=message %}
+                        </td>
+                        <td>
+                            <span>{{ i }}</span>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block inline_javascript %}
+    {% include "layouts/components/message/decryptor.html" %}
+{% endblock %}

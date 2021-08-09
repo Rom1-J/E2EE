@@ -8,6 +8,28 @@
         outline: none;
         box-shadow: 0 0 3px 3px rgba(131, 192, 253, .5);
     }
+
+    &::-webkit-scrollbar {
+        width: 7px;
+        height: 7px;
+        background-color: transparent;
+        border: none;
+        display: block;
+        position: absolute;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: rgba(0, 0, 0, .5);
+        border-radius: 7px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: rgba(0, 0, 0, .6);
+    }
+
+    &::-webkit-scrollbar-thumb:active {
+        background: rgba(0, 0, 0, .7);
+    }
 }
 
 body {
@@ -29,4 +51,6 @@ a:hover {
     height: 100%;
 
     display: flex;
+
+    overflow: hidden;
 }

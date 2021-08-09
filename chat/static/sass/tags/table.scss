@@ -1,0 +1,26 @@
+.table {
+    text-align: center;
+    border-collapse: collapse;
+    background-color: white;
+
+    th, td {
+        padding: 8px;
+    }
+
+    th {
+        background-color: lighten($nav-background-color, 5%);
+        color: #fff
+    }
+
+    tr {
+        border-bottom: 1px solid $nav-background-color;
+
+        &:hover {
+            background: #ffd;
+        }
+
+        &:last-child {
+            border-bottom: 0;
+        }
+    }
+}

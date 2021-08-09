@@ -95,8 +95,14 @@ h1, h2, h3, h4, h5, h6 {
 .height-100 {
   height: 100%; }
 
+.text-left {
+  text-align: left !important; }
+
 .text-center {
-  text-align: center; }
+  text-align: center !important; }
+
+.text-right {
+  text-align: right !important; }
 
 .margin {
   margin-top: 20px !important; }
@@ -104,10 +110,22 @@ h1, h2, h3, h4, h5, h6 {
 .margin-bottom {
   margin-bottom: 20px !important; }
 
+.margin-left {
+  margin-left: 20px !important; }
+
+.margin-right {
+  margin-right: 20px !important; }
+
 .fit-content {
   width: -webkit-fit-content !important;
   width: -moz-fit-content !important;
   width: fit-content !important; }
+
+.scrollable-y {
+  overflow-y: scroll; }
+
+.scrollable-x {
+  overflow-x: scroll; }
 
 .fieldset {
   border: none;
@@ -279,6 +297,22 @@ input, button {
   background-color: inherit;
   border: none; }
 
+.table {
+  text-align: center;
+  border-collapse: collapse;
+  background-color: white; }
+  .table th, .table td {
+    padding: 8px; }
+  .table th {
+    background-color: #3f3f3f;
+    color: #fff; }
+  .table tr {
+    border-bottom: 1px solid #323232; }
+    .table tr:hover {
+      background: #ffd; }
+    .table tr:last-child {
+      border-bottom: 0; }
+
 .guildSwitcher {
   overflow: scroll;
   overflow-x: hidden;
@@ -290,8 +324,6 @@ input, button {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center; }
-  .guildSwitcher::-webkit-scrollbar {
-    display: none; }
   .guildSwitcher.guildSwitcher-center {
     -webkit-box-pack: center;
         -ms-flex-pack: center;
@@ -359,6 +391,24 @@ input, button {
       min-width: 84px; }
     .guildSwitcher.guildSwitcher-large .guildSwitcher-item-view .icon-name {
       overflow: unset; }
+
+#guildDetails {
+  table-layout: fixed;
+  width: 100%;
+  overflow: hidden; }
+  #guildDetails colgroup col:nth-child(2) {
+    width: 80%; }
+  #guildDetails thead tr th:nth-child(2) {
+    width: 60%; }
+  #guildDetails tbody tr td:nth-child(2) {
+    overflow-x: scroll; }
+
+@media only screen and (max-width: 950px) {
+  #guildDetails colgroup col:nth-child(2) {
+    width: 60%; } }
+
+div.message {
+  overflow: hidden; }
 
 #home {
   width: 100%;
@@ -800,19 +850,6 @@ input, button {
     padding: 15px 8px; }
     .sidebar-guildSelector .sidebar-guildSelector-container .guildSwitcher {
       max-height: 230px; }
-      .sidebar-guildSelector .sidebar-guildSelector-container .guildSwitcher::-webkit-scrollbar {
-        width: 7px;
-        background-color: transparent;
-        border: none;
-        display: block;
-        position: absolute; }
-      .sidebar-guildSelector .sidebar-guildSelector-container .guildSwitcher::-webkit-scrollbar-thumb {
-        background: rgba(0, 0, 0, 0.5);
-        border-radius: 7px; }
-      .sidebar-guildSelector .sidebar-guildSelector-container .guildSwitcher::-webkit-scrollbar-thumb:hover {
-        background: rgba(0, 0, 0, 0.6); }
-      .sidebar-guildSelector .sidebar-guildSelector-container .guildSwitcher::-webkit-scrollbar-thumb:active {
-        background: rgba(0, 0, 0, 0.7); }
     .sidebar-guildSelector .sidebar-guildSelector-container .links-section {
       border-top: 1px solid #f1f1f1;
       margin: 8px 8px 0; }
@@ -861,6 +898,20 @@ input, button {
     outline: none;
     -webkit-box-shadow: 0 0 3px 3px rgba(131, 192, 253, 0.5);
             box-shadow: 0 0 3px 3px rgba(131, 192, 253, 0.5); }
+  *::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+    background-color: transparent;
+    border: none;
+    display: block;
+    position: absolute; }
+  *::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 7px; }
+  *::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.6); }
+  *::-webkit-scrollbar-thumb:active {
+    background: rgba(0, 0, 0, 0.7); }
 
 body {
   margin: 0;
@@ -877,4 +928,5 @@ a:hover {
   height: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
-  display: flex; }
+  display: flex;
+  overflow: hidden; }

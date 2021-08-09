@@ -1,0 +1,39 @@
+#guildDetails {
+    table-layout: fixed;
+    width: 100%;
+
+    overflow: hidden;
+
+    colgroup {
+        col:nth-child(2) {
+            width: 80%
+        }
+    }
+
+    thead {
+        tr {
+            th:nth-child(2) {
+                width: 60%;
+            }
+        }
+    }
+
+    tbody {
+        tr {
+            td:nth-child(2) {
+                overflow-x: scroll;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 950px) {
+    #guildDetails {
+
+        colgroup {
+            col:nth-child(2) {
+                width: 60%
+            }
+        }
+    }
+}

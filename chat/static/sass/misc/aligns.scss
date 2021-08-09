@@ -31,8 +31,16 @@
 ////////////////////////////////
 // Text //
 ////////////////////////////////
+.text-left {
+    text-align: left!important;
+}
+
 .text-center {
-    text-align: center;
+    text-align: center!important;
+}
+
+.text-right {
+    text-align: right!important;
 }
 
 ////////////////////////////////
@@ -44,4 +52,12 @@
 
 .margin-bottom {
     margin-bottom: 20px!important;
+}
+
+.margin-left {
+    margin-left: 20px!important;
+}
+
+.margin-right {
+    margin-right: 20px!important;
 }
