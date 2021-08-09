@@ -1,19 +1,41 @@
-{% extends "account/base.html" %}
-
+{% extends "layouts/base.html" %}
 {% load i18n %}
+{% load static %}
 
-{% block head_title %}{% translate "Sign Out" %}{% endblock %}
+{% block title %}{% translate "Sign Out" %}{% endblock %}
 
-{% block inner %}
-<h1>{% translate "Sign Out" %}</h1>
+{% block content %}
+    <form class="flex flex-column justify-center align-center height-100 text-center" autocomplete="off" method="post"
+          action="{% url "account_logout" %}">
+        {% csrf_token %}
 
-<p>{% translate 'Are you sure you want to sign out?' %}</p>
+        {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+        {% endif %}
 
-<form method="post" action="{% url 'account_logout' %}">
-  {% csrf_token %}
-  {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-  {% endif %}
-  <button class="btn btn-danger" type="submit">{% translate 'Sign Out' %}</button>
-</form>
+        <div class="form form-medium margin">
+            <img class="form-logo" src="{% static "images/icons/circle_lock.svg" %}" alt="Gnous Logo">
+
+            <fieldset class="fieldset">
+                <legend class="legend h1">{% trans "Are you sure you want to sign out?" %}</legend>
+
+                <div class="form-progressive">
+                    <div class="inline fit-content">
+                        <label for="id_logout">
+                            <input class="input" type="submit" id="id_logout"
+                                   value="{% translate 'Sign Out' %}">
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-separator margin"></div>
+
+                <div class="margin">
+                    <a class="link" href="{% url "guild:home" %}">
+                        <span class="link-arrow-after">{% trans "Go back home" %}</span>
+                    </a>
+                </div>
+            </fieldset>
+        </div>
+    </form>
 {% endblock %}

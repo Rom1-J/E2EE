@@ -28,9 +28,34 @@ h1, h2, h3, h4, h5, h6 {
     }
 }
 
+.link-arrow-after {
+    &:after {
+        content: "";
+        background-image: url("../images/icons/arrow.svg");
+        background-repeat: no-repeat;
+
+        margin-left: .3em;
+
+        transform: rotate(-45deg);
+
+        filter: invert(18%) sepia(80%) saturate(3064%) hue-rotate(201deg) brightness(95%) contrast(101%);
+
+        height: 10px;
+        width: 10px;
+
+        display: inline-block;
+    }
+}
+
 ////////////////////////////////
 // Text style //
 ////////////////////////////////
 .text-danger {
     color: #f66
+}
+
+.no-before {
+    &:before {
+        content: ""!important;
+    }
 }

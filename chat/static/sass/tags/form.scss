@@ -3,14 +3,17 @@
     position: relative;
 
     &.form-medium {
-        max-width: 328px;
+        .fieldset, .inline, .input {
+            max-width: 328px;
+        }
     }
 
     .inline {
         display: inline-block;
         position: relative;
-        max-width: 100%;
         vertical-align: middle;
+
+        width: 100%;
 
         .form-icon {
             position: absolute;
@@ -131,7 +134,7 @@
     }
 }
 
-input {
+input, button {
     border: 1px solid #d6d6d6;
     border-radius: 4px;
 
@@ -150,7 +153,7 @@ input {
     display: inline-block;
     vertical-align: top;
 
-    width: 100%;
+    min-width: 100%;
     height: 42px;
 
     margin-bottom: 14px;

@@ -34,8 +34,24 @@ h1, h2, h3, h4, h5, h6 {
   .link:hover {
     text-decoration: underline; }
 
+.link-arrow-after:after {
+  content: "";
+  background-image: url("../images/icons/arrow.svg");
+  background-repeat: no-repeat;
+  margin-left: .3em;
+  -webkit-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+  -webkit-filter: invert(18%) sepia(80%) saturate(3064%) hue-rotate(201deg) brightness(95%) contrast(101%);
+          filter: invert(18%) sepia(80%) saturate(3064%) hue-rotate(201deg) brightness(95%) contrast(101%);
+  height: 10px;
+  width: 10px;
+  display: inline-block; }
+
 .text-danger {
   color: #f66; }
+
+.no-before:before {
+  content: "" !important; }
 
 .alert {
   margin-top: 20px;
@@ -88,6 +104,11 @@ h1, h2, h3, h4, h5, h6 {
 .margin-bottom {
   margin-bottom: 20px !important; }
 
+.fit-content {
+  width: -webkit-fit-content !important;
+  width: -moz-fit-content !important;
+  width: fit-content !important; }
+
 .fieldset {
   border: none;
   margin: 0;
@@ -101,13 +122,13 @@ h1, h2, h3, h4, h5, h6 {
 .form {
   outline: none;
   position: relative; }
-  .form.form-medium {
+  .form.form-medium .fieldset, .form.form-medium .inline, .form.form-medium .input {
     max-width: 328px; }
   .form .inline {
     display: inline-block;
     position: relative;
-    max-width: 100%;
-    vertical-align: middle; }
+    vertical-align: middle;
+    width: 100%; }
     .form .inline .form-icon {
       position: absolute;
       top: 2px;
@@ -181,7 +202,7 @@ h1, h2, h3, h4, h5, h6 {
     height: 256px;
     width: 256px; }
 
-input {
+input, button {
   border: 1px solid #d6d6d6;
   border-radius: 4px;
   color: #494949;
@@ -195,7 +216,7 @@ input {
   letter-spacing: -.021em;
   display: inline-block;
   vertical-align: top;
-  width: 100%;
+  min-width: 100%;
   height: 42px;
   margin-bottom: 14px;
   padding-left: 15px;
@@ -265,7 +286,10 @@ input {
   display: -ms-flexbox;
   display: flex;
   -ms-flex-wrap: wrap;
-      flex-wrap: wrap; }
+      flex-wrap: wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center; }
   .guildSwitcher::-webkit-scrollbar {
     display: none; }
   .guildSwitcher.guildSwitcher-center {
