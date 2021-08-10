@@ -4,11 +4,11 @@ import uuid
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.handlers.wsgi import WSGIRequest
-from django.core.signing import Signer
 from django.http import Http404, HttpResponse
 from django.shortcuts import render, redirect
 from django.views import View
 
+from .features.channels.models import Channel
 from .features.invites.models import Invite
 
 from .forms import GuildCreationForm
@@ -67,24 +67,22 @@ class GuildCreateView(LoginRequiredMixin, View):
 class GuildDetailView(IsInGuildMixin, View):
     template_name = template_path + "details.html"
 
-    class Message:
-        def __init__(self):
-            signer = Signer()
-
-            content = {
-                "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis libero mollitia, omnis perspiciatis quis ut veniam veritatis! Beatae cum dolorum, eveniet excepturi explicabo id ipsa iste laudantium, nulla ratione voluptatibus."
-            }
-
-            self.content = signer.sign_object(content)
-
     def get(self, request: WSGIRequest, guild_id: uuid.UUID) -> HttpResponse:
         guilds = Guild.objects.filter(members__in=[request.user])
         guild = get_guild(guild_id)
 
+        latest_channels = Channel.objects.filter(
+            guild=guild, last_message_at__hour__lte=24
+        ).all()
+
         return render(
             request,
             self.template_name,
-            {"guild": guild, "guilds": guilds, "message": self.Message()},
+            {
+                "guild": guild,
+                "guilds": guilds,
+                "latest_channels": latest_channels,
+            },
         )
 
 

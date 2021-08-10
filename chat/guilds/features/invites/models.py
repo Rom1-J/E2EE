@@ -13,17 +13,23 @@ class Invite(models.Model):
 
     uses = models.IntegerField(default=0)
 
+    # =========================================================================
+
     def get_absolute_url(self):
         return reverse(
             "guild:invite_join",
             kwargs={"invite_key": self.key},
         )
 
+    # =========================================================================
+
     def key_url(self):
         return reverse(
             "guild:invite_join",
             kwargs={"invite_key": self.key},
         )
+
+    # =========================================================================
 
     def __str__(self):
         return self.get_absolute_url()

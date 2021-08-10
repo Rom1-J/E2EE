@@ -23,19 +23,25 @@ class Guild(models.Model):
     channels = models.ManyToManyField("Channel", blank=True)
     categories = models.ManyToManyField("Category", blank=True)
 
-    def absolute_url(self):
+    # =========================================================================
+
+    def get_absolute_url(self):
         return reverse("guild:guild_view", kwargs={"guild_id": str(self.uuid)})
+
+    # =========================================================================
 
     def members_count(self):
         return self.members.count()
 
     def channels_count(self):
-        return self.channels.count()
-
-    def categories_count(self):
         return self.categories.count() + sum(
             [category.channels_count() for category in self.categories.all()]
         )
+
+    def categories_count(self):
+        return self.categories.count()
+
+    # =========================================================================
 
     def save(self, *args, **kwargs):
         if not self.uuid:
