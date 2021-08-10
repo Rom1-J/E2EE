@@ -1,3 +1,5 @@
 div.message {
-    overflow: hidden;
+    max-width: 145ch;
+    overflow-wrap: break-word;
+
 }

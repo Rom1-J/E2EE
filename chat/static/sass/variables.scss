@@ -1,7 +1,15 @@
-$anchor-color: #0056B4;
-$anchor-footer-color: #A20900;
+$background-color: #1d1d1d;
+$color: #fff;
 
-$nav-background-color: #323232;
+$anchor-color: #7CADFF;
+
+$nav-background-color: darken($background-color, 5%);
 $nav-border-color: darken($nav-background-color, 5%);
 
+$sidebar-background-color: darken($background-color, 5%);
+$sidebar-border-color: darken($sidebar-background-color, 5%);
+
 $hover-opacity: .7;
+
+$box-shadow: 0 0 5px 2px darken($background-color, 3%);
+$outline-color: #0070c9

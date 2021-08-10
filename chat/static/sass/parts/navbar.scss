@@ -36,33 +36,33 @@ $header-height: 44px;
     }
 
     .navbar-guild {
+        display: flex;
+        height: $header-height;
+        align-items: center;
+        justify-content: center;
+
+
+        * {
+            color: #fff;
+            fill: #fff;
+            text-decoration: none;
+        }
+
+        a {
             display: flex;
-            height: $header-height;
-            align-items: center;
-            justify-content: center;
+            gap: 5px;
 
+            font-size: 21px;
+            font-weight: 600;
 
-            * {
-                color: #fff;
-                fill: #fff;
-                text-decoration: none;
-            }
+            .chevron {
+                width: 10px;
+                height: 6px;
 
-            a {
-                display: flex;
-                gap: 5px;
-
-                font-size: 21px;
-                font-weight: 600;
-
-                .chevron {
-                    width: 10px;
-                    height: 6px;
-
-                    svg {
-                        margin-bottom: 2px;
-                    }
+                svg {
+                    margin-bottom: 2px;
                 }
+            }
         }
     }
 
@@ -73,23 +73,12 @@ $header-height: 44px;
         padding: 0 10px;
 
         a {
-            color: #fff;
-            text-decoration: none;
+            &, * {
+                color: #fff;
+                text-decoration: none;
+            }
 
             display: flex;
-
-            .chevron {
-                display: none;
-                margin-left: 5px;
-
-                width: 10px;
-                height: 6px;
-
-                svg {
-                    fill: #fff;
-                    margin-bottom: 2px;
-                }
-            }
 
             &::before {
                 content: "#";
@@ -197,9 +186,11 @@ $header-height: 44px;
             .navbar-userAction-icon {
                 display: flex;
 
-                img {
-                    width: 52px;
-                    height: 52px;
+                &, * {
+                    opacity: $hover-opacity;
+
+                    color: #000;
+                    fill: #000;
                 }
             }
         }
@@ -212,6 +203,10 @@ $header-height: 44px;
         .navbar-guild {
             display: none;
         }
+
+        .navbar-title a .svg {
+            display: none;
+        }
     }
 }
 
@@ -220,9 +215,5 @@ $header-height: 44px;
         .navbar-guild {
             display: none;
         }
-    }
-
-    #navbar .navbar-title a .chevron {
-        display: block;
     }
 }

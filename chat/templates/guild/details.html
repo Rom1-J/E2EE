@@ -5,7 +5,7 @@
 
 {% block content %}
     <div class="flex flex-column align-center height-100 text-center">
-        <h1>{% trans "Last active channels" %}</h1>
+        <h1>{% trans "Lastest messages" %}</h1>
 
         <div class="scrollable-y margin-left margin-right margin-bottom">
             <table id="guildDetails" aria-label="messages" class="table table-striped">
@@ -16,25 +16,31 @@
                 </colgroup>
                 <thead>
                 <tr>
-                    <th scope="col">Channel</th>
-                    <th scope="col">Last message</th>
-                    <th scope="col">Message count</th>
+                    <th scope="col">{% trans "Channel" %}</th>
+                    <th scope="col">{% trans "Last message" %}</th>
+                    <th scope="col">{% trans "Messages" %}</th>
                 </tr>
                 </thead>
                 <tbody>
-                {% for i in '0123456789zdaazdcuihnFZU'|make_list %}
+                {% if latest_channels %}
+                    {% for channel in latest_channels %}
+                        <tr>
+                            <td>
+                                <a class="link link-arrow-after">{{ channel }}</a>
+                            </td>
+                            <td class="text-left overflow-x">
+                                {% include "layouts/components/message/block.html" with message=channel.messages.first %}
+                            </td>
+                            <td>
+                                <span>{{ channel.messages_count }}</span>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
                     <tr>
-                        <td>
-                            <a class="link link-arrow-after">#Test</a>
-                        </td>
-                        <td class="text-left overflow-x">
-                            {% include "layouts/components/message/block.html" with message=message %}
-                        </td>
-                        <td>
-                            <span>{{ i }}</span>
-                        </td>
+                        <td colspan="3">{% trans "No result..." %}</td>
                     </tr>
-                {% endfor %}
+                {% endif %}
                 </tbody>
             </table>
         </div>

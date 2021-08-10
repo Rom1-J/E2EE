@@ -12,51 +12,26 @@
         align-items: center;
 
         .home-hello-avatar {
-            text-align: center;
-            margin: 10px 0;
+            margin: 1em 0;
 
-            svg, img {
-                min-height: 78px;
-                min-width: 78px;
-
-                height: 100%;
-                width: 100%;
-
-                max-width: 150px;
-                max-height: 150px;
-
-                fill: rgba(0, 0, 0, .5);
-            }
+            display: flex;
+            justify-content: center;
         }
 
         .home-hello-text {
             text-align: center;
 
-            font-size: 32px;
+            font-size: 2em;
             font-weight: 600;
-
-            color: #333;
         }
 
         .home-hello-settings {
-            text-align: center;
-
-            margin-bottom: 64px;
-            margin-top: 10px;
+            margin-bottom: 5em;
+            margin-top: 1em;
 
             a {
-                color: $anchor-color;
-                text-decoration: none;
-
                 font-size: 1.2em;
                 font-weight: 500;
-
-                padding-right: 16px;
-                margin-right: -8px;
-            }
-
-            span {
-                fill: $anchor-color;
             }
         }
 
@@ -64,34 +39,7 @@
             overflow: scroll;
             overflow-x: hidden;
 
-            margin: 0 20px;
-
-            height: calc(100vh - 400px);
-
-            max-height: 420px;
-
-            &::-webkit-scrollbar {
-                width: 7px;
-                background-color: transparent;
-                border: none;
-            }
-
-            &::-webkit-scrollbar-thumb {
-                background: rgba(0, 0, 0, .5);
-                border-radius: 7px;
-            }
-
-            &::-webkit-scrollbar-thumb:hover {
-                background: rgba(0, 0, 0, .6);
-            }
-
-            &::-webkit-scrollbar-thumb:active {
-                background: rgba(0, 0, 0, .7);
-            }
-
-            .guildSwitcher {
-                max-width: 940px;
-            }
+            max-height: calc(100vh / 2.5);
         }
     }
 }

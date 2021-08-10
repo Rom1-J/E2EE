@@ -5,37 +5,54 @@
 {% block title %}{% translate "Sign Out" %}{% endblock %}
 
 {% block content %}
-    <form class="flex flex-column justify-center align-center height-100 text-center" autocomplete="off" method="post"
-          action="{% url "account_logout" %}">
-        {% csrf_token %}
+    <form class="height-100vh flex align-center" autocomplete="off" method="post"
+          action="{% url 'account_logout' %}">
 
+        {% csrf_token %}
         {% if redirect_field_value %}
             <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
         {% endif %}
 
-        <div class="form form-medium margin">
-            <img class="form-logo" src="{% static "images/icons/circle_lock.svg" %}" alt="Gnous Logo">
-
-            <fieldset class="fieldset">
-                <legend class="legend h1">{% trans "Are you sure you want to sign out?" %}</legend>
-
-                <div class="form-progressive">
-                    <div class="inline fit-content">
-                        <label for="id_logout">
-                            <input class="input" type="submit" id="id_logout"
-                                   value="{% translate 'Sign Out' %}">
-                        </label>
+        <div class="container">
+            <div class="row justify-center">
+                <div class="form margin col-10 col-md-4 text-center">
+                    <div class="flex justify-center margin-bottom">
+                        <div class="form-logo">
+                            <i class="svg svg-large"
+                               style="--svg-url: url('{% static "images/icons/circle_lock.svg" %}')"></i>
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-separator margin"></div>
+                    <fieldset class="fieldset">
+                        <legend class="legend h1">{% trans "Are you sure you want to sign out?" %}</legend>
 
-                <div class="margin">
-                    <a class="link" href="{% url "guild:home" %}">
-                        <span class="link-arrow-after">{% trans "Go back home" %}</span>
-                    </a>
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger margin-bottom">
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
+
+                        <div class="form-progressive">
+                            <div class="inline">
+                                <label for="id_logout">
+                                    <input class="input text-center width-fit-content" type="submit" id="id_logout" value="{% translate 'Sign Out' %}">
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="margin form-separator"></div>
+
+                        <div class="margin flex justify-center">
+                            <a class="link icon-right" href="{% url 'guild:home' %}">
+                                {% trans "Go back home" %}
+
+                                <i class="svg svg-medium svg-rotate-45"
+                                   style="--svg-url: url('{% static "images/icons/arrow.svg" %}')"></i>
+                            </a>
+                        </div>
+                    </fieldset>
                 </div>
-            </fieldset>
+            </div>
         </div>
     </form>
 {% endblock %}

@@ -7,39 +7,55 @@
 {% block title %}{{ APP_NAME }} - {% trans 'Invite' %}{% endblock %}
 
 {% block content %}
-    <form class="flex flex-column justify-center align-center height-100 text-center" autocomplete="off" method="post"
-          action="{% url "guild:invite_delete" invite.key %}">
+    <form class="height-100vh flex align-center" autocomplete="off" method="post"
+          action="{% url 'guild:invite_delete' invite.key %}">
+
         {% csrf_token %}
+        {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+        {% endif %}
 
-        <div class="form form-medium margin">
-            <a target="_blank" href="{{ invite|generate_qr_code }}" class="form-logo form-logo-large"
-               download="{{ invite.guild.name }}_invite.png">
-                <img src="{{ invite|generate_qr_code }}" alt="{{ invite.guild.name }} QR">
-            </a>
+        <div class="container">
+            <div class="row justify-center">
+                <div class="form margin col-10 col-md-4 text-center">
+                    <a class="flex justify-center margin-bottom" target="_blank" href="{{ invite|generate_qr_code }}"
+                       download="{{ invite.guild.name }}_invite.png">
+                        <img class="form-logo form-logo-large" src="{{ invite|generate_qr_code }}"
+                             alt="{{ invite.guild.name }} QR">
+                    </a>
 
-            <fieldset class="fieldset">
-                <legend class="legend h1">{{ invite.guild.name }}{% trans "'s invite" %}
-                    ({% trans "Uses:" %} {{ invite.uses }})
-                </legend>
+                    <fieldset class="fieldset">
+                        <legend class="legend h1">{{ invite.guild.name }}{% trans "'s invite" %}
+                            ({% trans "Uses:" %} {{ invite.uses }})
+                        </legend>
 
-                <div class="form-progressive">
-                    <div class="inline">
-                        <label for="id_invite">
-                            <input class="input" type="text" id="id_invite" value="{{ invite.key_url|abs_url }}">
-                        </label>
-                    </div>
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger margin-bottom">
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
+
+                        <div class="form-progressive">
+                            <div class="inline">
+                                <label for="id_invite">
+                                    <input class="input" type="text" id="id_invite"
+                                           value="{{ invite.key_url|abs_url }}">
+                                </label>
+                            </div>
+                        </div>
+
+                        {% if invite.guild.owner == request.user %}
+                            <div class="margin form-separator"></div>
+
+                            <div class="margin">
+                                <button type="submit" class="link button-link text-danger">
+                                    {% trans "Delete" %}
+                                </button>
+                            </div>
+                        {% endif %}
+                    </fieldset>
                 </div>
-
-                {% if invite.guild.owner == request.user %}
-                    <div class="margin form-separator"></div>
-
-                    <div class="margin">
-                        <button type="submit" class="link button-link text-danger">
-                            {% trans "Delete" %}
-                        </button>
-                    </div>
-                {% endif %}
-            </fieldset>
+            </div>
         </div>
     </form>
 

@@ -4,9 +4,12 @@
     box-sizing: border-box;
     font-family: SF Pro Text, SF Pro Icons, Helvetica Neue, Helvetica, Arial, sans-serif;
 
+    color: $color;
+    fill: $color;
+
     &:focus {
         outline: none;
-        box-shadow: 0 0 3px 3px rgba(131, 192, 253, .5);
+        box-shadow: 0 0 0 2px $outline-color;
     }
 
     &::-webkit-scrollbar {
@@ -40,6 +43,9 @@ body {
     height: 100vh;
 
     overflow: hidden;
+
+    background: $background-color;
+    color: $color;
 }
 
 a:hover {

@@ -6,53 +6,64 @@
 
 {% block title %}{{ APP_NAME }} - {% trans 'Invite' %}{% endblock %}
 
-{% block breadcrumb %}
-    <ul class="uk-breadcrumb">
-        <li>
-            <a href="{% url 'guild:home' %}">{% trans "Groups" %}</a>
-        </li>
-        <li>
-            <a href="{% url 'guild:detail' invite.group.uuid %}">{{ invite.group.name }}</a>
-        </li>
-        <li>
-            <span>{% trans "Invite" %}</span>
-        </li>
-    </ul>
-{% endblock %}
 
 {% block content %}
-    <form class="flex flex-column justify-center align-center height-100 text-center" autocomplete="off" method="post"
-          action="{% url "guild:invite_empty_join" %}">
+     <form class="height-100vh flex align-center" autocomplete="off" method="post"
+          action="{% url 'guild:invite_empty_join' %}">
+
         {% csrf_token %}
+        {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+        {% endif %}
 
-        <div class="form form-medium margin">
-            <img class="form-logo" src="{% static "images/icons/circle_plus.svg" %}" alt="Plus Icon">
-
-            <fieldset class="fieldset">
-                <legend class="legend h1">{% trans "Join a guild" %}</legend>
-
-                <div class="form-progressive">
-                    <div class="inline">
-                        <label for="id_invite">
-                            <input class="input input-icon-right" type="text" name="invite_key"
-                                   placeholder="{{ "/invite/hi"|abs_url }}"
-                                   required id="id_invite">
-                        </label>
-
-                        <button type="submit" class="form-icon form-icon-flip" aria-label="{% trans "Create" %}">
-                            <img src="{% static "images/icons/circle_login.svg" %}" alt="+">
-                        </button>
+        <div class="container">
+            <div class="row justify-center">
+                <div class="form margin col-10 col-md-4 text-center">
+                    <div class="flex justify-center margin-bottom">
+                        <div class="form-logo">
+                            <i class="svg svg-large"
+                               style="--svg-url: url('{% static "images/icons/circle_plus.svg" %}')"></i>
+                        </div>
                     </div>
-                </div>
 
-                <div class="margin form-separator"></div>
+                    <fieldset class="fieldset">
+                        <legend class="legend h1">{% trans "Join a guild" %}</legend>
 
-                <div class="margin">
-                    <a class="link" href="{% url "guild:create" %}">
-                        <span>{% trans "The group is not created? Then please create it in by following this link." %}</span>
-                    </a>
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger margin-bottom">
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
+
+                        <div class="form-progressive">
+                            <div class="inline">
+                                <label for="id_invite">
+                                    <input class="input input-icon-right" type="text" name="invite_key"
+                                           placeholder="{{ "/invite/hi"|abs_url }}"
+                                           required id="id_invite">
+                                </label>
+
+                                <button type="submit" class="form-icon form-icon-flip"
+                                        aria-label="{% trans "Create" %}">
+                                    <i class="svg"
+                                       style="--svg-url: url('{% static "images/icons/circle_login.svg" %}')"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="margin form-separator"></div>
+
+                        <div class="margin flex justify-center">
+                            <a class="link icon-right" href="{% url 'guild:create' %}">
+                                {% trans "The group is not created? Then please create it in by following this link." %}
+
+                                <i class="svg svg-medium svg-rotate-45"
+                                   style="--svg-url: url('{% static "images/icons/arrow.svg" %}')"></i>
+                            </a>
+                        </div>
+                    </fieldset>
                 </div>
-            </fieldset>
+            </div>
         </div>
     </form>
 

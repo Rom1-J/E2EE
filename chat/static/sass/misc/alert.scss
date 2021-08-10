@@ -14,6 +14,8 @@
 }
 
 .alert-danger {
-    background: #fef4f6;
-    color: #f0506e;
+    &, * {
+        background: #fef4f6;
+        color: #f0506e;
+    }
 }

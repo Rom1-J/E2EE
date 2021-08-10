@@ -6,7 +6,7 @@
 {% block title %}{{ APP_NAME }} - {% trans 'Create' %}{% endblock %}
 
 {% block content %}
-    <form class="flex flex-column justify-center align-center height-100 text-center"
+    <form class="height-100vh flex align-center"
           autocomplete="off" method="post"
           action="{% url 'guild:create' %}" enctype="multipart/form-data">
 
@@ -15,44 +15,56 @@
             <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
         {% endif %}
 
-        <div class="form form-medium margin">
-            <label class="form-logo" for="id_{{ form.avatar.name }}" tabindex="1">
-                <img class="{% if form.avatar.errors %} input-error {% endif %}" src="{% static "images/icons/image_upload.svg" %}" alt="+">
-                <input style="display: none" type="file" id="id_{{ form.avatar.name }}" name="{{ form.avatar.name }}">
-            </label>
-
-            <fieldset class="fieldset">
-                <legend class="legend h1">{% trans "Create a guild" %}</legend>
-
-                {% if form.non_field_errors %}
-                    <div class="alert alert-danger margin-bottom">
-                        {{ form.non_field_errors }}
-                    </div>
-                {% endif %}
-
-                <div class="form-progressive">
-                    <div class="inline">
-                        <label for="id_{{ form.name.name }}">
-                            <input class="input input-icon-right {% if form.name.errors %} input-error {% endif %}"
-                                   type="text" name="{{ form.name.name }}"
-                                   placeholder="{{ form.name.label }}"
-                                   required id="id_{{ form.name.name }}">
+        <div class="container">
+            <div class="row justify-center">
+                <div class="form margin col-10 col-md-4 text-center">
+                    <div class="flex justify-center margin-bottom">
+                        <label class="form-logo {% if form.avatar.errors %} input-error {% endif %}" for="id_{{ form.avatar.name }}" tabindex="1">
+                            <i class="svg svg-large"
+                               style="--svg-url: url('{% static "images/icons/image_upload.svg" %}')"></i>
+                            <input style="display: none" type="file" id="id_{{ form.avatar.name }}"
+                                   name="{{ form.avatar.name }}">
                         </label>
-
-                        <button type="submit" class="form-icon form-icon-flip" aria-label="{% trans "Create" %}">
-                            <img src="{% static "images/icons/circle_plus.svg" %}" alt="+">
-                        </button>
                     </div>
-                </div>
 
-                <div class="margin form-separator"></div>
+                    <fieldset class="fieldset">
+                        <legend class="legend h1">{% trans "Create a guild" %}</legend>
 
-                <div class="margin">
-                    <a class="link" href="{% url "guild:invite_empty_join" %}">
-                        <span class="link-arrow-after">{% trans "The group is already created? Then please join in by following its invitation link." %}</span>
-                    </a>
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger margin-bottom">
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
+
+                        <div class="form-progressive">
+                            <div class="inline">
+                                <label for="id_{{ form.name.name }}">
+                                    <input class="input input-icon-right {% if form.name.errors %} input-error {% endif %}"
+                                           type="text" name="{{ form.name.name }}"
+                                           placeholder="{{ form.name.label }}"
+                                           required id="id_{{ form.name.name }}">
+                                </label>
+
+                                <button type="submit" class="form-icon form-icon-flip"
+                                        aria-label="{% trans "Create" %}">
+                                    <i class="svg" style="--svg-url: url('{% static "images/icons/circle_plus.svg" %}')"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="margin form-separator"></div>
+
+                        <div class="margin flex justify-center">
+                            <a class="link icon-right" href="{% url 'guild:invite_empty_join' %}">
+                                {% trans "The group is already created? Then please join in by following its invitation link." %}
+
+                                <i class="svg svg-medium svg-rotate-45"
+                                   style="--svg-url: url('{% static "images/icons/arrow.svg" %}')"></i>
+                            </a>
+                        </div>
+                    </fieldset>
                 </div>
-            </fieldset>
+            </div>
         </div>
     </form>
 {% endblock %}

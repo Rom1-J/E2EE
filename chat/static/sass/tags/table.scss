@@ -8,12 +8,12 @@
     }
 
     th {
-        background-color: lighten($nav-background-color, 5%);
+        background-color: $sidebar-background-color;
         color: #fff
     }
 
     tr {
-        border-bottom: 1px solid $nav-background-color;
+        border-bottom: 1px solid $sidebar-border-color;
 
         &:hover {
             background: #ffd;
