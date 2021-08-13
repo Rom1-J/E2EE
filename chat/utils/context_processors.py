@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.core.handlers.wsgi import WSGIRequest
 
 
 def show_sidebar(url_name: str) -> bool:
@@ -7,8 +8,7 @@ def show_sidebar(url_name: str) -> bool:
     return any(route in url_name for route in routes)
 
 
-def settings_context(request):
-    print(request.resolver_match.url_name)
+def settings_context(request: WSGIRequest):
     return {
         "DEBUG": settings.DEBUG,
         "APP_NAME": settings.APP_NAME,

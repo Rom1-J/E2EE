@@ -1,20 +1,19 @@
-$header-height: 44px;
-
-
 #navbar {
+    min-height: $min-header-height;
     height: $header-height;
     width: 100%;
 
     background: $nav-background-color;
-    color: #fff;
 
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    padding: 0 20px;
+    gap: 1em;
 
-    font-size: 21px;
+    padding: 0 1em;
+
+    font-size: 1.125em;
     font-weight: 300;
 
     .navbar-guild, .navbar-home {
@@ -24,13 +23,11 @@ $header-height: 44px;
         justify-content: center;
 
         * {
-            color: #fff;
-            fill: #fff;
             text-decoration: none;
         }
 
         a {
-            font-size: 21px;
+            font-size: 1.325em;
             font-weight: 600;
         }
     }
@@ -43,39 +40,27 @@ $header-height: 44px;
 
 
         * {
-            color: #fff;
-            fill: #fff;
+            color: $color;
+            fill: $color;
             text-decoration: none;
         }
 
         a {
-            display: flex;
-            gap: 5px;
-
-            font-size: 21px;
+            font-size: 1.325em;
             font-weight: 600;
-
-            .chevron {
-                width: 10px;
-                height: 6px;
-
-                svg {
-                    margin-bottom: 2px;
-                }
-            }
         }
     }
 
     .navbar-title {
-        white-space: nowrap;
         overflow: hidden;
-        text-overflow: ellipsis;
-        padding: 0 10px;
 
         a {
             &, * {
-                color: #fff;
+                color: $color;
                 text-decoration: none;
+
+                white-space: nowrap;
+                overflow: hidden;
             }
 
             display: flex;
@@ -85,7 +70,7 @@ $header-height: 44px;
                 opacity: .4;
 
                 font-weight: 600;
-                margin-right: 7px;
+                margin-right: .5ch;
             }
         }
     }
@@ -105,11 +90,11 @@ $header-height: 44px;
     width: 258px;
 
     position: fixed;
-    background: #fff;
+    background: $background-color;
     display: none;
 
-    border: 1px solid #d5d5d5;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, .1);
+    border: 1px solid $sidebar-border-color;
+    box-shadow: $box-shadow;
 
     border-radius: 8px;
 
@@ -155,14 +140,14 @@ $header-height: 44px;
             height: 0;
             border-style: solid;
             border-width: 0 10px 10px 10px;
-            border-color: transparent transparent #ffffff transparent;
+            border-color: transparent transparent $background-color transparent;
             position: absolute;
         }
     }
 
     .navbar-userSettings-container {
         .navbar-userAction {
-            border-top: 1px solid rgba(0, 0, 0, .1);
+            border-top: 1px solid $sidebar-border-color;
 
             display: flex;
             justify-content: space-between;
@@ -174,13 +159,13 @@ $header-height: 44px;
                 border: none;
             }
 
-            margin: 0 10px;
-            padding: 7px 0 7px 6px;
+            margin: 0 1em;
+            padding: .5em .4em;
 
             .navbar-userAction-text {
-                font-size: 17px;
+                font-size: 1em;
                 font-weight: 400;
-                color: #000;
+                color: $color;
             }
 
             .navbar-userAction-icon {
@@ -189,8 +174,8 @@ $header-height: 44px;
                 &, * {
                     opacity: $hover-opacity;
 
-                    color: #000;
-                    fill: #000;
+                    color: $color;
+                    fill: $color;
                 }
             }
         }

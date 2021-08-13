@@ -1,3 +1,33 @@
-<div class="message overflow-x">
-    {{ message.content }}
+{% load i18n %}
+{% load humanize %}
+<div class="message">
+    <img class="messageAvatar" src="{{ guild.avatar.url }}" aria-hidden="true" alt="">
+    <h2 class="messageHeader">
+            <span class="username" style="color: rgb(244, 127, 255);">
+                {{ message.author }}
+            </span>
+
+        <span class="timestamp">
+                <time title="{{ message.created_at }}" aria-label="{{ message.created_at|naturaltime }}"
+                      datetime="{{ message.created_at|date:"c" }}">
+                    <i class="separator" aria-hidden="true"> — </i>
+                    {{ message.created_at|naturaltime }}
+                </time>
+            </span>
+    </h2>
+    <div class="messageContent">
+        Bonjour aussi
+
+        {% if message.attachments %}
+            <ul class="attachments">
+                {% for attachment in message.attachments.all %}
+                    <li>
+                        <a target="_blank" class="link"
+                           href="{{ attachment.file.url }}">.{{ attachment.extension }} {% trans "file" %}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+    </div>
 </div>

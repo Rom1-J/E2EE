@@ -4,11 +4,10 @@ from typing import Dict, Any
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.views import View
 
+from .mixins import ChanExistsMixin
 from ...models import Guild
-from ...views import template_path
-from ...mixins import IsInGuildMixin
+from ...views import template_path, BaseGuildView
 
 from ...utils import get_guild
 
@@ -23,10 +22,14 @@ def get_params(request: WSGIRequest, guild_id: uuid.UUID) -> Dict[str, Any]:
     return {"guild": guild, "guilds": guilds}
 
 
+class BaseChannelView(BaseGuildView, ChanExistsMixin):
+    pass
+
+
 # =============================================================================
 
 
-class GuildChannelCreateView(IsInGuildMixin, View):
+class GuildChannelCreateView(BaseChannelView):
     template_name = template_path + "create.html"
 
     def get(
@@ -42,7 +45,7 @@ class GuildChannelCreateView(IsInGuildMixin, View):
 # =============================================================================
 
 
-class GuildChannelEditView(IsInGuildMixin, View):
+class GuildChannelEditView(BaseChannelView):
     template_name = template_path + "edit.html"
 
     def get(
@@ -58,7 +61,7 @@ class GuildChannelEditView(IsInGuildMixin, View):
 # =============================================================================
 
 
-class GuildChannelDetailView(IsInGuildMixin, View):
+class GuildChannelDetailView(BaseChannelView):
     template_name = template_path + "details.html"
 
     def get(
@@ -69,7 +72,7 @@ class GuildChannelDetailView(IsInGuildMixin, View):
     ) -> HttpResponse:
         params = get_params(request, guild_id)
 
-        channel = params["guild"].channels.filter(uuid=channel_id).first()
+        channel = params["guild"].get_channel(channel_id)
 
         if not channel:
             return redirect("guild:guild_view", guild_id=str(guild_id))

@@ -1,14 +1,7 @@
-$sidebar-color: #fff;
-$width: 250px;
-
-$header-height: 44px;
-$footer-height: 44px;
-
-
 #sidebar {
     background: $sidebar-background-color;
 
-    min-width: $width;
+    min-width: $sidebar-width;
     height: 100%;
 
     display: flex;
@@ -22,6 +15,8 @@ $footer-height: 44px;
 
     .sidebar-header {
         background: $nav-background-color;
+
+        min-height: $min-header-height;
         height: $header-height;
 
         .sidebar-header-controls {
@@ -75,7 +70,7 @@ $footer-height: 44px;
 
             legend {
                 background-color: darken($sidebar-background-color, 2%);
-                color: darken($sidebar-color, 10%);
+                color: darken($color, 10%);
 
                 width: 100%;
                 height: 3em;
@@ -96,7 +91,7 @@ $footer-height: 44px;
             line-height: 2em;
 
             font-size: 1.025em;
-            color: darken($sidebar-color, 10%);
+            color: darken($color, 10%);
 
             border-top: 1px solid $sidebar-border-color;
             text-decoration: none;
@@ -129,6 +124,7 @@ $footer-height: 44px;
     }
 
     .sidebar-footer {
+        min-height: $min-footer-height;
         height: $footer-height;
 
         display: flex;
@@ -164,9 +160,8 @@ $footer-height: 44px;
             align-items: center;
 
             a {
-                color: $sidebar-color;
+                color: $color;
                 font-size: 1em;
-
             }
         }
     }
@@ -234,7 +229,7 @@ $footer-height: 44px;
     }
 
     .sidebar-guildSelector-container {
-        padding: 15px 8px;
+        padding: 1em .5em;
 
         .guildSwitcher {
             max-height: 230px;
@@ -242,27 +237,25 @@ $footer-height: 44px;
 
         .links-section {
             border-top: 1px solid $sidebar-border-color;
-            margin: 8px 8px 0;
+            margin: .5em .5em 0;
 
             .account-settings-link-view {
                 display: inline-block;
 
                 div {
-                    padding: 13px 13px 0;
-                    font-size: 15px;
+                    padding: 1em 1em 0;
+
+                    font-size: .875em;
                     font-weight: 500;
+
                     justify-content: center;
                     position: relative;
 
                     a {
-                        color: $anchor-color;
-                        padding-right: 4px;
-                    }
-
-                    span {
-                        fill: $anchor-color;
-                        top: 1px;
-                        position: relative;
+                        &, *{
+                            fill: $anchor-color;
+                            color: $anchor-color;
+                        }
                     }
                 }
             }
@@ -283,7 +276,7 @@ $footer-height: 44px;
             top: 0;
             right: 0;
 
-            width: calc(100vw - #{$width});
+            width: calc(100vw - #{$sidebar-width});
             height: 100vh;
 
             cursor: default;

@@ -57,13 +57,11 @@
         <div id="content">
             {% block content %}{% endblock content %}
         </div>
-    </div>
 
-    {% block footer %}
-        {% if SHOW_SIDEBAR %}
+        {% block footer %}
             {% include 'layouts/parts/footer.html' %}
-        {% endif %}
-    {% endblock footer %}
+        {% endblock footer %}
+    </div>
 </div>
 
 

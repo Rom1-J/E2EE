@@ -1,3 +1,16 @@
 {% extends "layouts/base.html" %}
+{% load i18n %}
 
-{% block title %}#{{ channel.name }} - {{ APP_NAME }}{% endblock %}
+{% block title %}{{ channel.name }} - {{ APP_NAME }}{% endblock %}
+
+{% block content %}
+    <div id="messages" class="width-100 height-100">
+        {% for i in "x"|rjust:"5" %}
+            {% include "layouts/components/message/block.html" with message=channel.messages.first %}
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block inline_javascript %}
+    {% include "layouts/components/message/decryptor.html" %}
+{% endblock %}

@@ -64,7 +64,18 @@ class GuildCreateView(LoginRequiredMixin, View):
 # =============================================================================
 
 
-class GuildDetailView(IsInGuildMixin, View):
+class BaseGuildView(IsInGuildMixin, View):
+    def dispatch(self, request, *args, **kwargs):
+        # print("BaseGuildView")
+        #
+        # print(type(request), request)
+        # print(type(args), args)
+        # print(type(kwargs), kwargs)
+
+        return super().dispatch(request, *args, **kwargs)
+
+
+class GuildDetailView(BaseGuildView):
     template_name = template_path + "details.html"
 
     def get(self, request: WSGIRequest, guild_id: uuid.UUID) -> HttpResponse:
@@ -89,7 +100,7 @@ class GuildDetailView(IsInGuildMixin, View):
 # =============================================================================
 
 
-class GuildInvitesView(IsInGuildMixin, View):
+class GuildInvitesView(BaseGuildView):
     template_name = template_path + "invite.html"
 
     def get(self, request: WSGIRequest, guild_id: uuid.UUID) -> HttpResponse:
@@ -109,7 +120,7 @@ class GuildInvitesView(IsInGuildMixin, View):
 # =============================================================================
 
 
-class GuildMembersView(IsInGuildMixin, View):
+class GuildMembersView(BaseGuildView):
     template_name = template_path + "members.html"
 
     def get(self, request: WSGIRequest, guild_id: uuid.UUID) -> HttpResponse:

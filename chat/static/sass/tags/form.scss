@@ -98,7 +98,7 @@
     }
 }
 
-input, button {
+input, button, textarea {
     border: 1px solid #d6d6d6;
     border-radius: 4px;
 
@@ -133,11 +133,11 @@ input, button {
     }
 
     &.input-icon-left {
-        padding-left: 2.125em
+        padding-left: 2.2em
     }
 
     &.input-icon-right {
-        padding-right: 2.125em
+        padding-right: 2.2em
     }
 }
 

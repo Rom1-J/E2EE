@@ -1,4 +1,5 @@
 import uuid
+from typing import Optional
 
 from PIL import Image
 from django.db import models
@@ -6,6 +7,8 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from chat.users.models import User
+
+from .features.channels.models import Channel, Category
 
 
 class Guild(models.Model):
@@ -20,13 +23,23 @@ class Guild(models.Model):
 
     members = models.ManyToManyField(User)
 
-    channels = models.ManyToManyField("Channel", blank=True)
-    categories = models.ManyToManyField("Category", blank=True)
+    channels = models.ManyToManyField(Channel, blank=True)
+    categories = models.ManyToManyField(Category, blank=True)
 
     # =========================================================================
 
     def get_absolute_url(self):
         return reverse("guild:guild_view", kwargs={"guild_id": str(self.uuid)})
+
+    def get_channel(self, channel_id) -> Optional[Channel]:
+        channels = self.channels
+
+        if category := self.categories.filter(
+            channels__uuid=channel_id
+        ).first():
+            channels = category.channels
+
+        return channels.filter(uuid=channel_id).first()
 
     # =========================================================================
 

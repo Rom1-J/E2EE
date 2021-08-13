@@ -8,17 +8,17 @@ from .views import (
 
 urlpatterns = [
     path(
-        "<uuid:guild_id>/channel/create/",
+        "<uuid:guild_id>/create/",
         view=GuildChannelCreateView.as_view(),
         name="channel_create",
     ),
     path(
-        "<uuid:guild_id>/channel/edit",
+        "<uuid:guild_id>/edit",
         view=GuildChannelEditView.as_view(),
         name="channel_edit",
     ),
     path(
-        "<uuid:guild_id>/channel/<uuid:channel_id>/",
+        "<uuid:guild_id>/<uuid:channel_id>/",
         view=GuildChannelDetailView.as_view(),
         name="channel_details",
     ),
