@@ -35,3 +35,4 @@ django-coverage-plugin==2.0.0  # https://github.com/nedbat/django_coverage_plugi
 pytest-django==4.4.0  # https://github.com/pytest-dev/pytest-django
 
 Faker==8.12.1
+mdgen==0.1.9

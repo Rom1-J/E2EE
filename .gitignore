@@ -327,3 +327,6 @@ chat/media/
 
 dump.rdb
 .envs/.production
+
+key.pem
+cert.pem

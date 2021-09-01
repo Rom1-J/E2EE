@@ -1,9 +1,11 @@
 from django import template
 from faker import Faker
+from mdgen import MarkdownPostProvider
 
 
 register = template.Library()
 fake = Faker()
+fake.add_provider(MarkdownPostProvider)
 
 
 @register.filter(name="fake")

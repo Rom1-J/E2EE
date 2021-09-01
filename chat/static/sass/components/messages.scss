@@ -1,64 +1,78 @@
 #messages {
     overflow-x: hidden;
 
+    border: 2px solid $background-color;
+
     .message {
+        position: relative;
+
         min-height: 50px;
 
         margin: .5em 2em .5em .5em;
         padding: 1em;
 
-        border-radius: .5em;
         background-color: #0E626F;
+
+        border-radius: 0 .5em .5em .5em;
+
+        box-shadow: $box-shadow;
 
         &.message-me {
             margin-left: 2em;
             margin-right: .5em;
             background-color: #10654C;
+
+            border-radius: .5em 0 .5em .5em;
         }
-    }
 
-    .messageAvatar {
-        width: 2em;
-        border-radius: .5em;
+        .messageAvatar {
+            width: 2em;
+            border-radius: .5em;
 
-        float: left;
+            float: left;
 
-        margin-right: 1em;
-    }
+            margin-right: 1em;
+        }
 
-    .messageHeader {
-        .username {
-            font-weight: bold;
+        .messageHeader {
+            .username {
+                font-weight: bold;
 
-            &:hover {
-                text-decoration: underline;
-                cursor: pointer;
+                &:hover {
+                    text-decoration: underline;
+                    cursor: pointer;
+                }
+            }
+
+            .timestamp {
+                font-size: .8em;
+                float: right;
             }
         }
 
-        .timestamp {
-            font-size: .8em;
-            float: right;
-        }
-    }
+        .messageContent {
+            overflow: hidden;
+            word-break: break-word;
 
-    .messageContent {
-        overflow: hidden;
-        word-break: break-word;
+            .attachments {
+                margin-top: 1em;
+                
+                border-top: 1px solid $border-color;
 
-        .attachments {
-            ul {
-                padding-inline-start: 0;
-                margin-block-end: 0;
-                list-style: none;
+                ul {
+                    padding-inline-start: 0;
+                    margin-block-end: 0;
+                    list-style: none;
 
-                li {
-                    a {
-                        color: $gray-200;
-                    }
-                    &:before {
+                    li {
+                        a {
+                            color: $gray-200;
+                        }
+
+                        &:before {
                             content: "•"
                         }
+                    }
                 }
             }
         }

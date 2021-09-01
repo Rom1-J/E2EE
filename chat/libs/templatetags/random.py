@@ -1,6 +1,12 @@
 import random
-from django import template
+import uuid
 
+from django import template
+from faker import Faker
+from mdgen import MarkdownPostProvider
+
+fake = Faker()
+fake.add_provider(MarkdownPostProvider)
 register = template.Library()
 
 
@@ -12,3 +18,13 @@ def random_int(a, b=None):
 @register.simple_tag
 def random_bool():
     return random.choice([True, False])
+
+
+@register.simple_tag
+def random_uuid():
+    return str(uuid.uuid4())
+
+
+@register.simple_tag
+def random_post():
+    return fake.post()

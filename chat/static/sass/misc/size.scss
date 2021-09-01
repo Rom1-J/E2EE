@@ -3,9 +3,13 @@
 }
 
 .scrollable-y {
-    overflow-y: scroll;
+    overflow-y: scroll!important;
 }
 
 .scrollable-x {
-    overflow-x: scroll;
+    overflow-x: scroll!important;
+}
+
+.no-scroll {
+    overflow: hidden!important;
 }

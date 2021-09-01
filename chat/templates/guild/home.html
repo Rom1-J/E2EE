@@ -31,7 +31,7 @@
 
             <div class="container">
                 <div class="row justify-center home-guilds">
-                    <div class="guildSwitcher guildSwitcher-center guildSwitcher-large col-12 col-sm-10">
+                    <div class="guildSwitcher guildSwitcher-center guildSwitcher-large no-scroll col-12 col-sm-10">
                         {% for guild in guilds %}
                             <a href="{% url "guild:guild_view" guild_id=guild.uuid %}" class="guildSwitcher-item-view">
                                 <div class="guildSwitcher-item-content">
