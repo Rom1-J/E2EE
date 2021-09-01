@@ -65,13 +65,9 @@ class GuildCreateView(LoginRequiredMixin, View):
 
 
 class BaseGuildView(IsInGuildMixin, View):
-    def dispatch(self, request, *args, **kwargs):
-        # print("BaseGuildView")
-        #
-        # print(type(request), request)
-        # print(type(args), args)
-        # print(type(kwargs), kwargs)
-
+    def dispatch(
+        self, request, *args, **kwargs
+    ):  # pylint: disable=useless-super-delegation
         return super().dispatch(request, *args, **kwargs)
 
 

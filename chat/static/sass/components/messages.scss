@@ -2,15 +2,65 @@
     overflow-x: hidden;
 
     .message {
-        background: red;
+        min-height: 50px;
+
+        margin: .5em 2em .5em .5em;
+        padding: 1em;
+
+        border-radius: .5em;
+        background-color: #0E626F;
+
+        &.message-me {
+            margin-left: 2em;
+            margin-right: .5em;
+            background-color: #10654C;
+        }
     }
 
     .messageAvatar {
+        width: 2em;
+        border-radius: .5em;
+
+        float: left;
+
+        margin-right: 1em;
     }
 
     .messageHeader {
+        .username {
+            font-weight: bold;
+
+            &:hover {
+                text-decoration: underline;
+                cursor: pointer;
+            }
+        }
+
+        .timestamp {
+            font-size: .8em;
+            float: right;
+        }
     }
 
     .messageContent {
+        overflow: hidden;
+        word-break: break-word;
+
+        .attachments {
+            ul {
+                padding-inline-start: 0;
+                margin-block-end: 0;
+                list-style: none;
+
+                li {
+                    a {
+                        color: $gray-200;
+                    }
+                    &:before {
+                            content: "•"
+                        }
+                }
+            }
+        }
     }
 }

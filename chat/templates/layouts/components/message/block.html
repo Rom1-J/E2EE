@@ -1,33 +1,52 @@
 {% load i18n %}
 {% load humanize %}
-<div class="message">
-    <img class="messageAvatar" src="{{ guild.avatar.url }}" aria-hidden="true" alt="">
-    <h2 class="messageHeader">
-            <span class="username" style="color: rgb(244, 127, 255);">
+{% load random %}
+{% load fakers %}
+
+
+{% random_bool as me %}
+{% random_bool as file %}
+<div class="message {% if me %}message-me{% endif %}">
+    <img class="messageAvatar"
+            {% if me %}
+         src="{{ guild.avatar.url }}"
+            {% else %}
+         src="https://picsum.photos/{{ "random_int"|fake:"100,500" }}"
+            {% endif %}
+         aria-hidden="true" alt="">
+    <div class="messageHeader">
+        <span class="username" {% if not me %}style="color: {{ "color"|fake }}"{% endif %}>
+            {% if me %}
                 {{ message.author }}
-            </span>
+            {% else %}
+                {{ "name"|fake }}
+            {% endif %}
+        </span>
 
         <span class="timestamp">
-                <time title="{{ message.created_at }}" aria-label="{{ message.created_at|naturaltime }}"
-                      datetime="{{ message.created_at|date:"c" }}">
-                    <i class="separator" aria-hidden="true"> — </i>
-                    {{ message.created_at|naturaltime }}
-                </time>
-            </span>
-    </h2>
+            <time title="{{ message.created_at }}" aria-label="{{ message.created_at|naturaltime }}"
+                  datetime="{{ message.created_at|date:"c" }}">
+                {{ message.created_at|naturaltime }}
+            </time>
+        </span>
+    </div>
     <div class="messageContent">
-        Bonjour aussi
+        <div class="content">
+            {#        {{ message.content }}#}
+            {{ "text"|fake }}
+        </div>
 
-        {% if message.attachments %}
-            <ul class="attachments">
-                {% for attachment in message.attachments.all %}
-                    <li>
-                        <a target="_blank" class="link"
-                           href="{{ attachment.file.url }}">.{{ attachment.extension }} {% trans "file" %}</a>
-                    </li>
-                {% endfor %}
-            </ul>
+        {% if message.attachments and file %}
+            <div class="attachments">
+                <ul>
+                    {% for attachment in message.attachments.all %}
+                        <li>
+                            <a target="_blank" class="link"
+                               href="{{ attachment.file.url }}">.{{ attachment.extension }} {% trans "file" %}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
         {% endif %}
-
     </div>
 </div>

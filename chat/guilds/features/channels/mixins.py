@@ -1,6 +1,5 @@
 from django.shortcuts import redirect
 
-from .models import Channel
 from ...mixins import IsInGuildMixin
 from ...models import Guild
 
@@ -10,15 +9,16 @@ def chan_exists(request, *args, **kwargs):
     channel_id: str = str(kwargs.pop("channel_id", ""))
 
     if guild_id and channel_id:
-        return (
+        channel = (
             Guild.objects.filter(
                 uuid=guild_id,
                 members__in=[request.user],
             )
             .first()
-            .get_channel(channel_id)
-            or redirect("guild:guild_view", guild_id=guild_id)
+            .get_channel(channel_id)  # type: ignore
         )
+
+        return channel or redirect("guild:guild_view", guild_id=guild_id)
 
     return False
 

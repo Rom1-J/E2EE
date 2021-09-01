@@ -5,7 +5,9 @@ from .models import Message
 
 
 @receiver(post_save, sender=Message)
-def on_message_saved(sender: Message, instance: Message, **kwargs):
+def on_message_saved(
+    sender: Message, instance: Message, **kwargs
+):  # pylint: disable=unused-argument
     if channel := instance.channel:
         channel.messages.add(instance)
         channel.last_message_at = instance.updated_at

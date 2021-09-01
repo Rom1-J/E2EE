@@ -1,6 +1,10 @@
 #footer {
-    min-height: calc(#{$min-header-height} * 2.5);
-    height: calc(#{$header-height} * 2.5);
+    border-top: 1px solid $sidebar-border-color;
+    background: $sidebar-background-color;
+
+
+    min-height: calc(#{$min-header-height} * 2.3);
+    height: calc(#{$header-height} * 2.3);
     width: 100%;
 
     .form {
