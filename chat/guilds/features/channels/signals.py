@@ -12,3 +12,14 @@ def on_message_saved(
         channel.messages.add(instance)
         channel.last_message_at = instance.updated_at
         channel.save()
+
+        if (
+            len(messages := channel.messages.all()) > 1
+            and not instance.previous
+        ):
+            if previous := messages.filter(pk__lt=instance.pk).last():
+                instance.previous = previous
+                previous.next = instance
+
+                previous.save()
+                instance.save()

@@ -1,30 +1,28 @@
+{% load static %}
+{% load debug %}
 {% load markdown %}
 {% load i18n %}
 {% load humanize %}
-{% load random %}
-{% load fakers %}
 
-
-{% random_bool as me %}
-{% random_bool as file %}
-
-{% random_uuid as signature %}
-
-<div class="message {% if me %}message-me{% endif %}" id="{{ signature }}">
+<div
+        class="message
+{% if message.author == request.user %}message-me {% endif %}
+{% if message.previous.author == message.author %}no-radius-top {% endif %}
+{% if message.next.author == message.author %}no-radius-bottom {% endif %}
+"
+        id="{{ message.uuid }}">
     <img class="messageAvatar"
-            {% if me %}
-         src="{{ guild.avatar.url }}"
-            {% else %}
-         src="https://picsum.photos/{{ "random_int"|fake:"100,500" }}"
-            {% endif %}
+         src="
+{% if message.author.avatar.url %}
+{{ message.author.avatar.url }}
+{% else %}
+{% static "images/icons/circle_user.svg" %}
+{% endif %}
+"
          aria-hidden="true" alt="" loading="lazy">
     <div class="messageHeader">
-        <span class="username" {% if not me %}style="color: {{ "color"|fake }}"{% endif %}>
-            {% if me %}
-                {{ message.author }}
-            {% else %}
-                {{ "name"|fake }}
-            {% endif %}
+        <span class="username">
+            {{ message.author }}
         </span>
 
         <span class="timestamp">
@@ -36,11 +34,10 @@
     </div>
     <div class="messageContent">
         <div class="content">
-            {#        {{ message.content }}#}
-            {{ "text"|fake|markdown }}
+            {{ message.content }}
         </div>
 
-        {% if message.attachments and file %}
+        {% if message.attachments.all %}
             <div class="attachments">
                 <ul>
                     {% for attachment in message.attachments.all %}
@@ -53,4 +50,13 @@
             </div>
         {% endif %}
     </div>
+
+
+    {% if message.author == request.user %}
+        <div class="messageAction">
+            <form action="">
+                <button type="submit">x</button>
+            </form>
+        </div>
+    {% endif %}
 </div>

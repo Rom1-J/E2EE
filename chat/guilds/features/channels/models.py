@@ -69,8 +69,26 @@ class Message(models.Model):
 
     attachments = models.ManyToManyField("Attachment", blank=True)
 
+    previous = models.OneToOneField(
+        "self",
+        null=True,
+        blank=True,
+        related_name="previous_message",
+        on_delete=models.SET_NULL,
+    )
+    next = models.OneToOneField(
+        "self",
+        null=True,
+        blank=True,
+        related_name="next_message",
+        on_delete=models.SET_NULL,
+    )
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["created_at"]
 
     # =========================================================================
 
@@ -81,7 +99,7 @@ class Message(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return "from: %s" % (str(self.author),)
+        return "from: %s, uuid: %s" % (str(self.author), str(self.uuid))
 
 
 class Attachment(models.Model):
