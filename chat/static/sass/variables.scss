@@ -5,14 +5,30 @@
 //$color: #fff;
 $background-color: #f1f1f1;
 $color: #000;
+//
+//$anchor-color: #aed4fa;
+$anchor-color: #1e87f0;
 
-$anchor-color: #0047BF;
-
+// nav //
 $nav-background-color: darken($background-color, 5%);
 $nav-border-color: darken($nav-background-color, 5%);
 
+// sidebar //
 $sidebar-background-color: darken($background-color, 5%);
 $sidebar-border-color: darken($sidebar-background-color, 5%);
+
+// Alert // (colors from UiKit)
+$primary-background-color: #d8eafc;
+$primary-color: #1e87f0;
+
+$success-background-color: #edfbf6;
+$success-color: #32d296;
+
+$warning-background-color: #fff6ee;
+$warning-color: #faa05a;
+
+$danger-background-color: #fef4f6;
+$danger-color: #f0506e;
 
 ////////////////////////////////
 // Dimensions //

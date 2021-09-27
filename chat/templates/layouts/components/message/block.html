@@ -3,14 +3,17 @@
 {% load markdown %}
 {% load i18n %}
 {% load humanize %}
+{% load humanize_plus %}
 
 <div
-        class="message
-{% if message.author == request.user %}message-me {% endif %}
-{% if message.previous.author == message.author %}no-radius-top {% endif %}
-{% if message.next.author == message.author %}no-radius-bottom {% endif %}
+        {% with author=message.author %}
+            class="message
+{% if author == request.user %}message-me {% endif %}
+{% if message.same_previous_author %}no-radius-top {% endif %}
+{% if message.same_next_author %}no-radius-bottom {% endif %}
 "
-        id="{{ message.uuid }}">
+        {% endwith %}
+            id="{{ message.uuid }}">
     <img class="messageAvatar"
          src="
 {% if message.author.avatar.url %}
@@ -18,8 +21,7 @@
 {% else %}
 {% static "images/icons/circle_user.svg" %}
 {% endif %}
-"
-         aria-hidden="true" alt="" loading="lazy">
+" alt="" loading="lazy">
     <div class="messageHeader">
         <span class="username">
             {{ message.author }}
@@ -37,25 +39,31 @@
             {{ message.content }}
         </div>
 
-        {% if message.attachments.all %}
-            <div class="attachments">
-                <ul>
-                    {% for attachment in message.attachments.all %}
-                        <li>
-                            <a target="_blank" class="link"
-                               href="{{ attachment.file.url }}">.{{ attachment.extension }} {% trans "file" %}</a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        {% endif %}
+        {% with attachments=message.attachments.all %}
+            {% if attachments %}
+                <div class="attachments">
+                    <ul>
+                        {% for attachment in attachments %}
+                            <li>
+                                <a target="_blank" class="link" href="{{ attachment.file.url }}">
+                                    {{ attachment.filename|bold_extension }} {% trans "file" %}
+                                    <span>({{ attachment.file.size|naturalsize }})</span>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        {% endwith %}
     </div>
 
 
     {% if message.author == request.user %}
         <div class="messageAction">
             <form action="">
-                <button type="submit">x</button>
+                <button type="submit">
+                    x
+                </button>
             </form>
         </div>
     {% endif %}

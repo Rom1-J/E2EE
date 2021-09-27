@@ -1,11 +1,15 @@
-$background-message: #17A4B9;
-$background-message-me: #1BA97F;
+$background-message: $primary-color;
+$background-message-me: $success-color;
 
 
 #messages {
     overflow-x: hidden;
 
     border: 2px solid $background-color;
+
+    * {
+        color: #000;
+    }
 
     .message {
         position: relative;
@@ -33,6 +37,10 @@ $background-message-me: #1BA97F;
             border-left: .5em solid transparent;
             border-right: .5em solid transparent;
             border-bottom: .5em solid transparent;
+        }
+
+        &:hover {
+            background-color: darken($background-message, 2%);
         }
 
         &.no-radius-top {
@@ -81,7 +89,9 @@ $background-message-me: #1BA97F;
             }
 
             &:hover {
-                box-shadow: -1px 0px 0px 0px #000;
+                box-shadow: -2px 0px 0px 0px $danger-color;
+
+                background-color: darken($background-message-me, 2%);
 
                 .messageAction {
                     display: block;
@@ -134,10 +144,6 @@ $background-message-me: #1BA97F;
                     list-style: none;
 
                     li {
-                        a {
-                            color: #000;
-                        }
-
                         &:before {
                             content: "•"
                         }
@@ -155,6 +161,16 @@ $background-message-me: #1BA97F;
             transform: translateY(-50%);
 
             button {
+                background-color: $danger-background-color;
+                color: $danger-color;
+
+                font-weight: bold;
+
+                border: none;
+                border-radius: 50%;
+
+                padding: 0;
+
                 width: 2em;
                 height: 2em;
 

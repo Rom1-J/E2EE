@@ -1,3 +1,4 @@
+import os
 import uuid
 
 from django.db import models
@@ -76,6 +77,8 @@ class Message(models.Model):
         related_name="previous_message",
         on_delete=models.SET_NULL,
     )
+    same_previous_author = models.BooleanField(blank=True, null=True)
+
     next = models.OneToOneField(
         "self",
         null=True,
@@ -83,6 +86,7 @@ class Message(models.Model):
         related_name="next_message",
         on_delete=models.SET_NULL,
     )
+    same_next_author = models.BooleanField(blank=True, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -99,11 +103,21 @@ class Message(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return "from: %s, uuid: %s" % (str(self.author), str(self.uuid))
+        return "from: %s, " \
+               "uuid: %s, " \
+               "same_previous_author: %s, " \
+               "same_next_author: %s" % (
+            str(self.author),
+            str(self.uuid),
+            str(self.same_previous_author),
+            str(self.same_next_author),
+        )
 
 
 class Attachment(models.Model):
     uuid = models.UUIDField()
+
+    filename = models.TextField(null=True, blank=True, default=None)
 
     file = models.FileField(upload_to=rename_file)
 
@@ -118,10 +132,13 @@ class Attachment(models.Model):
         if not self.uuid:
             self.uuid = uuid.uuid1()
 
+        if not self.filename:
+            self.filename = os.path.basename(self.file.name)
+
         super().save(*args, **kwargs)
 
         if cleaned := remove_exif(self.file.path):
             cleaned.save(self.file.path)
 
     def __str__(self):
-        return "file: %d" % (self.file.size,)
+        return "file: %s" % (str(self.uuid),)

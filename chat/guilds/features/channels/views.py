@@ -79,4 +79,5 @@ class GuildChannelDetailView(BaseChannelView):
 
         params["channel"] = channel
 
+        print("pre render")
         return render(request, self.template_name, params)

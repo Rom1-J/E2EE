@@ -79,7 +79,7 @@ class GuildDetailView(BaseGuildView):
         guild = get_guild(guild_id)
 
         latest_channels = Channel.objects.filter(
-            guild=guild, last_message_at__hour__lte=24
+            guild=guild
         ).all()
 
         return render(

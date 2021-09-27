@@ -16,6 +16,13 @@ run:
 gulp:
 	DJANGO_READ_DOT_ENV_FILE=True npm run dev
 
+.PHONY: console
+console: shell
+
+.PHONY: shell
+shell:
+	$(MANAGE_PY) shell
+
 #######################
 # Database
 #######################

@@ -3614,7 +3614,7 @@ h1, h2, h3, h4, h5, h6 {
 .link {
   text-decoration: none; }
   .link, .link * {
-    color: #0047BF; }
+    color: #1e87f0; }
   .link:hover {
     text-decoration: underline; }
 
@@ -4101,12 +4101,14 @@ input, button, textarea {
 #messages {
   overflow-x: hidden;
   border: 2px solid #f1f1f1; }
+  #messages * {
+    color: #000; }
   #messages .message {
     position: relative;
     min-height: 50px;
     margin: .5em 2.5em .5em 1em;
     padding: 1em;
-    background-color: #17A4B9;
+    background-color: #1e87f0;
     border-radius: 0 .5em .5em .5em; }
     #messages .message::before {
       content: "";
@@ -4115,10 +4117,12 @@ input, button, textarea {
       position: absolute;
       top: 0;
       left: -.5em;
-      border-top: 0.5em solid #17A4B9;
+      border-top: 0.5em solid #1e87f0;
       border-left: .5em solid transparent;
       border-right: .5em solid transparent;
       border-bottom: .5em solid transparent; }
+    #messages .message:hover {
+      background-color: #1482ef; }
     #messages .message.no-radius-top {
       margin-top: 0 !important;
       border-top-left-radius: 0 !important;
@@ -4132,7 +4136,7 @@ input, button, textarea {
     #messages .message.message-me {
       margin-left: 2.5em;
       margin-right: 1em;
-      background-color: #1BA97F;
+      background-color: #32d296;
       border-radius: .5em 0 .5em .5em; }
       #messages .message.message-me::before {
         content: none; }
@@ -4143,13 +4147,14 @@ input, button, textarea {
         position: absolute;
         top: 0;
         right: -.5em;
-        border-top: 0.5em solid #1BA97F;
+        border-top: 0.5em solid #32d296;
         border-left: .5em solid transparent;
         border-right: .5em solid transparent;
         border-bottom: .5em solid transparent; }
       #messages .message.message-me:hover {
-        -webkit-box-shadow: -1px 0px 0px 0px #000;
-                box-shadow: -1px 0px 0px 0px #000; }
+        -webkit-box-shadow: -2px 0px 0px 0px #f0506e;
+                box-shadow: -2px 0px 0px 0px #f0506e;
+        background-color: #2dcd91; }
         #messages .message.message-me:hover .messageAction {
           display: block; }
     #messages .message .messageAvatar {
@@ -4180,8 +4185,6 @@ input, button, textarea {
           -webkit-margin-after: 0;
                   margin-block-end: 0;
           list-style: none; }
-          #messages .message .messageContent .attachments ul li a {
-            color: #000; }
           #messages .message .messageContent .attachments ul li:before {
             content: "•"; }
     #messages .message .messageAction {
@@ -4192,6 +4195,12 @@ input, button, textarea {
       -webkit-transform: translateY(-50%);
               transform: translateY(-50%); }
       #messages .message .messageAction button {
+        background-color: #fef4f6;
+        color: #f0506e;
+        font-weight: bold;
+        border: none;
+        border-radius: 50%;
+        padding: 0;
         width: 2em;
         height: 2em; }
 
@@ -4507,6 +4516,10 @@ input, button, textarea {
         opacity: 1; }
       #sidebar .sidebar-body .sidebar-body-channel:hover {
         background-color: #d8d8d8; }
+      #sidebar .sidebar-body .sidebar-body-channel:active, #sidebar .sidebar-body .sidebar-body-channel:focus {
+        -webkit-box-shadow: none;
+                box-shadow: none;
+        background-color: #d2d2d2; }
       #sidebar .sidebar-body .sidebar-body-channel ::before {
         content: "#";
         opacity: .5;
@@ -4620,8 +4633,8 @@ input, button, textarea {
                   justify-content: center;
           position: relative; }
           .sidebar-guildSelector .sidebar-guildSelector-container .links-section .account-settings-link-view div a, .sidebar-guildSelector .sidebar-guildSelector-container .links-section .account-settings-link-view div a * {
-            fill: #0047BF;
-            color: #0047BF; }
+            fill: #1e87f0;
+            color: #1e87f0; }
 
 @media only screen and (max-width: 950px) {
   #sidebar {
@@ -4660,7 +4673,8 @@ input, button, textarea {
           box-sizing: border-box;
   font-family: SF Pro Text, SF Pro Icons, Helvetica Neue, Helvetica, Arial, sans-serif;
   color: #000;
-  fill: #000; }
+  fill: #000;
+  scrollbar-color: rgba(0, 0, 0, 0.5) transparent; }
   *:focus {
     outline: none;
     -webkit-box-shadow: 0 0 0 2px #0070c9;

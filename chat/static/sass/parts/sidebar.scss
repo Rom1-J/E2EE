@@ -113,6 +113,11 @@
                 background-color: darken($sidebar-background-color, 5%);
             }
 
+            &:active, &:focus {
+                box-shadow: none;
+                background-color: darken($sidebar-background-color, 7%);
+            }
+
             ::before {
                 content: "#";
                 opacity: .5;
