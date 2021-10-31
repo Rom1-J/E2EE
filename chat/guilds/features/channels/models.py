@@ -2,43 +2,59 @@ import os
 import uuid
 
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 from chat.users.models import User
 
 from .utils import remove_exif, rename_file
 
 
-class Category(models.Model):
-    name = models.CharField(max_length=50)
-
-    channels = models.ManyToManyField("Channel", blank=True)
-    position = models.PositiveIntegerField(default=0)
-
-    # =========================================================================
-
-    def channels_count(self):
-        return self.channels.count()
-
-    # =========================================================================
-
-    def __str__(self):
-        return "#%s" % (self.name,)
-
-
 class Channel(models.Model):
+    class ChannelType(models.TextChoices):
+        DM = "DM", _("Direct Message")
+        GROUP_DM = "GROUP_DM", _("Group Direct Message")
+
+        TEXT = "TEXT", _("Text")
+        CATEGORY = "CATEGORY", _("Category")
+        NEWS = "NEWS", _("News")
+
     uuid = models.UUIDField()
 
-    name = models.CharField(max_length=50)
-    position = models.PositiveIntegerField(default=0)
+    type = models.CharField(
+        max_length=10,
+        choices=ChannelType.choices,
+    )
 
-    last_message_at = models.DateTimeField(blank=True, null=True, default=None)
+    guild = models.ForeignKey(
+        "Guild",
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+    )
 
-    messages = models.ManyToManyField("Message", related_name="messages")
+    position = models.IntegerField()
+    parent = models.ForeignKey(
+        "self",
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True
+    )
+
+    name = models.TextField(max_length=100)
+    topic = models.TextField(max_length=1024, blank=True, null=True)
+
+    last_message = models.ForeignKey(
+        "Message",
+        on_delete=models.SET_NULL,
+        related_name="last_message",
+        blank=True,
+        null=True
+    )
 
     # =========================================================================
 
-    def messages_count(self):
-        return self.messages.count()
+    def message_count(self):
+        return 42
 
     # =========================================================================
 
@@ -52,13 +68,16 @@ class Channel(models.Model):
         return "#%s - %s" % (self.name, str(self.uuid) or "-1")
 
 
+# =============================================================================
+# =============================================================================
+
+
 class Message(models.Model):
     uuid = models.UUIDField()
 
     channel = models.ForeignKey(
         Channel,
         on_delete=models.CASCADE,
-        related_name="channel",
         blank=True,
         null=True,
     )
@@ -107,11 +126,15 @@ class Message(models.Model):
                "uuid: %s, " \
                "same_previous_author: %s, " \
                "same_next_author: %s" % (
-            str(self.author),
-            str(self.uuid),
-            str(self.same_previous_author),
-            str(self.same_next_author),
-        )
+                   str(self.author),
+                   str(self.uuid),
+                   str(self.same_previous_author),
+                   str(self.same_next_author),
+               )
+
+
+# =============================================================================
+# =============================================================================
 
 
 class Attachment(models.Model):

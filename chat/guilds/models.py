@@ -1,5 +1,4 @@
 import uuid
-from typing import Optional
 
 from PIL import Image
 from django.db import models
@@ -8,51 +7,33 @@ from django.utils.translation import gettext_lazy as _
 
 from chat.users.models import User
 
-from .features.channels.models import Channel, Category
+from .features.channels.models import Channel
 
 
 class Guild(models.Model):
     uuid = models.UUIDField()
 
-    name = models.CharField(_("Guild Name"), max_length=42)
-    avatar = models.ImageField(_("Guild Avatar"))
+    name = models.CharField(_("Guild Name"), max_length=200)
+    avatar = models.ImageField(_("Guild Icon"))
 
     owner = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="owner"
     )
 
     members = models.ManyToManyField(User)
+    channels = models.ManyToManyField(Channel, blank=True, related_name="channels")
 
-    channels = models.ManyToManyField(Channel, blank=True)
-    categories = models.ManyToManyField(Category, blank=True)
+    description = models.TextField(max_length=1024, blank=True, null=True)
 
     # =========================================================================
 
     def get_absolute_url(self):
         return reverse("guild:guild_view", kwargs={"guild_id": str(self.uuid)})
 
-    def get_channel(self, channel_id) -> Optional[Channel]:
-        channels = self.channels
-
-        if category := self.categories.filter(
-            channels__uuid=channel_id
-        ).first():
-            channels = category.channels
-
-        return channels.filter(uuid=channel_id).first()
-
     # =========================================================================
 
     def members_count(self):
         return self.members.count()
-
-    def channels_count(self):
-        return self.categories.count() + sum(
-            [category.channels_count() for category in self.categories.all()]
-        )
-
-    def categories_count(self):
-        return self.categories.count()
 
     # =========================================================================
 

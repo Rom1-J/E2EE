@@ -7,8 +7,6 @@ U
 %chat/templates/users/user_detail.html,5/c/5cfaf706ad68aebd0a285997d95a01b1c0841458
 S
 #chat/templates/users/user_form.html,0/e/0e4121341312da59ba5cff4ff6b0e73324217746
-D
-chat/guilds/admin.py,c/b/cbdba5472699ea5fff2e7427a59bdf903fe026ab
 P
  chat/templates/layouts/base.html,e/5/e5da7743739def483357ee23717045c522dcfeb7
 h
@@ -19,16 +17,12 @@ O
 chat/static/sass/misc/size.scss,0/c/0c7ddac3028a3e4d7d7758c34e23ab1a2eae901c
 Q
 !chat/static/sass/misc/aligns.scss,d/3/d3c95baed02df8fe36fc1136402b19294c90f054
-E
-requirements/base.txt,a/5/a53d00307871abc09608b3e4fdabb0cfc4ae7d9b
 W
 'chat/libs/templatetags/humanize_plus.py,e/6/e69c96bb77fcf3507391dcfe017460f3c3e3b5e2
 X
 (chat/static/images/icons/circle_plus.svg,7/1/710beb2266b3babcf8a315e4692012e33057d270
 N
 chat/templates/guild/home.html,d/3/d31aaf09010102dad391ab45c7b40eb4feb83712
-8
-Makefile,8/3/836efb6e25a091dcb4ff8e1dbb2f0be6a5cbf14c
 Y
 )chat/static/sass/components/messages.scss,0/5/05a0e76041bb4f1a818008647c8cb04ce4bcb168
 Q
