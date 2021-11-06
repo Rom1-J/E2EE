@@ -3,27 +3,11 @@
 COPYING,6/1/6156cd6ac57d8b88e473d9202392ec064b623c93
 9
 	setup.cfg,8/c/8c91c0296909b5ea3c496fde69e9dc44a6c6ae5f
-U
-%chat/templates/users/user_detail.html,5/c/5cfaf706ad68aebd0a285997d95a01b1c0841458
-S
-#chat/templates/users/user_form.html,0/e/0e4121341312da59ba5cff4ff6b0e73324217746
-P
- chat/templates/layouts/base.html,e/5/e5da7743739def483357ee23717045c522dcfeb7
 h
 8chat/templates/layouts/components/message/decryptor.html,a/0/a073b20bc7c45f0182a44f42cc1e537dbae8ea5c
-O
-chat/libs/templatetags/debug.py,f/6/f636cd0d5333242c1e4784d9fe774d2ba62442f9
-O
-chat/static/sass/misc/size.scss,0/c/0c7ddac3028a3e4d7d7758c34e23ab1a2eae901c
-Q
-!chat/static/sass/misc/aligns.scss,d/3/d3c95baed02df8fe36fc1136402b19294c90f054
-W
-'chat/libs/templatetags/humanize_plus.py,e/6/e69c96bb77fcf3507391dcfe017460f3c3e3b5e2
 X
 (chat/static/images/icons/circle_plus.svg,7/1/710beb2266b3babcf8a315e4692012e33057d270
-N
-chat/templates/guild/home.html,d/3/d31aaf09010102dad391ab45c7b40eb4feb83712
-Y
-)chat/static/sass/components/messages.scss,0/5/05a0e76041bb4f1a818008647c8cb04ce4bcb168
-Q
-!chat/templates/guild/details.html,c/1/c1cdf5b6442c62b25bd46fc4357de51a41550d21
+V
+&chat/guilds/features/channels/admin.py,3/c/3c28c8f1edf4b9c8a64ace681ad40658ca72575e
+f
+6chat/templates/account/snippets/already_logged_in.html,4/f/4f3077e89d1e6445d37c9983da76939d69b94362

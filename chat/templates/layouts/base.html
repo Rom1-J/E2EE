@@ -1,4 +1,8 @@
-{% load static i18n compress %}
+{% load static %}
+{% load i18n %}
+{% load compress %}
+{% load uikit %}
+
 {% get_current_language as LANGUAGE_CODE %}
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE }}">
@@ -17,24 +21,16 @@
 
     {% block css %}
         {% compress css %}
+            <link href="{% static 'css/libs/uikit/uikit.min.css' %}" rel="stylesheet">
             <link href="{% static 'css/project.css' %}" rel="stylesheet">
             {% block inline_stylesheet %}{% endblock inline_stylesheet %}
         {% endcompress %}
-        {% if not SHOW_SIDEBAR %}
-            <style>
-                #body {
-                    width: 100%;
-                }
-
-                #content {
-                    border-top: none;
-                }
-            </style>
-        {% endif %}
     {% endblock %}
 
     {% block javascript %}
         {% compress js %}
+            <script defer src="{% static 'js/libs/uikit/uikit.js' %}"></script>
+            <script defer src="{% static 'js/libs/uikit/uikit-icons.js' %}"></script>
             <script defer src="{% static 'js/project.js' %}"></script>
         {% endcompress %}
     {% endblock javascript %}
@@ -42,26 +38,37 @@
 
 <body>
 
-<div id="app">
-    {% block sidebar %}
-        {% if SHOW_SIDEBAR %}
-            {% include 'layouts/parts/sidebar.html' %}
-        {% endif %}
-    {% endblock sidebar %}
+<div id="app" class="uk-flex uk-flex-column uk-height-viewport">
+    {% block navbar %}
+        {% include 'layouts/parts/navbar.html' %}
+    {% endblock navbar %}
 
-    <div id="body">
-        {% block navbar %}
-            {% include 'layouts/parts/navbar.html' %}
-        {% endblock navbar %}
-
-        <div id="content">
-            {% block content %}{% endblock content %}
+    <div class="uk-flex uk-flex-middle uk-animation-fade uk-animation-fast uk-height-1-1">
+        <div class="uk-width-1-1">
+            <div class="uk-container">
+                {% block content %}{% endblock content %}
+            </div>
         </div>
-
-        {% block footer %}
-            {% include 'layouts/parts/footer.html' %}
-        {% endblock footer %}
     </div>
+
+    {% if messages %}
+        <script>
+            window.addEventListener("load", () => {
+                {% for message in messages %}
+                    UIkit.notification({
+                        message: '{{ message }}',
+                        pos: 'top-right',
+                        status: {% if message.tags %} '{{ message.tags|tags_parser  }}'  {% else %}
+                            'primary' {% endif %}
+                    });
+                {% endfor %}
+            })
+        </script>
+    {% endif %}
+
+    {% block footer %}
+        {% include 'layouts/parts/footer.html' %}
+    {% endblock footer %}
 </div>
 
 

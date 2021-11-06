@@ -4,6 +4,7 @@
 
 // Gulp and package
 const {src, dest, parallel, series, watch} = require('gulp')
+const eslint = require('gulp-eslint');
 const pjson = require('./package.json')
 
 // Plugins
@@ -71,6 +72,9 @@ function styles() {
 // Javascript minification
 function scripts() {
     return src(`${paths.js}/project.js`)
+        .pipe(eslint())
+        .pipe(eslint.format())
+        .pipe(eslint.failAfterError())
         .pipe(plumber()) // Checks for errors
         .pipe(uglify()) // Minifies the js
         .pipe(rename({suffix: '.min'}))
@@ -86,7 +90,11 @@ function imgCompression() {
 
 // Run django server
 function runServer(cb) {
-    var cmd = spawn('python', ['manage.py', 'runserver_plus', '0.0.0.0:8000', '--cert-file', 'cert.pem', '--key-file', 'key.pem'], {stdio: 'inherit', env: {...process.env}})
+    var cmd = spawn(
+        'python',
+        ['manage.py', 'runserver', '0.0.0.0:8000'],
+        {stdio: 'inherit', env: {...process.env}}
+    )
     cmd.on('close', function (code) {
         console.log('runServer exited with code ' + code)
         cb(code)
@@ -102,7 +110,7 @@ function initBrowserSync() {
             `${paths.templates}/*.html`
         ], {
             // https://www.browsersync.io/docs/options/#option-proxy
-            proxy: 'https://localhost:8000',
+            proxy: 'http://localhost:8000',
             open: false
         }
     )

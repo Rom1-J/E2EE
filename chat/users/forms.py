@@ -1,8 +1,11 @@
+from typing import List, Optional
+
+from allauth.account.adapter import get_adapter
 from allauth.account.forms import LoginForm as AllauthLoginForm
+from allauth.account.forms import ResetPasswordForm as AllauthResetPasswordForm
+from allauth.account.utils import filter_users_by_email
 from django.contrib.auth import forms as admin_forms
 from django.contrib.auth import get_user_model
-from django.forms.utils import ErrorList
-from django.utils.html import format_html, format_html_join
 from django.utils.translation import gettext_lazy as _
 
 User = get_user_model()
@@ -25,22 +28,17 @@ class UserCreationForm(admin_forms.UserCreationForm):
 # =============================================================================
 
 
-class DivErrorList(ErrorList):
-    def __str__(self):
-        return self.as_divs()
-
-    def as_divs(self):
-        if not self:
-            return ""
-
-        return format_html(
-            "<div>{}</div>",
-            format_html_join("", "<div>{}</div>", ((e,) for e in self)),
-        )
-
-
 class LoginForm(AllauthLoginForm):
     def __init__(self, *args, **kwargs):
-        kwargs["error_class"] = DivErrorList
-
         super().__init__(*args, **kwargs)
+
+
+class ResetPasswordForm(AllauthResetPasswordForm):
+    users: List[Optional[User]]
+
+    def clean_email(self):
+        email = self.cleaned_data["email"]
+        email = get_adapter().clean_email(email)
+        self.users = filter_users_by_email(email, is_active=True)
+
+        return self.cleaned_data["email"]

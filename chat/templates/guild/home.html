@@ -1,56 +1,47 @@
 {% extends "layouts/base.html" %}
 {% load static %}
-{% load good_morning i18n %}
-
-{% block footer %}{% endblock footer %}
-{% block sidebar %}{% endblock sidebar %}
+{% load good_morning %}
+{% load i18n %}
 
 {% block content %}
-    <div id="home">
-        <div class="home-container">
-            <div class="home-hello">
-                <div class="home-hello-avatar">
-                    <i class="svg svg-xlarge" style="--svg-url: url('{% static "images/icons/circle_user.svg" %}')"></i>
-                </div>
-
-                <div class="home-hello-text">
-                    <span>
+    <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid>
+        <div class="uk-width-1-1@m">
+            <div class="uk-margin uk-margin-auto uk-card uk-card-default uk-box-shadow-large uk-text-center">
+                <div class="uk-card-header">
+                    <img class="uk-border-rounded" width="64" height="64"
+                        {% if user.avatar %}
+                         src="{{ user.avatar.url }}"
+                        {% else %}
+                         src="{% static 'images/icons/circle_user.svg' %}"
+                        {% endif %}
+                         alt="Avatar">
+                    <h1 class="uk-card-title">
                         {{ user.username|good_morning }}
-                    </span>
+                    </h1>
+                    <a href="{% url 'users:detail' user %}">{% trans "Account Settings" %}</a>
                 </div>
-
-                <div class="home-hello-settings flex justify-center">
-                    <a class="link icon-right" href="{% url 'users:update' %}">
-                        {% trans "Account Settings" %}
-
-                        <i class="svg svg-small"
-                           style="--svg-url: url('{% static "images/icons/chevron_left.svg" %}')"></i>
-                    </a>
-                </div>
-            </div>
-
-            <div class="container">
-                <div class="row justify-center home-guilds">
-                    <div class="guildSwitcher guildSwitcher-center guildSwitcher-large no-scroll col-12 col-sm-10">
+                <div class="uk-card-body">
+                    <div class="uk-flex-center uk-grid-match uk-text-center" uk-grid>
                         {% for guild in guilds %}
-                            <a href="{% url "guild:guild_view" guild_id=guild.uuid %}" class="guildSwitcher-item-view">
-                                <div class="guildSwitcher-item-content">
-                                    <div class="icon-container">
-                                        <img src="{{ guild.avatar.url }}"
-                                             alt="{{ guild.name }} Icon">
-                                    </div>
-                                    <div class="icon-name">
+                            <a href="{% url "guild:guild_view" guild_id=guild.uuid %}">
+                                <div uk-tooltip="{{ guild.name }}" class="uk-card">
+                                    <div class="uk-card-body uk-flex uk-flex-column uk-padding-remove-vertical">
+                                        <img class="uk-border-circle" loading="lazy"
+                                             width="69" height="69" alt="{{ guild.name }} Icon"
+                                             src="{{ guild.avatar.url }}">
                                         <span>{{ guild.name }}</span>
                                     </div>
                                 </div>
                             </a>
                         {% endfor %}
-                        <a href="{% url 'guild:create' %}" class="guildSwitcher-item-view guildSwitcher-item-view-new"
+
+                        <a title="{% trans 'Create guild' %}" href="{% url 'guild:create' %}"
                            aria-label="{% trans "Create guild" %}">
-                            <div class="guildSwitcher-item-content">
-                                <div class="icon-container">
-                                    <i class="svg svg-large"
-                                       style="--svg-url: url('{% static "images/icons/circle_plus.svg" %}')"></i>
+                            <div uk-tooltip="{% trans 'Create guild' %}" class="uk-card">
+                                <div class="uk-card-body uk-flex uk-flex-column uk-padding-remove-vertical">
+                                    <img class="uk-border-circle" loading="lazy"
+                                         width="69" height="69" alt="{{ guild.name }} Icon"
+                                         src="{% static "images/icons/circle_plus.svg" %}">
                                 </div>
                             </div>
                         </a>

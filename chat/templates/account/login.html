@@ -5,79 +5,73 @@
 {% block title %}{% translate "Sign In" %}{% endblock %}
 
 {% block content %}
-    <form class="height-100vh flex align-center" autocomplete="off" method="post"
-          action="{% url "account_login" %}">
-        {% csrf_token %}
+    <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid>
+        <div class="uk-width-1-1@m">
+            <div class="uk-margin uk-width-large uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large">
+                <h1 class="uk-card-title uk-text-center">{% trans "Sign in" %} - {{ APP_NAME }}</h1>
 
-        {% if redirect_field_value %}
-            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-        {% endif %}
+                <form autocomplete="off" method="post" action="{% url "account_login" %}">
+                    {% csrf_token %}
 
-        <div class="container">
-            <div class="row justify-center">
-                <div class="form margin col-10 col-md-4 text-center">
-                    <a class="flex justify-center margin-bottom" href="https://gnous.eu" target="_blank">
-                        <img class="form-logo" src="{% static "images/gnous.png" %}" alt="Gnous Logo">
-                    </a>
+                    {% if redirect_field_value %}
+                        <input type="hidden" name="{{ redirect_field_name }}"
+                               value="{{ redirect_field_value }}"/>
+                    {% endif %}
 
-                    <fieldset class="fieldset">
-                        <legend class="legend h1">{% trans "Sign in" %} - {{ APP_NAME }}</legend>
-
-                        {% if form.non_field_errors %}
-                            <div class="alert alert-danger margin-bottom text-left">
-                                {{ form.non_field_errors }}
-                            </div>
-                        {% endif %}
-
-                        <div class="form-progressive">
-                            <div class="inline no-radius">
-                                <label for="id_{{ form.login.name }}">
-                                    <input name="{{ form.login.name }}" value="{{ form.data.login }}"
-                                           class="input {% if form.login.errors %}input-error{% endif %}"
-                                           placeholder="{% trans "Username" %}" type="text"
-                                           id="id_{{ form.login.name }}"
-                                           required>
-                                </label>
-                            </div>
-
-                            <div class="inline visible">
-                                <label for="id_{{ form.password.name }}">
-                                    <input name="{{ form.password.name }}"
-                                           class="input input-icon-right {% if form.password.errors %}input-error{% endif %}"
-                                           placeholder="{% trans "Password" %}" type="password"
-                                           id="id_{{ form.password.name }}"
-                                           required>
-                                </label>
-
-                                <button type="submit" class="form-icon form-icon-flip"
-                                        aria-label="{% trans "Create" %}">
-                                    <i class="svg"
-                                       style="--svg-url: url('{% static "images/icons/circle_login.svg" %}')"></i>
-                                </button>
-                            </div>
+                    {% if form.non_field_errors %}
+                        <div class="uk-alert uk-alert-danger">
+                            {{ form.non_field_errors }}
                         </div>
+                    {% endif %}
 
-                        <div class="margin margin-bottom">
-                            <label class="label">
-                                <input type="checkbox" class="checkbox" name="{{ form.remember.name }}"
-                                        {% if form.data.remember %} checked {% endif %}>
-                                <span>{% trans "Keep me signed in" %}</span>
-                            </label>
-                        </div>
+                    <div class="uk-margin">
+                        <label class="uk-inline uk-width-1-1" for="id_{{ form.login.name }}">
+                            <span class="uk-form-icon" uk-icon="icon: mail"></span>
+                            <input name="{{ form.login.name }}"
+                                   value="{{ form.data.login }}"
+                                   class="uk-input uk-form-large
+                                                    {% if form.login.errors %}uk-form-danger{% endif %}"
+                                   placeholder="{% trans "E-mail address" %}" type="text"
+                                   id="id_{{ form.login.name }}"
+                                   required>
+                        </label>
+                    </div>
 
-                        <div class="form-separator"></div>
+                    <div class="uk-margin">
+                        <label class="uk-inline uk-width-1-1" for="id_{{ form.password.name }}">
+                            <span class="uk-form-icon" uk-icon="icon: lock"></span>
+                            <input name="{{ form.password.name }}"
+                                   class="uk-input uk-form-large
+                                                    {% if form.password.errors %}uk-form-danger{% endif %}"
+                                   placeholder="{% trans "Password" %}" type="password"
+                                   id="id_{{ form.password.name }}"
+                                   required>
+                        </label>
+                    </div>
 
-                        <div class="margin flex justify-center">
-                            <a class="link icon-right" target="_blank" href="{% url 'account_reset_password' %}">
-                                {% trans "Forgot password?" %}
+                    <div class="uk-margin">
+                        <label class="uk-inline uk-width-1-1" for="id_{{ form.remember.name }}">
+                            <input name="{{ form.remember.name }}"
+                                   class="uk-checkbox" type="checkbox"
+                                   id="id_{{ form.remember.name }}">
+                            <span>{% trans "Keep me signed in" %}</span>
+                        </label>
+                    </div>
 
-                                <i class="svg svg-medium svg-rotate-45"
-                                   style="--svg-url: url('{% static "images/icons/arrow.svg" %}')"></i>
-                            </a>
-                        </div>
-                    </fieldset>
-                </div>
+                    <div class="uk-margin">
+                        <button class="uk-button uk-button-primary uk-button-large uk-width-1-1">
+                            {% trans "Login" %}
+                        </button>
+                    </div>
+
+                    <div class="uk-text-small uk-text-center">
+                        <a href="{% url 'account_reset_password' %}">{% trans "Forgot password?" %}</a>
+                        <hr class="uk-divider-small">
+                        <a class="uk-text-muted"
+                           href="{% url 'account_reset_password' %}">{% trans "Create an account?" %}</a>
+                    </div>
+                </form>
             </div>
         </div>
-    </form>
+    </div>
 {% endblock %}

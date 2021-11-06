@@ -34,10 +34,7 @@ class Channel(models.Model):
 
     position = models.IntegerField()
     parent = models.ForeignKey(
-        "self",
-        on_delete=models.SET_NULL,
-        blank=True,
-        null=True
+        "self", on_delete=models.SET_NULL, blank=True, null=True
     )
 
     name = models.TextField(max_length=100)
@@ -48,7 +45,7 @@ class Channel(models.Model):
         on_delete=models.SET_NULL,
         related_name="last_message",
         blank=True,
-        null=True
+        null=True,
     )
 
     # =========================================================================
@@ -122,15 +119,18 @@ class Message(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return "from: %s, " \
-               "uuid: %s, " \
-               "same_previous_author: %s, " \
-               "same_next_author: %s" % (
-                   str(self.author),
-                   str(self.uuid),
-                   str(self.same_previous_author),
-                   str(self.same_next_author),
-               )
+        return (
+            "from: %s, "
+            "uuid: %s, "
+            "same_previous_author: %s, "
+            "same_next_author: %s"
+            % (
+                str(self.author),
+                str(self.uuid),
+                str(self.same_previous_author),
+                str(self.same_next_author),
+            )
+        )
 
 
 # =============================================================================

@@ -1,0 +1,391 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-11-06 20:54+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: chat/guilds/apps.py:7
+msgid "Guilds"
+msgstr ""
+
+#: chat/guilds/features/channels/models.py:14
+msgid "Direct Message"
+msgstr ""
+
+#: chat/guilds/features/channels/models.py:15
+msgid "Group Direct Message"
+msgstr ""
+
+#: chat/guilds/features/channels/models.py:17
+msgid "Text"
+msgstr ""
+
+#: chat/guilds/features/channels/models.py:18
+msgid "Category"
+msgstr ""
+
+#: chat/guilds/features/channels/models.py:19
+msgid "News"
+msgstr ""
+
+#: chat/guilds/features/invites/views.py:36
+msgid "Guild joined successfully"
+msgstr ""
+
+#: chat/guilds/features/invites/views.py:57
+msgid "Invitation deleted successfully"
+msgstr ""
+
+#: chat/guilds/models.py:16
+msgid "Guild Name"
+msgstr ""
+
+#: chat/guilds/models.py:17
+msgid "Guild Icon"
+msgstr ""
+
+#: chat/libs/templatetags/good_morning.py:15
+#: chat/users/templatetags/good_morning.py:15
+#, python-brace-format
+msgid "Good evening {username}"
+msgstr ""
+
+#: chat/libs/templatetags/good_morning.py:18
+#: chat/users/templatetags/good_morning.py:18
+#, python-brace-format
+msgid "Good afternoon {username}"
+msgstr ""
+
+#: chat/libs/templatetags/good_morning.py:20
+#: chat/users/templatetags/good_morning.py:20
+#, python-brace-format
+msgid "Good morning {username}"
+msgstr ""
+
+#: chat/pages/apps.py:7
+msgid "Pages"
+msgstr ""
+
+#: chat/templates/account/email.html:4 chat/templates/account/email.html:10
+msgid "E-mail Addresses"
+msgstr ""
+
+#: chat/templates/account/email.html:17
+msgid "The following e-mail addresses are associated with your account:"
+msgstr ""
+
+#: chat/templates/account/email.html:21
+#: chat/templates/account/password_reset.html:37
+msgid "Email"
+msgstr ""
+
+#: chat/templates/account/email.html:22
+msgid "Status"
+msgstr ""
+
+#: chat/templates/account/email.html:40
+msgid "Verified"
+msgstr ""
+
+#: chat/templates/account/email.html:42
+msgid "Unverified"
+msgstr ""
+
+#: chat/templates/account/email.html:45
+msgid "Primary"
+msgstr ""
+
+#: chat/templates/account/email.html:57 chat/templates/account/email.html:70
+msgid "Make Primary"
+msgstr ""
+
+#: chat/templates/account/email.html:60 chat/templates/account/email.html:74
+msgid "Re-send Verification"
+msgstr ""
+
+#: chat/templates/account/email.html:63 chat/templates/account/email.html:78
+msgid "Remove"
+msgstr ""
+
+#: chat/templates/account/email.html:85
+msgid "Warning:"
+msgstr ""
+
+#: chat/templates/account/email.html:86
+msgid ""
+"You currently do not have any e-mail address set up. You should really add "
+"an e-mail address so you can receive notifications, reset your password, etc."
+msgstr ""
+
+#: chat/templates/account/email.html:94
+msgid "Add E-mail Address"
+msgstr ""
+
+#: chat/templates/account/email.html:109 chat/templates/account/login.html:34
+msgid "E-mail address"
+msgstr ""
+
+#: chat/templates/account/email.html:116
+msgid "Add E-mail"
+msgstr ""
+
+#: chat/templates/account/email.html:119 chat/templates/account/email.html:127
+#: chat/templates/users/user_form.html:157
+msgid "Back"
+msgstr ""
+
+#: chat/templates/account/login.html:5
+msgid "Sign In"
+msgstr ""
+
+#: chat/templates/account/login.html:11
+msgid "Sign in"
+msgstr ""
+
+#: chat/templates/account/login.html:46
+msgid "Password"
+msgstr ""
+
+#: chat/templates/account/login.html:57
+msgid "Keep me signed in"
+msgstr ""
+
+#: chat/templates/account/login.html:63
+#: chat/templates/account/password_reset.html:50
+msgid "Login"
+msgstr ""
+
+#: chat/templates/account/login.html:68
+msgid "Forgot password?"
+msgstr ""
+
+#: chat/templates/account/login.html:71
+msgid "Create an account?"
+msgstr ""
+
+#: chat/templates/account/logout.html:5 chat/templates/account/logout.html:11
+#: chat/templates/account/logout.html:34
+msgid "Sign Out"
+msgstr ""
+
+#: chat/templates/account/logout.html:14
+msgid "Are you sure you want to sign out?"
+msgstr ""
+
+#: chat/templates/account/logout.html:39
+msgid "Go back home"
+msgstr ""
+
+#: chat/templates/account/password_reset.html:7
+#: chat/templates/account/password_reset.html:13
+#: chat/templates/account/password_reset_done.html:5
+#: chat/templates/account/password_reset_done.html:12
+msgid "Password Reset"
+msgstr ""
+
+#: chat/templates/account/password_reset.html:19
+msgid ""
+"Forgotten your password? Enter your e-mail address below, and we'll send you "
+"an e-mail allowing you to reset it."
+msgstr ""
+
+#: chat/templates/account/password_reset.html:45
+msgid "Reset My Password"
+msgstr ""
+
+#: chat/templates/account/password_reset_done.html:19
+msgid ""
+"We have sent you an e-mail. Please contact us if you do not receive it "
+"within a few minutes."
+msgstr ""
+
+#: chat/templates/account/password_reset_done.html:23
+msgid "Back to login"
+msgstr ""
+
+#: chat/templates/account/snippets/already_logged_in.html:6
+msgid "Note"
+msgstr ""
+
+#: chat/templates/account/snippets/already_logged_in.html:7
+#, python-format
+msgid "you are already logged in as %(user_display)s."
+msgstr ""
+
+#: chat/templates/guild/channels/details.html:16
+msgid "No message..."
+msgstr ""
+
+#: chat/templates/guild/create.html:6 chat/templates/guild/create.html:54
+msgid "Create"
+msgstr ""
+
+#: chat/templates/guild/create.html:13
+#: chat/templates/layouts/parts/sidebar.html:67
+msgid "Create a guild"
+msgstr ""
+
+#: chat/templates/guild/create.html:46
+msgid "Guild name"
+msgstr ""
+
+#: chat/templates/guild/create.html:60
+msgid ""
+"The group is already created? Then please join in by following its "
+"invitation link."
+msgstr ""
+
+#: chat/templates/guild/details.html:8
+msgid "Lastest messages"
+msgstr ""
+
+#: chat/templates/guild/details.html:14
+msgid "Channel"
+msgstr ""
+
+#: chat/templates/guild/details.html:15
+msgid "Last message"
+msgstr ""
+
+#: chat/templates/guild/details.html:16
+msgid "Messages"
+msgstr ""
+
+#: chat/templates/guild/details.html:36
+msgid "No result..."
+msgstr ""
+
+#: chat/templates/guild/home.html:14
+msgid "Account Settings"
+msgstr ""
+
+#: chat/templates/guild/home.html:33 chat/templates/guild/home.html:34
+msgid "Create guild"
+msgstr ""
+
+#: chat/templates/guild/invite.html:7
+msgid "Invite"
+msgstr ""
+
+#: chat/templates/guild/invite.html:28
+msgid "'s invite"
+msgstr ""
+
+#: chat/templates/guild/invite.html:29
+msgid "Uses:"
+msgstr ""
+
+#: chat/templates/guild/invite.html:52
+msgid "Delete"
+msgstr ""
+
+#: chat/templates/guild/join.html:7 chat/templates/guild/join.html:40
+msgid "Join"
+msgstr ""
+
+#: chat/templates/guild/join.html:14
+msgid "Join a guild"
+msgstr ""
+
+#: chat/templates/guild/join.html:46
+msgid ""
+"The group is not created? Then please create it in by following this link."
+msgstr ""
+
+#: chat/templates/layouts/components/message/block.html:49
+msgid "file"
+msgstr ""
+
+#: chat/templates/layouts/parts/footer.html:10
+msgid "Upload"
+msgstr ""
+
+#: chat/templates/layouts/parts/footer.html:17
+msgid "Message"
+msgstr ""
+
+#: chat/templates/layouts/parts/footer.html:23
+msgid "Send"
+msgstr ""
+
+#: chat/templates/layouts/parts/sidebar.html:37
+msgid "Edit"
+msgstr ""
+
+#: chat/templates/users/user_detail.html:6
+msgid "Profile"
+msgstr ""
+
+#: chat/templates/users/user_detail.html:44
+msgid "Edit personal data"
+msgstr ""
+
+#: chat/templates/users/user_detail.html:48
+msgid "Edit e-mail"
+msgstr ""
+
+#: chat/templates/users/user_form.html:6 chat/templates/users/user_form.html:13
+msgid "Personal data"
+msgstr ""
+
+#: chat/templates/users/user_form.html:41
+msgid "Username"
+msgstr ""
+
+#: chat/templates/users/user_form.html:65
+msgid "First name"
+msgstr ""
+
+#: chat/templates/users/user_form.html:89
+msgid "Last name"
+msgstr ""
+
+#: chat/templates/users/user_form.html:110
+msgid "Choose an avatar"
+msgstr ""
+
+#: chat/templates/users/user_form.html:154
+msgid "Save"
+msgstr ""
+
+#: chat/users/admin.py:19
+msgid "Personal info"
+msgstr ""
+
+#: chat/users/admin.py:30
+msgid "Permissions"
+msgstr ""
+
+#: chat/users/admin.py:41
+msgid "Important dates"
+msgstr ""
+
+#: chat/users/apps.py:7
+msgid "Users"
+msgstr ""
+
+#: chat/users/forms.py:24 chat/users/tests/test_forms.py:40
+msgid "This username has already been taken."
+msgstr ""
+
+#: chat/users/models.py:15
+msgid "User's email"
+msgstr ""
+
+#: chat/users/views.py:20
+msgid "Information successfully updated"
+msgstr ""

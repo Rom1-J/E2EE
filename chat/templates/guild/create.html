@@ -6,65 +6,62 @@
 {% block title %}{{ APP_NAME }} - {% trans 'Create' %}{% endblock %}
 
 {% block content %}
-    <form class="height-100vh flex align-center"
-          autocomplete="off" method="post"
-          action="{% url 'guild:create' %}" enctype="multipart/form-data">
+    <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid>
+        <div class="uk-width-1-1@m">
+            <div
+                class="uk-margin uk-width-large uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large">
+                <h1 class="uk-card-title uk-text-center">{% trans "Create a guild" %}</h1>
 
-        {% csrf_token %}
-        {% if redirect_field_value %}
-            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-        {% endif %}
+                <form autocomplete="off" method="post" action="{% url 'guild:create' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
 
-        <div class="container">
-            <div class="row justify-center">
-                <div class="form margin col-10 col-md-4 text-center">
-                    <div class="flex justify-center margin-bottom">
-                        <label class="form-logo {% if form.avatar.errors %} input-error {% endif %}" for="id_{{ form.avatar.name }}" tabindex="1">
-                            <i class="svg svg-large"
-                               style="--svg-url: url('{% static "images/icons/image_upload.svg" %}')"></i>
-                            <input style="display: none" type="file" id="id_{{ form.avatar.name }}"
-                                   name="{{ form.avatar.name }}">
+                    {% if redirect_field_value %}
+                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                    {% endif %}
+
+                    {% if form.non_field_errors %}
+                        <div class="uk-alert uk-alert-danger">
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
+
+                    <div class="uk-margin">
+                        <label class="uk-inline uk-flex uk-flex-center uk-width-1-1" for="id_{{ form.avatar.name }}"
+                               uk-form-custom>
+                            <input type="file" name="{{ form.avatar.name }}">
+                            <button
+                                class="uk-button uk-button-default {% if form.avatar.errors %} uk-button-danger {% endif %}"
+                                type="button" tabindex="-1">
+                                <span uk-icon="icon: camera"></span>
+                            </button>
                         </label>
                     </div>
 
-                    <fieldset class="fieldset">
-                        <legend class="legend h1">{% trans "Create a guild" %}</legend>
+                    <div class="uk-margin">
+                        <label class="uk-inline uk-width-1-1" for="id_{{ form.name.name }}">
+                            <span class="uk-form-icon" uk-icon="icon: hashtag"></span>
+                            <input name="{{ form.name.name }}"
+                                   class="uk-input uk-form-large
+                                                    {% if form.name.errors %}uk-form-danger{% endif %}"
+                                   placeholder="{% trans "Guild name" %}" type="text"
+                                   id="id_{{ form.name.name }}"
+                                   required>
+                        </label>
+                    </div>
 
-                        {% if form.non_field_errors %}
-                            <div class="alert alert-danger margin-bottom">
-                                {{ form.non_field_errors }}
-                            </div>
-                        {% endif %}
+                    <div class="uk-margin">
+                        <button class="uk-button uk-button-primary uk-button-large uk-width-1-1">
+                            {% trans "Create" %}
+                        </button>
+                    </div>
 
-                        <div class="form-progressive">
-                            <div class="inline">
-                                <label for="id_{{ form.name.name }}">
-                                    <input class="input input-icon-right {% if form.name.errors %} input-error {% endif %}"
-                                           type="text" name="{{ form.name.name }}"
-                                           placeholder="{{ form.name.label }}"
-                                           required id="id_{{ form.name.name }}">
-                                </label>
-
-                                <button type="submit" class="form-icon form-icon-flip"
-                                        aria-label="{% trans "Create" %}">
-                                    <i class="svg" style="--svg-url: url('{% static "images/icons/circle_plus.svg" %}')"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="margin form-separator"></div>
-
-                        <div class="margin flex justify-center">
-                            <a class="link icon-right" href="{% url 'guild:invite_empty_join' %}">
-                                {% trans "The group is already created? Then please join in by following its invitation link." %}
-
-                                <i class="svg svg-medium svg-rotate-45"
-                                   style="--svg-url: url('{% static "images/icons/arrow.svg" %}')"></i>
-                            </a>
-                        </div>
-                    </fieldset>
-                </div>
+                    <div class="uk-text-small uk-text-center">
+                        <a class="link icon-right" href="{% url 'guild:join' %}">
+                            {% trans "The group is already created? Then please join in by following its invitation link." %}
+                        </a>
+                    </div>
+                </form>
             </div>
         </div>
-    </form>
+    </div>
 {% endblock %}

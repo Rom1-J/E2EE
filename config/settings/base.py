@@ -38,7 +38,7 @@ USE_TZ = True
 LOCALE_PATHS = [str(ROOT_DIR / "locale")]
 
 LANGUAGES = [
-    ("fr", "Français"),
+    ("fr", "Français (beta)"),
     ("en", "English"),
 ]
 
@@ -77,6 +77,7 @@ THIRD_PARTY_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
+    "corsheaders",
 ]
 
 LOCAL_APPS = [
@@ -135,6 +136,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#middleware
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -274,9 +276,9 @@ ACCOUNT_ALLOW_REGISTRATION = env.bool(
     "DJANGO_ACCOUNT_ALLOW_REGISTRATION", True
 )
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
-ACCOUNT_AUTHENTICATION_METHOD = "username"
+ACCOUNT_AUTHENTICATION_METHOD = "email"
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
-ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_EMAIL_REQUIRED = True
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 ACCOUNT_EMAIL_VERIFICATION = "none"
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
@@ -296,6 +298,11 @@ APP_NAME = "E2EE Chat"
 ACCOUNT_USERNAME_VALIDATORS = (
     "chat.users.validators.custom_username_validators"
 )
-ACCOUNT_FORMS = {"login": "chat.users.forms.LoginForm"}
+ACCOUNT_FORMS = {
+    "login": "chat.users.forms.LoginForm",
+    "reset_password": "chat.users.forms.ResetPasswordForm",
+}
 
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
+
+CORS_ALLOWED_ORIGINS = ["http://127.0.0.1:8000", "http://127.0.0.1:3000"]

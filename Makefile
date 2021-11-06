@@ -23,6 +23,10 @@ console: shell
 shell:
 	$(MANAGE_PY) shell
 
+.PHONY: manage
+manage:
+	$(MANAGE_PY) $(ARGS)
+
 #######################
 # Database
 #######################

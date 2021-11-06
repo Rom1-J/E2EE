@@ -16,22 +16,6 @@ from .mixins import OwnsInvitationMixin
 template_path += "invite/"
 
 
-class GuildJoinEmptyInviteView(LoginRequiredMixin, View):
-    template_name = template_path + "join.html"
-
-    def get(self, request: WSGIRequest) -> HttpResponse:
-        return render(request, self.template_name)
-
-    # noinspection PyMethodMayBeStatic
-    def post(self, request: WSGIRequest) -> HttpResponse:
-        key = request.POST.get("invite_key", "-1").rstrip("/").split("/")[-1]
-
-        return redirect("guild:invite_join", invite_key=key)
-
-
-# =============================================================================
-
-
 class GuildJoinInviteView(LoginRequiredMixin, View):
     def get(self, request: WSGIRequest, invite_key: str) -> HttpResponse:
         # pylint: disable=superfluous-parens

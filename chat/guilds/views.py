@@ -60,6 +60,22 @@ class GuildCreateView(LoginRequiredMixin, View):
 
 
 # =============================================================================
+
+
+class GuildJoinView(LoginRequiredMixin, View):
+    template_name = template_path + "join.html"
+
+    def get(self, request: WSGIRequest) -> HttpResponse:
+        return render(request, self.template_name)
+
+    # noinspection PyMethodMayBeStatic
+    def post(self, request: WSGIRequest) -> HttpResponse:
+        key = request.POST.get("invite_key", "-1").rstrip("/").split("/")[-1]
+
+        return redirect("guild:invite_join", invite_key=key)
+
+
+# =============================================================================
 # Guild Routes
 # =============================================================================
 
@@ -78,9 +94,7 @@ class GuildDetailView(BaseGuildView):
         guilds = Guild.objects.filter(members__in=[request.user])
         guild = get_guild(guild_id)
 
-        latest_channels = Channel.objects.filter(
-            guild=guild
-        ).all()
+        latest_channels = Channel.objects.filter(guild=guild).all()
 
         return render(
             request,

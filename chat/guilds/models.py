@@ -21,7 +21,9 @@ class Guild(models.Model):
     )
 
     members = models.ManyToManyField(User)
-    channels = models.ManyToManyField(Channel, blank=True, related_name="channels")
+    channels = models.ManyToManyField(
+        Channel, blank=True, related_name="channels"
+    )
 
     description = models.TextField(max_length=1024, blank=True, null=True)
 
@@ -39,7 +41,7 @@ class Guild(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.uuid:
-            self.uuid = uuid.uuid1()
+            self.uuid = uuid.uuid4()
 
         super().save(*args, **kwargs)
 

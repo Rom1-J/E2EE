@@ -6,6 +6,7 @@ from .features.invites.urls import urlpatterns as invites_routes
 from .views import (
     GuildHomeView,
     GuildCreateView,
+    GuildJoinView,
     GuildDetailView,
     GuildInvitesView,
     GuildMembersView,
@@ -15,6 +16,7 @@ app_name = "guild"
 urlpatterns = [
     path("", view=GuildHomeView.as_view(), name="home"),
     path("create/", view=GuildCreateView.as_view(), name="create"),
+    path("join/", view=GuildJoinView.as_view(), name="join"),
 ]
 
 # Guild routes

@@ -22,7 +22,9 @@ def on_message_saved(
                 instance.previous = previous
                 previous.next = instance
 
-                instance.same_previous_author = previous.author == instance.author
+                instance.same_previous_author = (
+                    previous.author == instance.author
+                )
                 previous.same_next_author = previous.author == instance.author
 
                 previous.save()

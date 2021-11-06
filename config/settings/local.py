@@ -29,8 +29,11 @@ CACHES = {
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
 EMAIL_BACKEND = env(
     "DJANGO_EMAIL_BACKEND",
-    default="django.core.mail.backends.console.EmailBackend",
+    default="django.core.mail.backends.smtp.EmailBackend",
 )
+
+EMAIL_HOST = "127.0.0.1"
+EMAIL_PORT = 1025
 
 # WhiteNoise
 # ------------------------------------------------------------------------------

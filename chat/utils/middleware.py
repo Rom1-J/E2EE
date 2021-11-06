@@ -1,11 +1,14 @@
 import re
 
 from django.conf import settings
+from django.core.handlers.wsgi import WSGIRequest
 from django.utils import translation
 from django.utils.deprecation import MiddlewareMixin
 
-
 # https://github.com/martinsvoboda/django-template-minifying-loader/blob/master/template_minifying_loader/utils.py
+from rich import inspect
+
+
 def strip_spaces_in_template(template_source):
     """
     Default function used to preprocess templates.
@@ -78,10 +81,10 @@ class SpacelessMiddleware(MiddlewareMixin):
 
 class ForceDefaultLanguageMiddleware(MiddlewareMixin):
     # pylint: disable=no-self-use
-    def process_request(self, request):
-        if "django_language" not in request.COOKIES.keys():
-            request.LANG = getattr(
-                settings, "LANGUAGE_CODE", settings.LANGUAGE_CODE
-            )
-            translation.activate(request.LANG)
-            request.LANGUAGE_CODE = request.LANG
+    def process_response(self, request: WSGIRequest, response: WSGIRequest):
+        response.LANG = getattr(request.user, "language", settings.LANGUAGE_CODE)
+
+        translation.activate(response.LANG)
+        response.LANGUAGE_CODE = response.LANG
+
+        return response

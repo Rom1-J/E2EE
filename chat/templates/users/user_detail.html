@@ -1,34 +1,57 @@
 {% extends "layouts/base.html" %}
+{% load debug %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}User: {{ object.username }}{% endblock %}
+{% block title %}{% trans "Profile" %}{% endblock %}
 
 {% block content %}
-<div class="container">
+    <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid>
+        <div class="uk-width-1-1@m">
+            <div class="uk-margin uk-margin-auto uk-card uk-card-default uk-box-shadow-large">
+                {% if object.is_staff %}
+                    <div class="uk-card-badge uk-label">STAFF</div>
+                {% endif %}
 
-  <div class="row">
-    <div class="col-sm-12">
-
-      <h2>{{ object.username }}</h2>
-      {% if object.name %}
-        <p>{{ object.name }}</p>
-      {% endif %}
+                <div class="uk-card-header">
+                    <div class="uk-grid-small uk-flex-middle" uk-grid>
+                        <div class="uk-width-auto">
+                            <img class="uk-border-rounded" width="40" height="40"
+                                {% if object.avatar %}
+                                 src="{{ object.avatar.url }}"
+                                {% else %}
+                                 src="{% static 'images/icons/circle_user.svg' %}"
+                                {% endif %}
+                                 alt="Avatar">
+                        </div>
+                        <div class="uk-width-expand">
+                            <h3 class="uk-card-title uk-margin-remove-bottom">{{ object.username }}</h3>
+                            <p class="uk-text-meta uk-margin-remove-top">
+                                <time datetime="{{ object.date_joined.isoformat }}">{{ object.date_joined }}</time>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-card-body">
+                    {% if object.bio %}
+                        {{ object.bio }}
+                    {% else %}
+                        <i>{% trans "No bio provided..." %}</i>
+                    {% endif %}
+                </div>
+                {% if object == request.user %}
+                    <div class="uk-card-footer">
+                        <a class="uk-width-1-1 uk-width-auto@s uk-button uk-button-default"
+                           href="{% url 'users:update' %}" role="button">
+                            {% trans 'Edit personal data' %}
+                        </a>
+                        <a class="uk-width-1-1 uk-width-auto@s uk-button uk-button-default"
+                           href="{% url 'account_email' %}" role="button">
+                            {% trans 'Edit e-mail' %}
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
     </div>
-  </div>
-
-{% if object == request.user %}
-<!-- Action buttons -->
-<div class="row">
-
-  <div class="col-sm-12">
-    <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">My Info</a>
-    <a class="btn btn-primary" href="{% url 'account_email' %}" role="button">E-Mail</a>
-    <!-- Your Stuff: Custom user template urls -->
-  </div>
-
-</div>
-<!-- End Action buttons -->
-{% endif %}
-
-</div>
 {% endblock content %}
