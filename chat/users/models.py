@@ -16,13 +16,13 @@ class User(AbstractUser):
 
     bio = models.TextField(max_length=1000, blank=True, null=True)
 
-    first_name = None
-    last_name = None
+    first_name = None  # type: ignore
+    last_name = None  # type: ignore
 
     language = models.CharField(
         max_length=10,
         choices=settings.LANGUAGES,
-        default=settings.LANGUAGE_CODE
+        default=settings.LANGUAGE_CODE,
     )
 
     # =========================================================================
@@ -62,5 +62,6 @@ class User(AbstractUser):
 
     def __str__(self):
         return "%s" % (self.username if self.username else self.uuid)
+
 
 # =============================================================================

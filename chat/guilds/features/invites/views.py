@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.handlers.wsgi import WSGIRequest
 from django.db.models import Q
 from django.http import HttpResponse, Http404
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.views import View
 from django.utils.translation import gettext as _
 
@@ -28,7 +28,7 @@ class GuildJoinInviteView(LoginRequiredMixin, View):
             return redirect("guild:guild_details", guild_id=guild.uuid)
 
         invite.uses += 1
-        guild.members.add(self.request.user)  # type: ignore
+        guild.members.add(self.request.user)
         guild.save()
         invite.save()
 
@@ -36,7 +36,7 @@ class GuildJoinInviteView(LoginRequiredMixin, View):
             request, messages.INFO, _("Guild joined successfully")
         )
 
-        return redirect("guild:guild_view", guild_id=guild.uuid)
+        return redirect("guild:guild_details", guild_id=guild.uuid)
 
 
 # =============================================================================
@@ -57,6 +57,6 @@ class GuildDeleteInviteView(OwnsInvitationMixin, View):
                 request, messages.INFO, _("Invitation deleted successfully")
             )
 
-            return redirect("guild:guild_view", guild_id=guild_id)
+            return redirect("guild:guild_details", guild_id=guild_id)
 
         raise Http404()

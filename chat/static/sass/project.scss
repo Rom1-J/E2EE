@@ -1,4 +1,14 @@
 body {
-    background-color: #f0f9ff;
+    background-color: #fafafa;
     min-height: 100vh;
+}
+
+.uk-card-default {
+    border-radius: 5px;
+    background: #fafafa;
+
+    box-shadow: 5px 5px 10px darken(#fafafa, 5%),
+    -5px -5px 10px lighten(#fafafa, 5%);
+
+    outline: 1px solid lighten(#fafafa, 5%);
 }

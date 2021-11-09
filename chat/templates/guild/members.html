@@ -1,0 +1,94 @@
+{% extends "layouts/base.html" %}
+{% load debug %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% block title %}{{ guild.name }} | {% trans "Members" %} - {{ APP_NAME }}{% endblock %}
+
+{% block content %}
+    <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid>
+        <div class="uk-width-1-1@m">
+            <div class="uk-margin uk-width-1 uk-margin-auto uk-card uk-card-default">
+                <div class="uk-card-body">
+                    <h1 class="uk-card-title uk-text-center">
+                        {% trans "Members" %}
+                    </h1>
+
+                    <form action="{% url 'guild:guild_members' guild.uuid %}" method="post">
+                        {% csrf_token %}
+
+                        <div class="uk-overflow-auto uk-margin-bottom">
+                            <table class="uk-table uk-table-striped">
+                                <caption>{{ guild.members_count }} {% trans 'members' %}</caption>
+                                <thead>
+                                <tr>
+                                    <th scope="col" class="uk-table-shrink"></th>
+                                    <th scope="col" class="uk-table-expand">{% trans "Name" %}</th>
+                                    <th scope="col" class="uk-width-medium">{% trans "Created at" %}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for value, label in form.members.field.choices %}
+                                    <tr>
+                                        <td>
+                                            <input id="user_checkbox_{{ value }}" type="checkbox"
+                                                   name="{{ form.members.name }}" value="{{ value }}"
+                                                   {% if value.instance == request.user %}disabled{% endif %}>
+                                        </td>
+                                        <td>
+                                            <label for="user_checkbox_{{ value }}">
+                                                <a href="{% url 'users:detail' value.instance %}" target="_blank">
+                                                    {{ label }}
+                                                    {% if value.instance == request.user %}
+                                                        <i class="uk-text-muted">({% trans "you" %})</i>
+                                                    {% endif %}
+                                                </a>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <label for="user_checkbox_{{ value }}">
+                                                <time datetime="{{ value.instance.date_joined.isoformat }}">
+                                                    {{ value.instance.date_joined }}
+                                                </time>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                            {% if form.members.errors %}
+                                <ul class="uk-list uk-margin-remove uk-list-disc uk-list-collapse">
+                                    {% for error in form.members.errors %}
+                                        <li class="uk-text-danger">{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                            {% if form.action.errors %}
+                                <ul class="uk-list uk-margin-remove uk-list-disc uk-list-collapse">
+                                    {% for error in form.action.errors %}
+                                        <li class="uk-text-danger">{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+
+                        <div class="uk-margin uk-flex uk-flex-between">
+                            <div class="uk-button-group">
+                                <button class="uk-button uk-button-primary" type="submit" value="kick" name="{{ form.action.name }}">
+                                    {% trans 'Kick' %}
+                                </button>
+                                <button disabled class="uk-button uk-button-danger" type="submit" value="ban" name="{{ form.action.name }}">
+                                    {% trans 'Ban' %}
+                                </button>
+                            </div>
+
+                            <a class="uk-button uk-button-default" href="{% url 'guild:guild_settings' guild.uuid %}">
+                                {% trans "Back" %}
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

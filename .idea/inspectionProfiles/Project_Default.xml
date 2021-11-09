@@ -137,6 +137,7 @@
           <option value="_importlib_modulespec.ModuleType.HAS_MODELS" />
           <option value="_importlib_modulespec.ModuleType.extra" />
           <option value="setup.setuptools" />
+          <option value="object.dispatch" />
         </list>
       </option>
     </inspection_tool>

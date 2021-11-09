@@ -13,6 +13,7 @@ def remove_exif(image_input: str):
 
     original = ImageOps.exif_transpose(original)
 
+    # noinspection PyTypeChecker
     cleaned = Image.new(original.mode, original.size)
     cleaned.putdata(list(original.getdata()))
 

@@ -21,6 +21,7 @@ class Guild(models.Model):
     )
 
     members = models.ManyToManyField(User)
+    bans = models.ManyToManyField(User, related_name="bans")
     channels = models.ManyToManyField(
         Channel, blank=True, related_name="channels"
     )
@@ -30,7 +31,9 @@ class Guild(models.Model):
     # =========================================================================
 
     def get_absolute_url(self):
-        return reverse("guild:guild_view", kwargs={"guild_id": str(self.uuid)})
+        return reverse(
+            "guild:guild_details", kwargs={"guild_id": str(self.uuid)}
+        )
 
     # =========================================================================
 

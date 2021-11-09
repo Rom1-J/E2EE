@@ -5,15 +5,14 @@ from django.core.handlers.wsgi import WSGIRequest
 from django.utils import translation
 from django.utils.deprecation import MiddlewareMixin
 
-# https://github.com/martinsvoboda/django-template-minifying-loader/blob/master/template_minifying_loader/utils.py
-from rich import inspect
-
 
 def strip_spaces_in_template(template_source):
     """
     Default function used to preprocess templates.
     To use Your own stripping function do not change this function, use
     **settings.TEMPLATE_MINIFIER_STRIP_FUNCTION property**!
+
+    https://github.com/martinsvoboda/django-template-minifying-loader/blob/master/template_minifying_loader/utils.py
     """
 
     # remove comments
@@ -82,9 +81,13 @@ class SpacelessMiddleware(MiddlewareMixin):
 class ForceDefaultLanguageMiddleware(MiddlewareMixin):
     # pylint: disable=no-self-use
     def process_response(self, request: WSGIRequest, response: WSGIRequest):
-        response.LANG = getattr(request.user, "language", settings.LANGUAGE_CODE)
+        # response.LANG should theoretically exist
 
-        translation.activate(response.LANG)
-        response.LANGUAGE_CODE = response.LANG
+        response.LANG = getattr(  # type: ignore
+            request.user, "language", settings.LANGUAGE_CODE
+        )
+
+        translation.activate(response.LANG)  # type: ignore
+        response.LANGUAGE_CODE = response.LANG  # type: ignore
 
         return response

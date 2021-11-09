@@ -10,6 +10,7 @@ from .views import (
     GuildDetailView,
     GuildInvitesView,
     GuildMembersView,
+    GuildSettingsView,
 )
 
 app_name = "guild"
@@ -22,7 +23,9 @@ urlpatterns = [
 # Guild routes
 urlpatterns += [
     path(
-        "<uuid:guild_id>/", view=GuildDetailView.as_view(), name="guild_view"
+        "<uuid:guild_id>/",
+        view=GuildDetailView.as_view(),
+        name="guild_details",
     ),
     path(
         "<uuid:guild_id>/members/",
@@ -33,6 +36,11 @@ urlpatterns += [
         "<uuid:guild_id>/invites/",
         view=GuildInvitesView.as_view(),
         name="guild_invites",
+    ),
+    path(
+        "<uuid:guild_id>/settings/",
+        view=GuildSettingsView.as_view(),
+        name="guild_settings",
     ),
 ]
 

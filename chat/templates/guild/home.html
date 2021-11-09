@@ -6,7 +6,7 @@
 {% block content %}
     <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid>
         <div class="uk-width-1-1@m">
-            <div class="uk-margin uk-margin-auto uk-card uk-card-default uk-box-shadow-large uk-text-center">
+            <div class="uk-margin uk-margin-auto uk-card uk-card-default uk-text-center">
                 <div class="uk-card-header">
                     <img class="uk-border-rounded" width="64" height="64"
                         {% if user.avatar %}
@@ -23,10 +23,10 @@
                 <div class="uk-card-body">
                     <div class="uk-flex-center uk-grid-match uk-text-center" uk-grid>
                         {% for guild in guilds %}
-                            <a href="{% url "guild:guild_view" guild_id=guild.uuid %}">
+                            <a href="{% url "guild:guild_details" guild_id=guild.uuid %}">
                                 <div uk-tooltip="{{ guild.name }}" class="uk-card">
-                                    <div class="uk-card-body uk-flex uk-flex-column uk-padding-remove-vertical">
-                                        <img class="uk-border-circle" loading="lazy"
+                                    <div class="uk-card-body uk-flex uk-flex-column uk-flex-middle uk-padding-remove-vertical">
+                                        <img class="uk-border-rounded" loading="lazy"
                                              width="69" height="69" alt="{{ guild.name }} Icon"
                                              src="{{ guild.avatar.url }}">
                                         <span>{{ guild.name }}</span>

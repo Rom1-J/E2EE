@@ -1,11 +1,14 @@
 from django import forms
+from django.contrib.auth import get_user_model
+from django.utils.translation import ugettext_lazy as _
+
 
 from .models import Guild
 
+User = get_user_model()
 
-class GuildChangeForm(forms.Form):
-    class Meta:
-        model = Guild
+
+# =============================================================================
 
 
 class GuildCreationForm(forms.ModelForm):
@@ -27,3 +30,45 @@ class GuildCreationForm(forms.ModelForm):
             self.save_m2m()
 
         return instance
+
+
+# =============================================================================
+
+
+class GuildChangeForm(forms.ModelForm):
+    class Meta:
+        model = Guild
+
+        fields = ["name", "avatar"]
+
+    def clean_field(self):
+        data = self.cleaned_data["avatar"]
+
+        if not data:
+            data = self.instance.avatar
+
+        return data
+
+
+# =============================================================================
+
+
+class GuildMembersForm(forms.ModelForm):
+    action = forms.ChoiceField(
+        choices=(("kick", _("Kick")), ("ban", _("Ban")))
+    )
+
+    class Meta:
+        model = Guild
+
+        fields = ["members"]
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        members = cleaned_data.get("members", [])
+
+        if self.instance.owner in members:
+            self.add_error(
+                "members", _("The guild owner cannot kick nor ban.")
+            )

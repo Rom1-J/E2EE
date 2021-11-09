@@ -75,7 +75,7 @@ class GuildChannelDetailView(BaseChannelView):
         channel = params["guild"].get_channel(channel_id)
 
         if not channel:
-            return redirect("guild:guild_view", guild_id=str(guild_id))
+            return redirect("guild:guild_details", guild_id=str(guild_id))
 
         params["channel"] = channel
 

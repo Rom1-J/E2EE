@@ -38,14 +38,20 @@
 
 <body>
 
-<div id="app" class="uk-flex uk-flex-column uk-height-viewport">
+<div id="app" class="uk-flex uk-flex-column uk-height-viewport dark">
     {% block navbar %}
         {% include 'layouts/parts/navbar.html' %}
     {% endblock navbar %}
 
-    <div class="uk-flex uk-flex-middle uk-animation-fade uk-animation-fast uk-height-1-1">
-        <div class="uk-width-1-1">
-            <div class="uk-container">
+    <div class="uk-animation-fade uk-animation-fast uk-flex-1 {% if SHOW_SIDEBAR %}uk-padding-small{% else %}uk-padding-large{% endif %}">
+        <div {% if SHOW_SIDEBAR %} class="uk-grid-small" uk-grid {% else %} class="uk-container" {% endif %}>
+            {% if SHOW_SIDEBAR %}
+                <div class="uk-width-1-1 uk-width-1-6@l">
+                    {% include 'layouts/parts/sidebar.html' %}
+                </div>
+            {% endif %}
+
+            <div class="uk-width-1-1 {% if SHOW_SIDEBAR %}uk-width-expand@l {% endif %}">
                 {% block content %}{% endblock content %}
             </div>
         </div>

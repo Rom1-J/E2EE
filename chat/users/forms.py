@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List
 
 from allauth.account.adapter import get_adapter
 from allauth.account.forms import LoginForm as AllauthLoginForm
@@ -29,12 +29,11 @@ class UserCreationForm(admin_forms.UserCreationForm):
 
 
 class LoginForm(AllauthLoginForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    ...
 
 
 class ResetPasswordForm(AllauthResetPasswordForm):
-    users: List[Optional[User]]
+    users: List
 
     def clean_email(self):
         email = self.cleaned_data["email"]

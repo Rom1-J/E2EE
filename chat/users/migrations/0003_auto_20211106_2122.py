@@ -6,21 +6,25 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0002_user_language'),
+        ("users", "0002_user_language"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='user',
-            name='first_name',
+            model_name="user",
+            name="first_name",
         ),
         migrations.RemoveField(
-            model_name='user',
-            name='last_name',
+            model_name="user",
+            name="last_name",
         ),
         migrations.AlterField(
-            model_name='user',
-            name='language',
-            field=models.CharField(choices=[('fr', 'Français (beta)'), ('en', 'English')], default='en-us', max_length=10),
+            model_name="user",
+            name="language",
+            field=models.CharField(
+                choices=[("fr", "Français (beta)"), ("en", "English")],
+                default="en-us",
+                max_length=10,
+            ),
         ),
     ]

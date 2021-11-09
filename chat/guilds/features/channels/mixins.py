@@ -18,7 +18,7 @@ def chan_exists(request, *args, **kwargs):
             .get_channel(channel_id)  # type: ignore
         )
 
-        return channel or redirect("guild:guild_view", guild_id=guild_id)
+        return channel or redirect("guild:guild_details", guild_id=guild_id)
 
     return False
 

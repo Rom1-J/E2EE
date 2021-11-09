@@ -8,7 +8,7 @@
 {% block content %}
     <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid>
         <div class="uk-width-1-1@m">
-            <div class="uk-margin uk-margin-auto uk-card uk-card-default uk-box-shadow-large">
+            <div class="uk-margin uk-width-large uk-margin-auto uk-card uk-card-default">
                 {% if object.is_staff %}
                     <div class="uk-card-badge uk-label">STAFF</div>
                 {% endif %}
@@ -25,7 +25,7 @@
                                  alt="Avatar">
                         </div>
                         <div class="uk-width-expand">
-                            <h3 class="uk-card-title uk-margin-remove-bottom">{{ object.username }}</h3>
+                            <h1 class="uk-card-title uk-margin-remove-bottom">{{ object.username }}</h1>
                             <p class="uk-text-meta uk-margin-remove-top">
                                 <time datetime="{{ object.date_joined.isoformat }}">{{ object.date_joined }}</time>
                             </p>

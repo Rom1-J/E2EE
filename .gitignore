@@ -76,6 +76,9 @@ ENV/
 # mypy
 .mypy_cache/
 
+# pytype
+.pytype/
+
 
 ### Node template
 # Logs

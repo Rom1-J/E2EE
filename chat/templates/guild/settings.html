@@ -1,0 +1,114 @@
+{% extends "layouts/base.html" %}
+{% load debug %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% block title %}{{ guild.name }} | {% trans "Settings" %} - {{ APP_NAME }}{% endblock %}
+
+{% block content %}
+    <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid>
+        <div class="uk-width-1-1@m">
+            <div class="uk-margin uk-width-1 uk-margin-auto uk-card uk-card-default">
+                <div class="uk-card-body">
+                    <h1 class="uk-card-title uk-text-center">
+                        <img src="{{ guild.avatar.url }}" alt="Avatar">
+                        {{ guild.name }}
+                    </h1>
+
+                    <form class="uk-grid" uk-grid method="post" action="{% url 'guild:guild_settings' guild.uuid %}"
+                          enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        {% if redirect_field_value %}
+                            <input type="hidden" name="{{ redirect_field_name }}"
+                                   value="{{ redirect_field_value }}"/>
+                        {% endif %}
+
+                        {% if form.non_field_errors %}
+                            <div class="uk-alert uk-alert-danger">
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
+
+                        <div class="uk-margin uk-width-1-1">
+                            <label class="uk-form-label" for="{{ form.name.id_for_label }}">
+                                {{ form.name.label }}
+                                {% if form.name.help_text %}
+                                    <span class="uk-text-muted">({{ form.name.help_text }})</span>
+                                {% endif %}
+                            </label>
+                            <div class="uk-form-controls">
+                                <input class="uk-input {% if form.name.errors %}uk-form-danger{% endif %}"
+                                       type="{{ form.name.widget_type }}" required
+                                       value="{{ form.name.initial }}"
+                                       id="{{ form.name.id_for_label }}" name="{{ form.name.name }}"
+                                       placeholder="{% trans 'name' %}">
+
+                                {% if form.name.errors %}
+                                    <ul class="uk-list uk-margin-remove uk-list-disc uk-list-collapse">
+                                        {% for error in form.name.errors %}
+                                            <li class="uk-text-danger">{{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="uk-margin uk-width-1-3@s" uk-form-custom="target: true">
+                            <label class="uk-form-label" for="{{ form.avatar.id_for_label }}">
+                                {{ form.avatar.label }}
+                                {% if form.avatar.help_text %}
+                                    <span class="uk-text-muted">({{ form.avatar.help_text }})</span>
+                                {% endif %}
+                            </label>
+                            <input type="file" name="{{ form.avatar.name }}">
+                            <input class="uk-input {% if form.avatar.errors %}uk-form-danger{% endif %}" type="text"
+                                   placeholder="{% trans 'Choose an avatar' %}" id="{{ form.avatar.id_for_label }}"
+                                   disabled>
+                            {% if form.avatar.initial %}
+                                {% trans "Currently: " %}{{ form.avatar.initial }}
+                            {% endif %}
+
+                            {% if form.avatar.errors %}
+                                <ul class="uk-list uk-margin-remove uk-list-disc uk-list-collapse">
+                                    {% for error in form.avatar.errors %}
+                                        <li class="uk-text-danger">{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+
+                        <div class="uk-margin uk-width-1-3@s">
+                            <label class="uk-form-label">
+                                {% trans "Members" %}
+                            </label>
+                            <div class="uk-form-controls">
+                                <a href="{% url 'guild:guild_members' guild.uuid %}"
+                                   class="uk-width-1-1 uk-button uk-button-default">{% trans "Kick/ban members" %}</a>
+                            </div>
+                        </div>
+
+                        <div class="uk-margin uk-width-1-3@s">
+                            <label class="uk-form-label">
+                                {% trans "Invites" %}
+                            </label>
+                            <div class="uk-form-controls">
+                                <a href=""
+                                   class="uk-width-1-1 uk-button uk-button-default">{% trans "Manage invites" %}</a>
+                            </div>
+                        </div>
+
+                        <div class="uk-margin uk-width-1-1 uk-flex uk-flex-between">
+                            <button class="uk-button uk-button-primary" name="action_add">
+                                {% trans "Save" %}
+                            </button>
+                            <a class="uk-button uk-button-default" href="{% url 'users:detail' user %}">
+                                {% trans "Back" %}
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

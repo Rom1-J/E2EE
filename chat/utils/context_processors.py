@@ -8,7 +8,7 @@ def show_sidebar(url_name: Optional[str]) -> bool:
     if not url_name:
         return False
 
-    routes = ["guild_view", "channel_"]
+    routes = ["guild_details", "channel_"]
     return any(route in url_name for route in routes)
 
 

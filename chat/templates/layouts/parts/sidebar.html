@@ -1,78 +1,38 @@
 {% load static %}
 {% load i18n %}
-<div id="sidebar">
-    <div class="sidebar-header">
-        <div class="sidebar-header-controls">
-            <a href="#guild-select" class="link icon-right">
-                {{ guild.name }}
 
-                <i class="svg svg-small svg-rotate-270"
-                   style="--svg-url: url('{% static "images/icons/chevron_left.svg" %}')"></i>
-            </a>
-        </div>
-    </div>
-
-    <div class="sidebar-body">
-        {% for category_ in guild.categories.all %}
-            <fieldset class="sidebar-body-group">
-                <legend>{{ category_.name }}</legend>
-
-                {% for channel_ in category_.channels.all %}
-                    <a href="{% url "guild:channel_details" guild.uuid channel_.uuid %}"
-                       class="sidebar-body-channel {% if channel == channel_ %} active {% endif %}">
-                        <span>{{ channel_.name }}</span>
-                    </a>
-                {% endfor %}
-            </fieldset>
-        {% endfor %}
-    </div>
-
-    <div class="sidebar-footer">
-        <div class="sidebar-footer-add">
-            <a href="{% url "guild:channel_create" guild.uuid %}">
-                <i class="svg svg-medium" style="--svg-url: url('{% static "images/icons/circle_plus.svg" %}')"></i>
-            </a>
-        </div>
-        <div class="sidebar-footer-edit">
-            <a href="{% url "guild:channel_edit" guild.uuid %}" class="link">{% trans "Edit" %}</a>
-        </div>
-    </div>
-
-    <a class="cancel" href="#"></a>
-</div>
-
-<div id="guild-select" class="sidebar-guildSelector">
-    <div class="sidebar-guildSelector-arrow"></div>
-    <div class="sidebar-guildSelector-container">
-        <div class="guildSwitcher">
-            {% for guild in guilds %}
-                <a href="{% url "guild:guild_view" guild_id=guild.uuid %}" class="guildSwitcher-item-view">
-                    <div class="guildSwitcher-item-content">
-                        <div class="icon-container">
-                            <img src="{{ guild.avatar.url }}"
-                                 alt="{{ guild.name }} Icon">
-                        </div>
-                        <div class="icon-name">
-                            <span>{{ guild.name }}</span>
-                        </div>
-                    </div>
-                </a>
-            {% endfor %}
-        </div>
-
-        <div class="links-section">
-            <div class="account-settings-link-view">
-                <div>
-                    <a class="link icon-right" href="{% url 'guild:create' %}">
-                        {% trans "Create a guild" %}
-
-                        <i class="svg svg-small"
-                           style="--svg-url: url('{% static "images/icons/chevron_left.svg" %}')"></i>
-                    </a>
+<div class="uk-card uk-card-default uk-width-1-1">
+    <div class="uk-card-header">
+        <div class="uk-card-title">
+            <div class="uk-grid-small uk-flex-middle" uk-grid>
+                <div class="uk-width-auto">
+                    <img class="uk-border-rounded" width="40" height="40" src="{{ guild.avatar.url }}"
+                         alt="{{ guild.name }}">
+                </div>
+                <div class="uk-width-expand">
+                    <h3 class="uk-card-title uk-margin-remove-bottom uk-overflow-hidden">{{ guild.name }}</h3>
+                    <p class="uk-text-meta uk-margin-remove-top">
+                        <span>{{ guild.members_count }} {% trans "members" %}</span>
+                    </p>
                 </div>
             </div>
         </div>
     </div>
+    <div class="uk-card-body">
+        <div class="uk-flex uk-flex-column">
+            {% if guild.channels.all %}
+                {% for i in "0123456789"|make_list %}
+                    <a href="{{ i }}">Channel #{{ i }}</a>
+                {% endfor %}
+            {% else %}
+                <i class="text-muted">{% trans "No channel..." %}</i>
+            {% endif %}
+        </div>
 
-    <a class="cancel" href="#"></a>
+    </div>
+    {% if guild.owner == request.user %}
+        <div class="uk-card-footer">
+            <a href="{% url 'guild:guild_settings' guild.uuid %}">{% trans 'Guild settings' %}</a>
+        </div>
+    {% endif %}
 </div>
