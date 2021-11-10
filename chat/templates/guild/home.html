@@ -23,7 +23,7 @@
                 <div class="uk-card-body">
                     <div class="uk-flex-center uk-grid-match uk-text-center" uk-grid>
                         {% for guild in guilds %}
-                            <a href="{% url "guild:guild_details" guild_id=guild.uuid %}">
+                            <a href="{% url "guild:guild_details" guild.id %}">
                                 <div uk-tooltip="{{ guild.name }}" class="uk-card">
                                     <div class="uk-card-body uk-flex uk-flex-column uk-flex-middle uk-padding-remove-vertical">
                                         <img class="uk-border-rounded" loading="lazy"

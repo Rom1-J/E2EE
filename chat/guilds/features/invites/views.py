@@ -25,7 +25,7 @@ class GuildJoinInviteView(LoginRequiredMixin, View):
         guild = invite.guild
 
         if request.user in guild.members.all():
-            return redirect("guild:guild_details", guild_id=guild.uuid)
+            return redirect("guild:guild_details", guild_id=guild.id)
 
         invite.uses += 1
         guild.members.add(self.request.user)
@@ -36,7 +36,7 @@ class GuildJoinInviteView(LoginRequiredMixin, View):
             request, messages.INFO, _("Guild joined successfully")
         )
 
-        return redirect("guild:guild_details", guild_id=guild.uuid)
+        return redirect("guild:guild_details", guild_id=guild.id)
 
 
 # =============================================================================
@@ -50,11 +50,11 @@ class GuildDeleteInviteView(OwnsInvitationMixin, View):
         query.add(Q(key=invite_key), Q.AND)
 
         if invite := Invite.objects.filter(query).first():
-            guild_id = invite.guild.uuid
+            guild_id = invite.guild.id
 
             invite.delete()
             messages.add_message(
-                request, messages.INFO, _("Invitation deleted successfully")
+                request, messages.SUCCESS, _("Invitation deleted successfully")
             )
 
             return redirect("guild:guild_details", guild_id=guild_id)

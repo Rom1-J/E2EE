@@ -5,15 +5,13 @@ from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.urls import reverse
-from django.utils.translation import gettext_lazy as _
 
 from chat.utils.functions import PathAndRename
 
 
 class User(AbstractUser):
-    uuid = models.UUIDField()
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
-    email = models.EmailField(_("User's email"), max_length=255, unique=True)
     avatar = models.ImageField(
         upload_to=PathAndRename("users/avatar"), blank=True, null=True
     )
@@ -22,6 +20,7 @@ class User(AbstractUser):
 
     first_name = None  # type: ignore
     last_name = None  # type: ignore
+    email = None  # type: ignore
 
     language = models.CharField(
         max_length=10,
@@ -29,17 +28,15 @@ class User(AbstractUser):
         default=settings.LANGUAGE_CODE,
     )
 
+    mneomonic = models.CharField(max_length=255, blank=True, null=True)
+
     # =========================================================================
 
-    USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["username"]
+    USERNAME_FIELD = "username"
 
     # =========================================================================
 
     def save(self, *args, **kwargs):
-        if not self.uuid:
-            self.uuid = uuid.uuid4()
-
         super().save(*args, **kwargs)
 
         if self.avatar:
@@ -65,7 +62,7 @@ class User(AbstractUser):
     # =========================================================================
 
     def __str__(self):
-        return "%s" % (self.username if self.username else self.uuid)
+        return str(self.username if self.username else self.id)
 
 
 # =============================================================================

@@ -6,7 +6,7 @@ from .models import Guild
 
 
 def get_guild(guild_id: uuid.UUID) -> Guild:
-    guild = Guild.objects.filter(uuid=guild_id).first()
+    guild = Guild.objects.get(id=guild_id)
 
     if guild:
         return guild

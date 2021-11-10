@@ -17,7 +17,7 @@
                         </h1>
                     </div>
 
-                    <form class="uk-grid" uk-grid method="post" action="{% url 'guild:guild_settings' guild.uuid %}"
+                    <form class="uk-grid" uk-grid method="post" action="{% url 'guild:guild_settings' guild.id %}"
                           enctype="multipart/form-data">
                         {% csrf_token %}
 
@@ -82,7 +82,7 @@
                                 {% trans "Members" %}
                             </label>
                             <div class="uk-form-controls">
-                                <a href="{% url 'guild:guild_members' guild.uuid %}"
+                                <a href="{% url 'guild:guild_members' guild.id %}"
                                    class="uk-width-1-1 uk-button uk-button-default">{% trans "Kick/ban members" %}</a>
                             </div>
                         </div>
@@ -92,7 +92,7 @@
                                 {% trans "Channels" %}
                             </label>
                             <div class="uk-form-controls">
-                                <a href="{% url 'guild:guild_invites' guild.uuid %}"
+                                <a href="{% url 'guild:guild_invites' guild.id %}"
                                    class="uk-width-1-1 uk-button uk-button-default">{% trans "Manage channels" %}</a>
                             </div>
                         </div>
@@ -101,7 +101,7 @@
                             <button class="uk-button uk-button-primary" name="action_add">
                                 {% trans "Save" %}
                             </button>
-                            <a class="uk-button uk-button-default" href="{% url 'guild:guild_details' guild.uuid %}">
+                            <a class="uk-button uk-button-default" href="{% url 'guild:guild_details' guild.id %}">
                                 {% trans "Back" %}
                             </a>
                         </div>

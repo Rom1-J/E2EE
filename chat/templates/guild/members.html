@@ -14,7 +14,7 @@
                         {% trans "Members" %}
                     </h1>
 
-                    <form action="{% url 'guild:guild_members' guild.uuid %}" method="post">
+                    <form action="{% url 'guild:guild_members' guild.id %}" method="post">
                         {% csrf_token %}
 
                         <div class="uk-overflow-auto uk-margin-bottom">
@@ -82,7 +82,7 @@
                                 </button>
                             </div>
 
-                            <a class="uk-button uk-button-default" href="{% url 'guild:guild_settings' guild.uuid %}">
+                            <a class="uk-button uk-button-default" href="{% url 'guild:guild_settings' guild.id %}">
                                 {% trans "Back" %}
                             </a>
                         </div>

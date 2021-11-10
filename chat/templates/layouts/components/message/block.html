@@ -6,14 +6,14 @@
 {% load humanize_plus %}
 
 <div
-        {% with author=message.author %}
-            class="message
+    {% with author=message.author %}
+        class="message
 {% if author == request.user %}message-me {% endif %}
 {% if message.same_previous_author %}no-radius-top {% endif %}
 {% if message.same_next_author %}no-radius-bottom {% endif %}
 "
-        {% endwith %}
-            id="{{ message.uuid }}">
+    {% endwith %}
+        id="{{ message.id }}">
     <img class="messageAvatar"
          src="
 {% if message.author.avatar.url %}

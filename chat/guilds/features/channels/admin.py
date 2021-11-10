@@ -6,8 +6,8 @@ from .models import Channel, Message, Attachment
 @admin.register(Channel)
 class ChannelAdmin(admin.ModelAdmin):
     fieldsets = ((None, {"fields": ("name", "position", "messages")}),)
-    list_display = ["uuid", "name", "last_message_at", "messages_count"]
-    search_fields = ["name", "uuid"]
+    list_display = ["id", "name", "last_message_at", "messages_count"]
+    search_fields = ["name", "id"]
 
 
 # =============================================================================
@@ -19,14 +19,14 @@ class MessageAdmin(admin.ModelAdmin):
         (None, {"fields": ("author", "channel", "content", "attachments")}),
     )
     list_display = [
-        "uuid",
+        "id",
         "author",
         "content",
         "channel",
         "created_at",
         "updated_at",
     ]
-    search_fields = ["author", "content", "uuid"]
+    search_fields = ["author", "content", "id"]
 
 
 # =============================================================================
@@ -35,5 +35,5 @@ class MessageAdmin(admin.ModelAdmin):
 @admin.register(Attachment)
 class AttachmentAdmin(admin.ModelAdmin):
     fieldsets = ((None, {"fields": ("file",)}),)
-    list_display = ["uuid", "extension"]
-    search_fields = ["uuid"]
+    list_display = ["id", "extension"]
+    search_fields = ["id"]

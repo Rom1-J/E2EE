@@ -2,13 +2,13 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %}{% translate "Sign In" %}{% endblock %}
+{% block title %}{% trans "Sign In" %}{% endblock %}
 
 {% block content %}
     <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid>
         <div class="uk-width-1-1@m">
             <div class="uk-margin uk-width-large uk-margin-auto uk-card uk-card-default uk-card-body">
-                <h1 class="uk-card-title uk-text-center">{% trans "Sign in" %} - {{ APP_NAME }}</h1>
+                <h1 class="uk-card-title uk-text-center">{% trans "Sign In" %} - {{ APP_NAME }}</h1>
 
                 <form autocomplete="off" method="post" action="{% url "account_login" %}">
                     {% csrf_token %}
@@ -26,12 +26,12 @@
 
                     <div class="uk-margin">
                         <label class="uk-inline uk-width-1-1" for="id_{{ form.login.name }}">
-                            <span class="uk-form-icon" uk-icon="icon: mail"></span>
+                            <span class="uk-form-icon" uk-icon="icon: user"></span>
                             <input name="{{ form.login.name }}"
                                    value="{{ form.data.login }}"
                                    class="uk-input uk-form-large
                                                     {% if form.login.errors %}uk-form-danger{% endif %}"
-                                   placeholder="{% trans "E-mail address" %}" type="text"
+                                   placeholder="{% trans "Username" %}" type="text"
                                    id="id_{{ form.login.name }}"
                                    required>
                         </label>
@@ -67,8 +67,7 @@
                     <div class="uk-text-small uk-text-center">
                         <a href="{% url 'account_reset_password' %}">{% trans "Forgot password?" %}</a>
                         <hr class="uk-divider-small">
-                        <a class="uk-text-muted"
-                           href="{% url 'account_reset_password' %}">{% trans "Create an account?" %}</a>
+                        <a href="{% url 'account_signup' %}">{% trans "Create an account?" %}</a>
                     </div>
                 </form>
             </div>

@@ -57,7 +57,7 @@ class GuildCreateView(LoginRequiredMixin, View):
             form.save()
 
             return redirect(
-                "guild:guild_invites", guild_id=str(form.instance.uuid)
+                "guild:guild_invites", guild_id=str(form.instance.id)
             )
 
         return render(request, self.template_name, {"form": form})
@@ -176,7 +176,7 @@ class GuildMembersView(BaseGuildView):
                 )
 
             return redirect(
-                "guild:guild_details", guild_id=str(form.instance.uuid)
+                "guild:guild_details", guild_id=str(form.instance.id)
             )
 
         return render(
@@ -206,7 +206,7 @@ class GuildSettingsView(GuildOwnerView):
             form.save()
 
             return redirect(
-                "guild:guild_details", guild_id=str(form.instance.uuid)
+                "guild:guild_details", guild_id=str(form.instance.id)
             )
 
         return render(

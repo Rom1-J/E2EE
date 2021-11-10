@@ -22,7 +22,6 @@ class GuildAdmin(admin.ModelAdmin):
     )
     list_display = [
         "id",
-        "uuid",
         "name",
         "get_absolute_url",
         "members_count",

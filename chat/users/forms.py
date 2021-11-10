@@ -1,8 +1,8 @@
 from typing import List
 
 from allauth.account.adapter import get_adapter
-from allauth.account.forms import LoginForm as AllauthLoginForm
 from allauth.account.forms import ResetPasswordForm as AllauthResetPasswordForm
+from allauth.account.forms import SignupForm as AllauthSignupForm
 from allauth.account.utils import filter_users_by_email
 from django.contrib.auth import forms as admin_forms
 from django.contrib.auth import get_user_model
@@ -28,8 +28,19 @@ class UserCreationForm(admin_forms.UserCreationForm):
 # =============================================================================
 
 
-class LoginForm(AllauthLoginForm):
-    ...
+class SignupForm(AllauthSignupForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields.pop("email")
+
+    def save(self, request):
+        adapter = get_adapter(request)
+        user = adapter.new_user(request)
+        adapter.save_user(request, user, self)
+        self.custom_signup(request, user)
+
+        return user
 
 
 class ResetPasswordForm(AllauthResetPasswordForm):

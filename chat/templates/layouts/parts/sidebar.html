@@ -32,7 +32,7 @@
     </div>
     {% if guild.owner == request.user %}
         <div class="uk-card-footer">
-            <a href="{% url 'guild:guild_settings' guild.uuid %}">{% trans 'Guild settings' %}</a>
+            <a href="{% url 'guild:guild_settings' guild.id %}">{% trans 'Guild settings' %}</a>
         </div>
     {% endif %}
 </div>

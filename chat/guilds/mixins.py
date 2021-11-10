@@ -8,7 +8,7 @@ def is_in_guild(request, *args, **kwargs):
 
     if guild_id:
         return Guild.objects.filter(
-            uuid=guild_id, members__in=[request.user]
+            id=guild_id, members__in=[request.user]
         ).exists()
 
     return False
@@ -19,7 +19,7 @@ def is_guild_owner(request, *args, **kwargs):
 
     if guild_id:
         return Guild.objects.filter(
-            uuid=guild_id, owner_id=request.user.id
+            id=guild_id, owner_id=request.user.id
         ).exists()
 
     return False

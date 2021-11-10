@@ -9,13 +9,11 @@ def chan_exists(request, *args, **kwargs):
     channel_id: str = str(kwargs.pop("channel_id", ""))
 
     if guild_id and channel_id:
-        channel = (
-            Guild.objects.filter(
-                uuid=guild_id,
-                members__in=[request.user],
-            )
-            .first()
-            .get_channel(channel_id)  # type: ignore
+        channel = Guild.objects.get(
+            id=guild_id,
+            members__in=[request.user],
+        ).get_channel(  # type: ignore
+            channel_id
         )
 
         return channel or redirect("guild:guild_details", guild_id=guild_id)

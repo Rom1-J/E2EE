@@ -1,23 +1,25 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import include, path, re_path
 from django.views import defaults as default_views
 
-# noinspection PyTypeChecker
+
 urlpatterns = [
+    re_path(
+        r"^accounts/.*email/",
+        default_views.page_not_found,
+        kwargs={"exception": Exception("Page not Found")},
+    ),
     path("", include("chat.pages.urls", namespace="pages")),
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
     path("users/", include("chat.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
-    path("guild/", include("chat.guilds.urls", namespace="guild"))
+    path("guild/", include("chat.guilds.urls", namespace="guild")),
     # Your stuff: custom urls includes go here
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-print(settings.MEDIA_URL, settings.MEDIA_ROOT)
-
 
 if settings.DEBUG:
     # This allows the error pages to be debugged during development, just visit

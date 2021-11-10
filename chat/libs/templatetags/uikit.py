@@ -12,4 +12,4 @@ def tags_parser(tag: str):
         "warning": "warning",
         "error": "danger",
     }
-    return tag_map[tag] if tag in tag_map.keys() else "primary"
+    return tag_map[tag] if tag in tag_map else "primary"

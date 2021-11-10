@@ -64,6 +64,7 @@ INTERNAL_IPS = ["127.0.0.1", "10.0.2.2"]
 INSTALLED_APPS += ["django_extensions"]  # noqa F405
 
 # Your stuff...
+ACCOUNT_ALLOW_REGISTRATION = True
 
 if not DEBUG:
     # ------------------------------------------------------------------------------

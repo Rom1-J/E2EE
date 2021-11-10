@@ -1,3 +1,4 @@
+import uuid
 from django.urls import reverse
 from django.db import models
 
@@ -6,6 +7,8 @@ from ...models import Guild
 
 
 class Invite(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
     guild = models.ForeignKey(Guild, on_delete=models.CASCADE)
 
     key = models.CharField(max_length=10)

@@ -12,7 +12,7 @@ from ..utils.functions import PathAndRename
 
 
 class Guild(models.Model):
-    uuid = models.UUIDField()
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     name = models.CharField(_("Guild Name"), max_length=200)
     avatar = models.ImageField(
@@ -35,7 +35,7 @@ class Guild(models.Model):
 
     def get_absolute_url(self):
         return reverse(
-            "guild:guild_details", kwargs={"guild_id": str(self.uuid)}
+            "guild:guild_details", kwargs={"guild_id": str(self.id)}
         )
 
     # =========================================================================
@@ -46,9 +46,6 @@ class Guild(models.Model):
     # =========================================================================
 
     def save(self, *args, **kwargs):
-        if not self.uuid:
-            self.uuid = uuid.uuid4()
-
         super().save(*args, **kwargs)
 
         img = Image.open(self.avatar.path)
@@ -60,7 +57,7 @@ class Guild(models.Model):
             img.save(self.avatar.path)
 
     def __str__(self):
-        return "#%s - %s" % (self.name, str(self.uuid) or "-1")
+        return f"#{self.name} - {self.id or '-1'}"
 
 
 # =============================================================================

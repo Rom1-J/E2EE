@@ -17,7 +17,7 @@ class Channel(models.Model):
         CATEGORY = "CATEGORY", _("Category")
         NEWS = "NEWS", _("News")
 
-    uuid = models.UUIDField()
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     type = models.CharField(
         max_length=10,
@@ -55,13 +55,11 @@ class Channel(models.Model):
     # =========================================================================
 
     def save(self, *args, **kwargs):
-        if not self.uuid:
-            self.uuid = uuid.uuid1()
 
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return "#%s - %s" % (self.name, str(self.uuid) or "-1")
+        return f"#{self.name} - {self.id or '-1'}"
 
 
 # =============================================================================
@@ -69,7 +67,7 @@ class Channel(models.Model):
 
 
 class Message(models.Model):
-    uuid = models.UUIDField()
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     channel = models.ForeignKey(
         Channel,
@@ -111,24 +109,12 @@ class Message(models.Model):
 
     # =========================================================================
 
-    def save(self, *args, **kwargs):
-        if not self.uuid:
-            self.uuid = uuid.uuid1()
-
-        super().save(*args, **kwargs)
-
     def __str__(self):
         return (
-            "from: %s, "
-            "uuid: %s, "
-            "same_previous_author: %s, "
-            "same_next_author: %s"
-            % (
-                str(self.author),
-                str(self.uuid),
-                str(self.same_previous_author),
-                str(self.same_next_author),
-            )
+            f"from: {self.author}, "
+            f"id: {self.id}, "
+            f"same_previous_author: {self.same_previous_author}, "
+            f"same_next_author: {self.same_next_author}"
         )
 
 
@@ -137,7 +123,7 @@ class Message(models.Model):
 
 
 class Attachment(models.Model):
-    uuid = models.UUIDField()
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     filename = models.TextField(null=True, blank=True, default=None)
 
@@ -151,9 +137,6 @@ class Attachment(models.Model):
     # =========================================================================
 
     def save(self, *args, **kwargs):
-        if not self.uuid:
-            self.uuid = uuid.uuid4()
-
         if not self.filename:
             self.filename = os.path.basename(self.file.name)
 
@@ -163,4 +146,4 @@ class Attachment(models.Model):
             cleaned.save(self.file.path)
 
     def __str__(self):
-        return "file: %s" % (str(self.uuid),)
+        return f"file: {self.id}"

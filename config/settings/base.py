@@ -38,8 +38,8 @@ USE_TZ = True
 LOCALE_PATHS = [str(ROOT_DIR / "locale")]
 
 LANGUAGES = [
-    ("fr", "Français (beta)"),
-    ("en", "English"),
+    ("fr-FR", "Français (beta)"),
+    ("en-US", "English"),
 ]
 
 # DATABASES
@@ -76,7 +76,6 @@ THIRD_PARTY_APPS = [
     "crispy_forms",
     "allauth",
     "allauth.account",
-    "allauth.socialaccount",
     "corsheaders",
 ]
 
@@ -88,11 +87,6 @@ LOCAL_APPS = [
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
-
-# MIGRATIONS
-# ------------------------------------------------------------------------------
-# https://docs.djangoproject.com/en/dev/ref/settings/#migration-modules
-MIGRATION_MODULES = {"sites": "chat.contrib.sites.migrations"}
 
 # AUTHENTICATION
 # ------------------------------------------------------------------------------
@@ -123,12 +117,12 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
     },
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
     {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "OPTIONS": {"min_length": 15},
     },
     {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"
     },
 ]
 
@@ -273,12 +267,12 @@ LOGGING = {
 # django-allauth
 # ------------------------------------------------------------------------------
 ACCOUNT_ALLOW_REGISTRATION = env.bool(
-    "DJANGO_ACCOUNT_ALLOW_REGISTRATION", True
+    "DJANGO_ACCOUNT_ALLOW_REGISTRATION", False
 )
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
-ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_AUTHENTICATION_METHOD = "username"
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
-ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_REQUIRED = False
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 ACCOUNT_EMAIL_VERIFICATION = "none"
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
@@ -294,12 +288,13 @@ STATICFILES_FINDERS += ["compressor.finders.CompressorFinder"]
 # Your stuff...
 # ------------------------------------------------------------------------------
 APP_NAME = "E2EE Chat"
+PASSWORD_MIN_LENGTH = 15
 
 ACCOUNT_USERNAME_VALIDATORS = (
     "chat.users.validators.custom_username_validators"
 )
 ACCOUNT_FORMS = {
-    "login": "chat.users.forms.LoginForm",
+    "signup": "chat.users.forms.SignupForm",
     "reset_password": "chat.users.forms.ResetPasswordForm",
 }
 
