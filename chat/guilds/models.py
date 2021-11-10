@@ -8,13 +8,16 @@ from django.utils.translation import gettext_lazy as _
 from chat.users.models import User
 
 from .features.channels.models import Channel
+from ..utils.functions import PathAndRename
 
 
 class Guild(models.Model):
     uuid = models.UUIDField()
 
     name = models.CharField(_("Guild Name"), max_length=200)
-    avatar = models.ImageField(_("Guild Icon"))
+    avatar = models.ImageField(
+        _("Guild Icon"), upload_to=PathAndRename("guilds/avatar")
+    )
 
     owner = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="owner"

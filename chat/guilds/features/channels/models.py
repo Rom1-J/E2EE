@@ -5,8 +5,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from chat.users.models import User
-
-from .utils import remove_exif, rename_file
+from chat.utils.functions import PathAndRename, remove_exif
 
 
 class Channel(models.Model):
@@ -142,7 +141,7 @@ class Attachment(models.Model):
 
     filename = models.TextField(null=True, blank=True, default=None)
 
-    file = models.FileField(upload_to=rename_file)
+    file = models.FileField(upload_to=PathAndRename("guilds/attachments"))
 
     # =========================================================================
 
@@ -153,7 +152,7 @@ class Attachment(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.uuid:
-            self.uuid = uuid.uuid1()
+            self.uuid = uuid.uuid4()
 
         if not self.filename:
             self.filename = os.path.basename(self.file.name)

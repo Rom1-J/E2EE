@@ -30,9 +30,6 @@ class PathAndRename:
 
     def __call__(self, instance, filename):
         ext = filename.split(".")[-1]
-        filename = "{}.{}".format(str(uuid.uuid1()), ext)
+        filename = "{}.{}".format(str(uuid.uuid4()), ext)
 
         return os.path.join(self.path, filename)
-
-
-rename_file = PathAndRename("attachments")

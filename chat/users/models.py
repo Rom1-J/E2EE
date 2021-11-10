@@ -7,12 +7,16 @@ from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
+from chat.utils.functions import PathAndRename
+
 
 class User(AbstractUser):
     uuid = models.UUIDField()
 
     email = models.EmailField(_("User's email"), max_length=255, unique=True)
-    avatar = models.ImageField(upload_to="avatars", blank=True, null=True)
+    avatar = models.ImageField(
+        upload_to=PathAndRename("users/avatar"), blank=True, null=True
+    )
 
     bio = models.TextField(max_length=1000, blank=True, null=True)
 

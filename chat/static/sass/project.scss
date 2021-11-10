@@ -1,14 +1,16 @@
+$background: #f9f9f9;
+
 body {
-    background-color: #fafafa;
+    background-color: $background;
     min-height: 100vh;
 }
 
 .uk-card-default {
     border-radius: 5px;
-    background: #fafafa;
+    background: $background;
 
-    box-shadow: 5px 5px 10px darken(#fafafa, 5%),
-    -5px -5px 10px lighten(#fafafa, 5%);
+    box-shadow: 5px 5px 10px darken($background, 15%),
+    -5px -5px 10px lighten($background, 3%);
 
-    outline: 1px solid lighten(#fafafa, 5%);
+    outline: 1px solid lighten($background, 2%);
 }

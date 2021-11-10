@@ -28,27 +28,27 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {% for value, label in form.members.field.choices %}
+                                {% for member in form.members.initial %}
                                     <tr>
                                         <td>
-                                            <input id="user_checkbox_{{ value }}" type="checkbox"
-                                                   name="{{ form.members.name }}" value="{{ value }}"
-                                                   {% if value.instance == request.user %}disabled{% endif %}>
+                                            <input id="user_checkbox_{{ member.id }}" type="checkbox"
+                                                   name="{{ form.members.name }}" value="{{ member.id }}"
+                                                   {% if member == request.user %}disabled{% endif %}>
                                         </td>
                                         <td>
-                                            <label for="user_checkbox_{{ value }}">
-                                                <a href="{% url 'users:detail' value.instance %}" target="_blank">
-                                                    {{ label }}
-                                                    {% if value.instance == request.user %}
+                                            <label for="user_checkbox_{{ member.id }}">
+                                                <a href="{% url 'users:detail' member %}" target="_blank">
+                                                    {{ member }}
+                                                    {% if member == request.user %}
                                                         <i class="uk-text-muted">({% trans "you" %})</i>
                                                     {% endif %}
                                                 </a>
                                             </label>
                                         </td>
                                         <td>
-                                            <label for="user_checkbox_{{ value }}">
-                                                <time datetime="{{ value.instance.date_joined.isoformat }}">
-                                                    {{ value.instance.date_joined }}
+                                            <label for="user_checkbox_{{ member.id }}">
+                                                <time datetime="{{ member.date_joined.isoformat }}">
+                                                    {{ member.date_joined }}
                                                 </time>
                                             </label>
                                         </td>
@@ -77,8 +77,8 @@
                                 <button class="uk-button uk-button-primary" type="submit" value="kick" name="{{ form.action.name }}">
                                     {% trans 'Kick' %}
                                 </button>
-                                <button disabled class="uk-button uk-button-danger" type="submit" value="ban" name="{{ form.action.name }}">
-                                    {% trans 'Ban' %}
+                                <button class="uk-button uk-button-danger" type="submit" value="ban" name="{{ form.action.name }}">
+                                    {% trans 'Ban' %} (disabled)
                                 </button>
                             </div>
 
