@@ -22,3 +22,4 @@ django-jazzmin==2.4.8  # https://github.com/farridav/django-jazzmin
 humanize==3.11.0
 django_cors_headers==3.10.0
 qrcode==7.3.1
+Faker==9.8.0

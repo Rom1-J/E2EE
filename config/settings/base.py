@@ -144,6 +144,7 @@ MIDDLEWARE = [
     "django.middleware.gzip.GZipMiddleware",
     "chat.utils.middleware.SpacelessMiddleware",
     "chat.utils.middleware.ForceDefaultLanguageMiddleware",
+    "chat.utils.middleware.EnsureMnemonicGeneration",
 ]
 
 # STATIC

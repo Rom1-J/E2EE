@@ -1,0 +1,55 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "First Connect" %}{% endblock %}
+
+{% block content %}
+    <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid>
+        <div class="uk-width-1-1@m">
+            <div class="uk-margin uk-width-1 uk-margin-auto uk-card uk-card-default">
+                <div class="uk-card-body">
+                    <h1 class="uk-card-title uk-text-center">{% trans "Things you need to know" %}</h1>
+
+                    <div class="uk-alert uk-alert-primary">
+                        <p>
+                            {% blocktrans %}
+                                Please note that this mnemonic cannot be changed or retrieved from your account
+                                under any circumstances.<br>
+                                Therefore, it is important that you keep it in a safe place.
+                            {% endblocktrans %}
+                        </p>
+                    </div>
+
+                    <div class="uk-margin">
+                        <p>
+                            {% trans "Choose the mnemonic you wish to use." %}
+                        </p>
+                    </div>
+
+                    {% for lang_name, mnemonic in mnemonics.items %}
+                        <hr>
+                        <form action="">
+                            <fieldset class="uk-fieldset">
+                                <legend class="uk-legend">{{ lang_name }}</legend>
+
+                                <div class="uk-margin uk-grid-small" uk-grid>
+                                    <div class="uk-width-expand@m uk-width-1-1">
+                                        <label class="uk-form-label">
+                                            <input class="uk-input text-monospace" type="text" value="{{ mnemonic }}">
+                                        </label>
+                                    </div>
+                                    <div class="uk-width-auto@m uk-width-1-1">
+                                        <button class="uk-button uk-button-primary uk-width-1">
+                                            {% trans "Choice" %}
+                                        </button>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

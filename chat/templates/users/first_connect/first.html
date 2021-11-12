@@ -1,0 +1,71 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "First Connect" %}{% endblock %}
+
+{% block content %}
+    <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid>
+        <div class="uk-width-1-1@m">
+            <div class="uk-margin uk-width-1 uk-margin-auto uk-card uk-card-default">
+                <div class="uk-card-body">
+                    <h1 class="uk-card-title uk-text-center">{% trans "Things you need to know" %}</h1>
+
+                    <div class="uk-margin">
+                        <h4 class="uk-margin-remove-top">{% trans "Sign In" %}</h4>
+                        <p>
+                            {% blocktrans %}
+                                When you log in, your session is saved in the
+                                <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage"
+                                   target="_blank">sessionStorage</a> of your browser. So you can log out at any
+                                time by
+                                closing the current tab.
+                                <br><br>
+                                Also, each time you log in, you will be asked to enter your private key which will
+                                be
+                                used to read and send messages. This key will be saved in your browser like the
+                                session,
+                                and will not be communicated to the server at any time.
+                            {% endblocktrans %}
+                        </p>
+
+                        <hr class="uk-divider-small uk-text-center">
+
+                        <h4 class="uk-margin-remove-top">{% trans "Password reset" %}</h4>
+                        <p>
+                            {% blocktrans %}
+                                In order to keep your
+                                <a href="https://ec.europa.eu/info/law/law-topic/data-protection/reform/what-personal-data_en"
+                                   target="_blank">personal information</a> to a minimum, you may have noticed that
+                                you
+                                were not asked for an email address when you registered.<br>
+                                Also, you may be wondering how to reset your password if you forget it?
+                                <br><br>
+                                When you click on the <code class="uk-text-uppercase">next</code> button, you will
+                                be
+                                given a random word sequence called mnemonic.<br>
+                                This mnemonic will be requested when you click on <code>Forgot password?</code> to
+                                register a new password.
+                            {% endblocktrans %}
+                        </p>
+                        <div class="uk-alert uk-alert-warning">
+                            <p>
+                                {% blocktrans %}
+                                    Please note that this mnemonic cannot be changed or retrieved from your account
+                                    under any circumstances.<br>
+                                    Therefore, it is important that you keep it in a safe place.
+                                {% endblocktrans %}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="uk-margin uk-width-1-1 uk-flex uk-flex-right">
+                        <a class="uk-button uk-button-default" href="{% url 'users:first_connect' page='next' %}">
+                            {% trans "Next" %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

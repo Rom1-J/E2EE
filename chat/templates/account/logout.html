@@ -5,13 +5,13 @@
 {% block title %}{% translate "Sign Out" %}{% endblock %}
 
 {% block content %}
-    <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid>
+    <div class="uk-grid-margin uk-grid-stack" uk-grid>
         <div class="uk-width-1-1@m">
-            <div class="uk-margin uk-width-large uk-margin-auto uk-card uk-card-default uk-card-body">
+            <div class="uk-margin uk-margin-auto uk-card uk-card-default uk-card-body">
                 <h1 class="uk-card-title uk-text-center">{% translate "Sign Out" %}</h1>
 
-                <div class="uk-alert uk-alert-warning">
-                    <p>{% trans "Are you sure you want to sign out?" %}</p>
+                <div class="uk-alert uk-alert-primary">
+                    <p>{% trans "Don't forget to export your key ;)" %}</p>
                 </div>
 
                 {% if form.non_field_errors %}
@@ -30,6 +30,16 @@
                     {% endif %}
 
                     <div class="uk-margin">
+                        <label class="uk-inline uk-width-1-1" for="secret_key">
+                            {% trans "Secret key" %}
+                            <textarea class="uk-textarea uk-resize-vertical" id="secret_key" cols="30" rows="10"></textarea>
+                        </label>
+                        <div class="uk-width-1-1">
+                            <a id="secret_key_export">{% trans "Download" %}</a>
+                        </div>
+                    </div>
+
+                    <div class="uk-margin">
                         <button class="uk-button uk-button-primary uk-button-large uk-width-1-1">
                             {% trans "Sign Out" %}
                         </button>
@@ -42,4 +52,16 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block inline_javascript %}
+    <script>
+        const textarea = document.getElementById("secret_key");
+        const anchor = document.getElementById("secret_key_export");
+        const secret_key = atob(sessionStorage.getItem("secret_key"));
+
+        textarea.innerHTML = secret_key;
+        anchor.setAttribute("href", `data:text/plain;charset=utf-8,${encodeURIComponent(secret_key)}`);
+        anchor.setAttribute('download', "secret_key");
+    </script>
 {% endblock %}

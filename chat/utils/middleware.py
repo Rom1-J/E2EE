@@ -1,9 +1,16 @@
 import re
+from typing import Optional
 
 from django.conf import settings
 from django.core.handlers.wsgi import WSGIRequest
+from django.http import HttpRequest, HttpResponse
+from django.shortcuts import redirect
+from django.urls import resolve
 from django.utils import translation
 from django.utils.deprecation import MiddlewareMixin
+from rich import inspect
+
+from chat.users.models import User
 
 
 def strip_spaces_in_template(template_source):
@@ -64,10 +71,10 @@ def strip_spaces_in_template(template_source):
 
 
 class SpacelessMiddleware(MiddlewareMixin):
-    """trim spaces between tags if not in DEBUG"""
-
-    # pylint: disable=no-self-use
-    def process_response(self, request, response):
+    @staticmethod
+    def process_response(
+        request: WSGIRequest, response: HttpResponse
+    ) -> HttpResponse:
         if not settings.DEBUG:
             response.content = strip_spaces_in_template(
                 response.content.decode("utf-8")
@@ -79,10 +86,10 @@ class SpacelessMiddleware(MiddlewareMixin):
 
 
 class ForceDefaultLanguageMiddleware(MiddlewareMixin):
-    # pylint: disable=no-self-use
-    def process_response(self, request: WSGIRequest, response: WSGIRequest):
-        # response.LANG should theoretically exist
-
+    @staticmethod
+    def process_response(
+        request: WSGIRequest, response: HttpResponse
+    ) -> HttpResponse:
         response.LANG = getattr(  # type: ignore
             request.user, "language", settings.LANGUAGE_CODE
         )
@@ -91,3 +98,22 @@ class ForceDefaultLanguageMiddleware(MiddlewareMixin):
         response.LANGUAGE_CODE = response.LANG  # type: ignore
 
         return response
+
+
+# =============================================================================
+
+
+class EnsureMnemonicGeneration(MiddlewareMixin):
+    @staticmethod
+    def process_request(request: WSGIRequest) -> Optional[HttpResponse]:
+        # ensure type of User to be our custom model
+        if (
+            not isinstance(request.user, User)
+            or resolve(request.path_info).url_name == "first_connect"
+        ):
+            return None
+
+        if request.user.is_authenticated and request.user.first_connect:
+            return redirect("users:first_connect")
+
+        return None

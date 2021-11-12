@@ -5,6 +5,10 @@ body {
     min-height: 100vh;
 }
 
+.text-monospace {
+    font-family: monospace!important;
+}
+
 .uk-card-default {
     border-radius: 5px;
     background: $background;
@@ -13,4 +17,10 @@ body {
     -5px -5px 10px lighten($background, 3%);
 
     outline: 1px solid lighten($background, 2%);
+}
+
+.uk-navbar.uk-background-secondary {
+    .uk-navbar-item {
+        color: #fff;
+    }
 }
