@@ -23,24 +23,32 @@
 
                     <div class="uk-margin">
                         <p>
-                            {% trans "Choose the mnemonic you wish to use." %}
+                            {% trans "Choose the mnemonic you want to save." %}
                         </p>
                     </div>
 
                     {% for lang_name, mnemonic in mnemonics.items %}
                         <hr>
-                        <form action="">
+                        <form action="{% url 'users:first_connect' page='next' %}" method="post">
+                            {% csrf_token %}
+
+                            {% if redirect_field_value %}
+                                <input type="hidden" name="{{ redirect_field_name }}"
+                                       value="{{ redirect_field_value }}"/>
+                            {% endif %}
+
                             <fieldset class="uk-fieldset">
                                 <legend class="uk-legend">{{ lang_name }}</legend>
 
                                 <div class="uk-margin uk-grid-small" uk-grid>
                                     <div class="uk-width-expand@m uk-width-1-1">
                                         <label class="uk-form-label">
-                                            <input class="uk-input text-monospace" type="text" value="{{ mnemonic }}">
+                                            <input class="uk-input text-monospace" name="mnemonic" type="text"
+                                                   value="{{ mnemonic }}">
                                         </label>
                                     </div>
                                     <div class="uk-width-auto@m uk-width-1-1">
-                                        <button class="uk-button uk-button-primary uk-width-1">
+                                        <button type="submit" class="uk-button uk-button-primary uk-width-1">
                                             {% trans "Choice" %}
                                         </button>
                                     </div>

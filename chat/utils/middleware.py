@@ -3,12 +3,11 @@ from typing import Optional
 
 from django.conf import settings
 from django.core.handlers.wsgi import WSGIRequest
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.urls import resolve
 from django.utils import translation
 from django.utils.deprecation import MiddlewareMixin
-from rich import inspect
 
 from chat.users.models import User
 

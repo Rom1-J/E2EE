@@ -5,6 +5,7 @@ from chat.users.views import (
     UserDetailView,
     UserUpdateView,
     UserRedirectView,
+    UserResetPasswordView,
 )
 
 app_name = "users"
@@ -22,5 +23,10 @@ urlpatterns = [
     path("~redirect/", view=UserRedirectView.as_view(), name="redirect"),
     path("~update/", view=UserUpdateView.as_view(), name="update"),
     path("~security/", view=UserUpdateView.as_view(), name="security"),
+    path(
+        "reset_password/",
+        view=UserResetPasswordView.as_view(),
+        name="reset_password",
+    ),
     path("<str:username>/", view=UserDetailView.as_view(), name="detail"),
 ]

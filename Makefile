@@ -38,6 +38,10 @@ migrations:
 migrate:
 	$(MANAGE_PY) migrate
 
+.PHONY: graph_model
+graph_model:
+	$(MANAGE_PY) graph_models -a -o models.png
+
 #######################
 # Style
 #######################

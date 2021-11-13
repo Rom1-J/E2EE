@@ -19,3 +19,11 @@ d
 4chat/templates/layouts/components/message/block.html,3/e/3ef08d506c4a64b66203963fc25927b5eb00ea16
 Y
 )chat/templates/layouts/parts/sidebar.html,e/a/eabbd5a8b009dae85951e8d6a0cac8957aacfcf5
+F
+requirements/local.txt,8/8/8892fad390a2a63633fc1995fd5948ab29910d63
+M
+chat/static/sass/project.scss,d/8/d8769238f28264a9b51e3853abd39fdd199c72f3
+P
+ chat/templates/guild/invite.html,f/3/f332a50b0d8418d8cadfc4ef7f7630983a6dd653
+]
+-chat/templates/users/first_connect/first.html,f/7/f720e76e44795dc53752913204817c39f0276b74

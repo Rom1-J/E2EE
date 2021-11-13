@@ -64,7 +64,6 @@ DJANGO_APPS = [
     "jazzmin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
-    "django.contrib.sessions",
     "django.contrib.sites",
     "django.contrib.messages",
     "django.contrib.staticfiles",
@@ -289,7 +288,8 @@ STATICFILES_FINDERS += ["compressor.finders.CompressorFinder"]
 # Your stuff...
 # ------------------------------------------------------------------------------
 APP_NAME = "E2EE Chat"
-PASSWORD_MIN_LENGTH = 15
+SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 ACCOUNT_USERNAME_VALIDATORS = (
     "chat.users.validators.custom_username_validators"
