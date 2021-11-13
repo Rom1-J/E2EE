@@ -1,8 +1,6 @@
 
 7
 COPYING,6/1/6156cd6ac57d8b88e473d9202392ec064b623c93
-9
-	setup.cfg,8/c/8c91c0296909b5ea3c496fde69e9dc44a6c6ae5f
 h
 8chat/templates/layouts/components/message/decryptor.html,a/0/a073b20bc7c45f0182a44f42cc1e537dbae8ea5c
 X

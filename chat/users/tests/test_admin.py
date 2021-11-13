@@ -6,9 +6,32 @@ from chat.users.models import User
 pytestmark = pytest.mark.django_db
 
 
+# noinspection PyProtectedMember
+@pytest.fixture(autouse=True)
+def admin_user(
+    db: None, django_user_model, django_username_field: str
+):  # pylint: disable=unused-argument
+    UserModel = django_user_model
+
+    try:
+        user = User.objects.get(username="admin")
+    except UserModel.DoesNotExist:
+        user = User()
+        user.username = "admin"
+        user.set_password("password")
+
+        user.first_connect = False
+        user.is_superuser = True
+        user.is_staff = True
+
+        user.save()
+    return user
+
+
 class TestUserAdmin:
     def test_changelist(self, admin_client):
         url = reverse("admin:users_user_changelist")
+        print(url)
         response = admin_client.get(url)
         assert response.status_code == 200
 

@@ -1,3 +1,8 @@
+#!make
+include .env
+VARS:=$(shell sed -ne 's/ *\#.*$$//; /./ s/=.*$$// p' .env )
+$(foreach v,$(VARS),$(eval $(shell echo export $(v)="$($(v))")))
+
 VIRTUAL_ENV := venv
 PYTHON_PATH := $(VIRTUAL_ENV)/bin/python
 
@@ -26,6 +31,10 @@ shell:
 .PHONY: manage
 manage:
 	$(MANAGE_PY) $(ARGS)
+
+.PHONY: test
+test:
+	$(PYTHON_PATH) -m pytest $(ARGS)
 
 #######################
 # Database
