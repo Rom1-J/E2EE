@@ -1,8 +1,8 @@
 import os
 import uuid
 
-from PIL import Image, ImageOps, UnidentifiedImageError
 from django.utils.deconstruct import deconstructible
+from PIL import Image, ImageOps, UnidentifiedImageError
 
 
 def remove_exif(image_input: str):

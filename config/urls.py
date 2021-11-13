@@ -4,7 +4,6 @@ from django.contrib import admin
 from django.urls import include, path, re_path
 from django.views import defaults as default_views
 
-
 urlpatterns = [
     re_path(
         r"^accounts/.*email/",

@@ -34,6 +34,9 @@ jobs:
       - name: Install and Run Pre-commit
         uses: pre-commit/action@v2.0.0
 
+      - name: Setup Graphviz
+        uses: ts-graphviz/setup-graphviz@v1
+
   # With no caching at all the entire ci process takes 4m 30s to complete!
   pytest:
     runs-on: ubuntu-latest
@@ -50,7 +53,6 @@ jobs:
       DATABASE_URL: "postgres://postgres:postgres@localhost:5432/postgres"
 
     steps:
-
       - name: Checkout Code Repository
         uses: actions/checkout@v2
 

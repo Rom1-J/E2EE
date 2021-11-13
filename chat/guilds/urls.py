@@ -2,13 +2,12 @@ from django.urls import path
 
 from .features.channels.urls import urlpatterns as channels_routes
 from .features.invites.urls import urlpatterns as invites_routes
-
 from .views import (
-    GuildHomeView,
     GuildCreateView,
-    GuildJoinView,
     GuildDetailView,
+    GuildHomeView,
     GuildInvitesView,
+    GuildJoinView,
     GuildMembersView,
     GuildSettingsView,
 )

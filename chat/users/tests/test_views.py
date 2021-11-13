@@ -7,10 +7,7 @@ from django.test import RequestFactory
 
 from chat.users.forms import UserChangeForm
 from chat.users.models import User
-from chat.users.views import (
-    UserRedirectView,
-    UserUpdateView,
-)
+from chat.users.views import UserRedirectView, UserUpdateView
 
 pytestmark = pytest.mark.django_db
 

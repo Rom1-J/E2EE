@@ -1,9 +1,9 @@
 from django.urls import path
 
-from .views import (
+from .views import (  # isort:skip
     GuildChannelCreateView,
-    GuildChannelEditView,
     GuildChannelDetailView,
+    GuildChannelEditView,
 )
 
 urlpatterns = [

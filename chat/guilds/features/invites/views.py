@@ -2,16 +2,14 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.handlers.wsgi import WSGIRequest
 from django.db.models import Q
-from django.http import HttpResponse, Http404
+from django.http import Http404, HttpResponse
 from django.shortcuts import redirect
-from django.views import View
 from django.utils.translation import gettext as _
+from django.views import View
 
 from ...views import template_path
-
-from .models import Invite
 from .mixins import OwnsInvitationMixin
-
+from .models import Invite
 
 template_path += "invite/"
 

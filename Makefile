@@ -51,8 +51,8 @@ lint:
 
 .PHONY: black
 black:
-	$(PYTHON_PATH) -m black chat --line-length=79
-	$(PYTHON_PATH) -m black config --line-length=79
+	$(PYTHON_PATH) -m black chat
+	$(PYTHON_PATH) -m black config
 
 .PHONY: type
 type:
@@ -60,3 +60,7 @@ type:
 
 .PHONY: style
 style: black type lint
+
+.PHONY: pre_commit
+pre_commit:
+	pre-commit run --all-files

@@ -1,8 +1,8 @@
 import base64
 from io import BytesIO
 
-from django import template
 import qrcode
+from django import template
 
 from chat.guilds.features.invites.models import Invite
 

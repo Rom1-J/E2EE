@@ -1,16 +1,14 @@
 import uuid
-from typing import Dict, Any
+from typing import Any, Dict
 
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
 
-from .mixins import ChanExistsMixin
 from ...models import Guild
-from ...views import template_path, BaseGuildView
-
 from ...utils import get_guild
-
+from ...views import BaseGuildView, template_path
+from .mixins import ChanExistsMixin
 
 template_path += "channels/"
 

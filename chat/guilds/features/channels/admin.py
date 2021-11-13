@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Channel, Message, Attachment
+from .models import Attachment, Channel, Message
 
 
 @admin.register(Channel)

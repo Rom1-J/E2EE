@@ -1,11 +1,11 @@
 from django.urls import path
 
 from chat.users.views import (
-    UserFistConnectView,
     UserDetailView,
-    UserUpdateView,
+    UserFistConnectView,
     UserRedirectView,
     UserResetPasswordView,
+    UserUpdateView,
 )
 
 app_name = "users"

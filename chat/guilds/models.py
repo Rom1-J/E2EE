@@ -1,14 +1,14 @@
 import uuid
 
-from PIL import Image
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
+from PIL import Image
 
 from chat.users.models import User
 
-from .features.channels.models import Channel
 from ..utils.functions import PathAndRename
+from .features.channels.models import Channel
 
 
 class Guild(models.Model):

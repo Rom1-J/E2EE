@@ -1,9 +1,6 @@
 from django.urls import path
 
-from .views import (
-    GuildJoinInviteView,
-    GuildDeleteInviteView,
-)
+from .views import GuildDeleteInviteView, GuildJoinInviteView
 
 urlpatterns = [
     path(
