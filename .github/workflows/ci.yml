@@ -61,6 +61,9 @@ jobs:
         with:
           python-version: 3.9
 
+      - name: Setup Graphviz
+        uses: ts-graphviz/setup-graphviz@v1
+
       - name: Get pip cache dir
         id: pip-cache-location
         run: |
