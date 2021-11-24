@@ -71,3 +71,13 @@ class GuildMembersForm(forms.ModelForm):
             self.add_error(
                 "members", _("The guild owner cannot kick nor ban.")
             )
+
+
+# =============================================================================
+
+
+class GuildChannelsForm(forms.ModelForm):
+    class Meta:
+        model = Guild
+
+        fields = ["channels"]

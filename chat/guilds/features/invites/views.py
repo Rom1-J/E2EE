@@ -26,7 +26,7 @@ class GuildJoinInviteView(LoginRequiredMixin, View):
             return redirect("guild:guild_details", guild_id=guild.id)
 
         invite.uses += 1
-        guild.members.add(self.request.user)
+        guild.members.add(self.request.user)  # type: ignore
         guild.save()
         invite.save()
 

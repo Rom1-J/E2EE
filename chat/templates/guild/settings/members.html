@@ -2,6 +2,7 @@
 {% load debug %}
 {% load crispy_forms_tags %}
 {% load i18n %}
+{% load guilds %}
 
 {% block title %}{{ guild.name }} | {% trans "Members" %} - {{ APP_NAME }}{% endblock %}
 
@@ -9,12 +10,21 @@
     <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid>
         <div class="uk-width-1-1@m">
             <div class="uk-margin uk-width-1 uk-margin-auto uk-card uk-card-default">
+                <div class="uk-card-header">
+                    <ul class="uk-breadcrumb uk-margin-remove-bottom">
+                        <li><a href="{% url "guild:home" %}">Guilds</a></li>
+                        <li><a href="{% url "guild:guild_details" guild.id %}">{{ guild.name }}</a></li>
+                        <li><a href="{% url "guild:guild_settings" guild.id %}">{% trans "Settings" %}</a></li>
+                        <li><span>{% trans "Members" %}</span></li>
+                    </ul>
+                </div>
+
                 <div class="uk-card-body">
                     <h1 class="uk-card-title uk-text-center">
                         {% trans "Members" %}
                     </h1>
 
-                    <form action="{% url 'guild:guild_members' guild.id %}" method="post">
+                    <form action="{% url 'guild:guild_settings_members' guild.id %}" method="post">
                         {% csrf_token %}
 
                         <div class="uk-overflow-auto uk-margin-bottom">
@@ -24,7 +34,7 @@
                                 <tr>
                                     <th scope="col" class="uk-table-shrink"></th>
                                     <th scope="col" class="uk-table-expand">{% trans "Name" %}</th>
-                                    <th scope="col" class="uk-width-medium">{% trans "Created at" %}</th>
+                                    <th scope="col" class="uk-width-medium">{% trans "Messages sent" %}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -47,9 +57,7 @@
                                         </td>
                                         <td>
                                             <label for="user_checkbox_{{ member.id }}">
-                                                <time datetime="{{ member.date_joined.isoformat }}">
-                                                    {{ member.date_joined }}
-                                                </time>
+                                                {{ member|get_messages_sent:guild|length }}
                                             </label>
                                         </td>
                                     </tr>
@@ -74,10 +82,12 @@
 
                         <div class="uk-margin uk-flex uk-flex-between">
                             <div class="uk-button-group">
-                                <button class="uk-button uk-button-primary" type="submit" value="kick" name="{{ form.action.name }}">
+                                <button class="uk-button uk-button-primary" type="submit" value="kick"
+                                        name="{{ form.action.name }}">
                                     {% trans 'Kick' %}
                                 </button>
-                                <button class="uk-button uk-button-danger" type="submit" value="ban" name="{{ form.action.name }}">
+                                <button class="uk-button uk-button-danger" type="submit" value="ban"
+                                        name="{{ form.action.name }}">
                                     {% trans 'Ban' %} (disabled)
                                 </button>
                             </div>

@@ -8,8 +8,9 @@ from .views import (
     GuildHomeView,
     GuildInvitesView,
     GuildJoinView,
-    GuildMembersView,
-    GuildSettingsView,
+    GuildSettingsChannelsView,
+    GuildSettingsHomeView,
+    GuildSettingsMembersView,
 )
 
 app_name = "guild"
@@ -27,19 +28,24 @@ urlpatterns += [
         name="guild_details",
     ),
     path(
-        "<uuid:guild_id>/members/",
-        view=GuildMembersView.as_view(),
-        name="guild_members",
-    ),
-    path(
         "<uuid:guild_id>/invites/",
         view=GuildInvitesView.as_view(),
         name="guild_invites",
     ),
     path(
         "<uuid:guild_id>/settings/",
-        view=GuildSettingsView.as_view(),
+        view=GuildSettingsHomeView.as_view(),
         name="guild_settings",
+    ),
+    path(
+        "<uuid:guild_id>/settings/members/",
+        view=GuildSettingsMembersView.as_view(),
+        name="guild_settings_members",
+    ),
+    path(
+        "<uuid:guild_id>/settings/channels/",
+        view=GuildSettingsChannelsView.as_view(),
+        name="guild_settings_channels",
     ),
 ]
 

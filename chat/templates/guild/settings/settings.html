@@ -5,6 +5,7 @@
 
 {% block title %}{{ guild.name }} | {% trans "Settings" %} - {{ APP_NAME }}{% endblock %}
 
+
 {% block content %}
     <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid>
         <div class="uk-width-1-1@m">
@@ -82,7 +83,7 @@
                                 {% trans "Members" %}
                             </label>
                             <div class="uk-form-controls">
-                                <a href="{% url 'guild:guild_members' guild.id %}"
+                                <a href="{% url 'guild:guild_settings_members' guild.id %}"
                                    class="uk-width-1-1 uk-button uk-button-default">{% trans "Kick/ban members" %}</a>
                             </div>
                         </div>
@@ -92,7 +93,7 @@
                                 {% trans "Channels" %}
                             </label>
                             <div class="uk-form-controls">
-                                <a href="{% url 'guild:guild_invites' guild.id %}"
+                                <a href="{% url 'guild:guild_settings_channels' guild.id %}"
                                    class="uk-width-1-1 uk-button uk-button-default">{% trans "Manage channels" %}</a>
                             </div>
                         </div>

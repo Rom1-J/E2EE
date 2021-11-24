@@ -1,0 +1,134 @@
+{% extends "layouts/base.html" %}
+{% load debug %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% load guilds %}
+
+{% block title %}{{ guild.name }} | {% trans "Channels" %} - {{ APP_NAME }}{% endblock %}
+
+{% block content %}
+    <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid>
+        <div class="uk-width-1-1@m">
+            <div class="uk-margin uk-width-1 uk-margin-auto uk-card uk-card-default">
+                <div class="uk-card-header">
+                    <ul class="uk-breadcrumb uk-margin-remove-bottom">
+                        <li><a href="{% url "guild:home" %}">Guilds</a></li>
+                        <li><a href="{% url "guild:guild_details" guild.id %}">{{ guild.name }}</a></li>
+                        <li><a href="{% url "guild:guild_settings" guild.id %}">{% trans "Settings" %}</a></li>
+                        <li><span>{% trans "Channels" %}</span></li>
+                    </ul>
+                </div>
+
+                <div class="uk-card-body">
+                    <h1 class="uk-card-title uk-text-center">
+                        {% trans "Channels" %}
+                    </h1>
+
+                    <div class="uk-grid-small uk-grid-divider" uk-grid>
+                        <div class="uk-width-1-2@s">
+                            <fieldset class="uk-fieldset">
+                                <legend class="uk-legend uk-text-center">{% trans "Disposition" %}</legend>
+
+                                <ul class="uk-list">
+                                    {% for row in guild|show_channels_and_categories %}
+                                        <li>
+                                            <a class="uk-link">
+                                                <span uk-icon="icon: triangle-down"></span>
+                                                <span>{{ row.name }}</span>
+                                            </a>
+                                            <a class="uk-button uk-button-link uk-text-top">
+                                                <span uk-icon="icon: cog"></span>
+                                            </a>
+                                            {% if not row.parent %}
+                                                <ul class="uk-list uk-margin-left">
+                                                    {% for channel in row|show_channels_from_category %}
+                                                        <li>
+                                                            <a class="uk-link">
+                                                                <span uk-icon="icon: hashtag"></span>
+                                                                <span>{{ channel.name }}</span>
+                                                            </a>
+                                                            <a class="uk-button uk-button-link uk-text-top">
+                                                                <span uk-icon="icon: cog"></span>
+                                                            </a>
+                                                        </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            {% endif %}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </fieldset>
+                        </div>
+
+                        <div class="uk-width-1-2@s">
+                            <fieldset class="uk-fieldset">
+                                <legend class="uk-legend uk-text-center">{% trans "Creation" %}</legend>
+
+                                <form>
+                                    <fieldset class="uk-fieldset">
+                                        <legend class="uk-legend">{% trans "Category" %}</legend>
+                                        <div class="uk-margin">
+                                            <label class="uk-form-label" for="form_category_name">Category name</label>
+                                            <input type="text" class="uk-input" id="form_category_name"
+                                                   placeholder="Name">
+                                        </div>
+
+                                        <div class="uk-margin">
+                                            <button class="uk-button uk-button-primary" name="action_add">
+                                                {% trans "Create" %}
+                                            </button>
+                                        </div>
+                                    </fieldset>
+                                </form>
+
+                                <hr>
+
+                                <form>
+                                    <fieldset class="uk-fieldset">
+                                        <legend class="uk-legend">{% trans "Channel" %}</legend>
+                                        <div class="uk-margin">
+                                            <label class="uk-form-label" for="form_channel_name">Channel name</label>
+                                            <input type="text" class="uk-input" placeholder="Name"
+                                                   id="form_channel_name">
+                                        </div>
+
+                                        <div class="uk-margin">
+                                            <label class="uk-form-label" for="form_channel_parent">
+                                                Parent category
+                                            </label>
+                                            <select class="uk-select" id="form_channel_parent">
+                                                <optgroup label="Default">
+                                                    <option selected>{% trans "None" %}</option>
+                                                </optgroup>
+                                                <optgroup label="_________">
+                                                    {% for row in guild|show_channels_and_categories %}
+                                                        <option>{{ row.name }}</option>
+                                                    {% endfor %}
+                                                </optgroup>
+                                            </select>
+                                        </div>
+
+                                        <div class="uk-margin">
+                                            <button class="uk-button uk-button-primary" name="action_add">
+                                                {% trans "Create" %}
+                                            </button>
+                                        </div>
+                                    </fieldset>
+                                </form>
+
+                                <hr>
+
+                                <div class="uk-margin uk-flex uk-flex-right">
+                                    <a class="uk-button uk-button-default"
+                                       href="{% url 'guild:guild_settings' guild.id %}">
+                                        {% trans "Back" %}
+                                    </a>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

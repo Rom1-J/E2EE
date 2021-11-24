@@ -10,7 +10,7 @@
     <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid>
         <div class="uk-width-1-1@m">
             <div
-                class="uk-margin uk-width-large uk-margin-auto uk-card uk-card-default uk-text-center">
+                    class="uk-margin uk-width-large uk-margin-auto uk-card uk-card-default uk-text-center">
                 <div class="uk-card-header">
                     <h1 class="uk-card-title">
                         {% trans "Invite" %}
@@ -42,7 +42,8 @@
                         <div class="uk-margin">
                             <label class="uk-inline uk-width-1-1" for="id_invite">
                                 <span class="uk-form-icon" uk-icon="icon: link"></span>
-                                <input class="uk-input uk-form-large text-monospace" type="text" value="{{ invite.key_url|abs_url }}"
+                                <input class="uk-input uk-form-large text-monospace" type="text"
+                                       value="{{ invite.key_url|abs_url }}"
                                        id="id_invite">
                             </label>
                         </div>
@@ -54,6 +55,10 @@
                                 </button>
                             </div>
                         {% endif %}
+
+                        <div class="uk-text-small uk-text-center">
+                            <a href="{% url 'guild:guild_details' invite.guild.id %}">{% trans "Guild home" %}</a>
+                        </div>
                     </form>
                 </div>
             </div>

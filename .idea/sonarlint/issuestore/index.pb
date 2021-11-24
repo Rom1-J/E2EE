@@ -7,8 +7,6 @@ X
 (chat/static/images/icons/circle_plus.svg,7/1/710beb2266b3babcf8a315e4692012e33057d270
 f
 6chat/templates/account/snippets/already_logged_in.html,4/f/4f3077e89d1e6445d37c9983da76939d69b94362
-W
-'chat/guilds/features/channels/models.py,9/4/94b6c92fad27f758da99610f39c62fbe01bef8f2
 N
 chat/templates/guild/home.html,d/3/d31aaf09010102dad391ab45c7b40eb4feb83712
 d
@@ -16,10 +14,16 @@ d
 Y
 )chat/templates/layouts/parts/sidebar.html,e/a/eabbd5a8b009dae85951e8d6a0cac8957aacfcf5
 F
-requirements/local.txt,8/8/8892fad390a2a63633fc1995fd5948ab29910d63
+.github/dependabot.yml,0/9/091aff741808a09242f252264b14f4a9adaa5305
+H
+.github/workflows/ci.yml,8/9/899ce9c202bf7bb5480e72836c3edc773c9c4244
+Q
+!chat/templates/account/login.html,9/3/930a721a34c460ca4d389cf27470804b2d1ecb1d
 M
-chat/static/sass/project.scss,d/8/d8769238f28264a9b51e3853abd39fdd199c72f3
-P
- chat/templates/guild/invite.html,f/3/f332a50b0d8418d8cadfc4ef7f7630983a6dd653
-]
--chat/templates/users/first_connect/first.html,f/7/f720e76e44795dc53752913204817c39f0276b74
+chat/users/tests/factories.py,a/e/ae2863a5e022fa5fc4ed40ed550140df3b314d0b
+W
+'chat/libs/templatetags/humanize_plus.py,e/6/e69c96bb77fcf3507391dcfe017460f3c3e3b5e2
+c
+3chat/templates/account/password_reset_from_key.html,3/9/39b5338a806d18e78fde13397be171ab5da0c9f4
+C
+chat/guilds/urls.py,0/b/0b3e2aca47b3d4658d7a894114a4d492897143a0

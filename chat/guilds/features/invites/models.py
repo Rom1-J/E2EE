@@ -1,17 +1,16 @@
 import uuid
 
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
 
-from chat.users.models import User
-
-from ...models import Guild
+User = get_user_model()
 
 
 class Invite(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
-    guild = models.ForeignKey(Guild, on_delete=models.CASCADE)
+    guild = models.ForeignKey("Guild", on_delete=models.CASCADE)
 
     key = models.CharField(max_length=10)
     author = models.ForeignKey(User, on_delete=models.CASCADE)

@@ -4,11 +4,12 @@ from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from PIL import Image
+from rich import inspect
 
 from chat.users.models import User
 
 from ..utils.functions import PathAndRename
-from .features.channels.models import Channel
+from .features.channels.models import Category, Channel
 
 
 class Guild(models.Model):
@@ -28,6 +29,9 @@ class Guild(models.Model):
     channels = models.ManyToManyField(
         Channel, blank=True, related_name="channels"
     )
+    categories = models.ManyToManyField(
+        Category, blank=True, related_name="categories"
+    )
 
     description = models.TextField(max_length=1024, blank=True, null=True)
 
@@ -46,7 +50,16 @@ class Guild(models.Model):
     # =========================================================================
 
     def save(self, *args, **kwargs):
+        for category in self.categories.all():
+            for channel in Channel.objects.filter(parent=category).all():
+                if channel not in self.channels.all():
+                    self.channels.add(channel)
+
+        inspect(self.channels, all=True)
+
         super().save(*args, **kwargs)
+
+        inspect(self.channels, all=True)
 
         img = Image.open(self.avatar.path)
 
@@ -57,7 +70,7 @@ class Guild(models.Model):
             img.save(self.avatar.path)
 
     def __str__(self):
-        return f"#{self.name} - {self.id or '-1'}"
+        return f"#{self.name} - {self.id or 'None'}"
 
 
 # =============================================================================

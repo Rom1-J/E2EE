@@ -13,7 +13,12 @@ from django.views import View
 
 from .features.channels.models import Channel
 from .features.invites.models import Invite
-from .forms import GuildChangeForm, GuildCreationForm, GuildMembersForm
+from .forms import (
+    GuildChangeForm,
+    GuildChannelsForm,
+    GuildCreationForm,
+    GuildMembersForm,
+)
 from .mixins import IsGuildOwnerMixin, IsInGuildMixin
 from .models import Guild
 from .utils import get_guild
@@ -83,6 +88,13 @@ class GuildJoinView(LoginRequiredMixin, View):
 # =============================================================================
 
 
+class GuildOwnerView(LoginRequiredMixin, IsGuildOwnerMixin, View):
+    def dispatch(
+        self, request, *args, **kwargs
+    ):  # pylint: disable=useless-super-delegation
+        return super().dispatch(request, *args, **kwargs)
+
+
 class BaseGuildView(LoginRequiredMixin, IsInGuildMixin, View):
     def dispatch(
         self, request, *args, **kwargs
@@ -90,7 +102,9 @@ class BaseGuildView(LoginRequiredMixin, IsInGuildMixin, View):
         return super().dispatch(request, *args, **kwargs)
 
 
-class GuildOwnerView(LoginRequiredMixin, IsGuildOwnerMixin, View):
+class BaseGuildSettingsView(GuildOwnerView):
+    template_path = template_path + "settings/"
+
     def dispatch(
         self, request, *args, **kwargs
     ):  # pylint: disable=useless-super-delegation
@@ -132,7 +146,7 @@ class GuildInvitesView(BaseGuildView):
         if not (invite := Invite.objects.filter(guild_id=guild.id).first()):
             invite = Invite(
                 guild=guild,
-                author=self.request.user,
+                author=self.request.user,  # type: ignore
                 key="".join(random.choices(string.ascii_letters, k=10)),
             )
             invite.save()
@@ -143,8 +157,38 @@ class GuildInvitesView(BaseGuildView):
 # =============================================================================
 
 
-class GuildMembersView(BaseGuildView):
-    template_name = template_path + "members.html"
+class GuildSettingsHomeView(BaseGuildSettingsView):
+    template_name = BaseGuildSettingsView.template_path + "settings.html"
+
+    def get(self, request: WSGIRequest, guild_id: uuid.UUID) -> HttpResponse:
+        guild = get_guild(guild_id)
+        form = GuildChangeForm(instance=guild)
+
+        return render(
+            request, self.template_name, {"form": form, "guild": guild}
+        )
+
+    def post(self, request: WSGIRequest, guild_id: uuid.UUID) -> HttpResponse:
+        guild = get_guild(guild_id)
+        form = GuildChangeForm(request.POST, request.FILES, instance=guild)
+
+        if form.is_valid():
+            form.save()
+
+            return redirect(
+                "guild:guild_details", guild_id=str(form.instance.id)
+            )
+
+        return render(
+            request, self.template_name, {"form": form, "guild": guild}
+        )
+
+
+# =============================================================================
+
+
+class GuildSettingsMembersView(BaseGuildSettingsView):
+    template_name = BaseGuildSettingsView.template_path + "members.html"
 
     def get(self, request: WSGIRequest, guild_id: uuid.UUID) -> HttpResponse:
         guild = get_guild(guild_id)
@@ -186,12 +230,12 @@ class GuildMembersView(BaseGuildView):
 # =============================================================================
 
 
-class GuildSettingsView(GuildOwnerView):
-    template_name = template_path + "settings.html"
+class GuildSettingsChannelsView(BaseGuildSettingsView):
+    template_name = BaseGuildSettingsView.template_path + "channels.html"
 
     def get(self, request: WSGIRequest, guild_id: uuid.UUID) -> HttpResponse:
         guild = get_guild(guild_id)
-        form = GuildChangeForm(instance=guild)
+        form = GuildChannelsForm(instance=guild)
 
         return render(
             request, self.template_name, {"form": form, "guild": guild}
@@ -199,10 +243,23 @@ class GuildSettingsView(GuildOwnerView):
 
     def post(self, request: WSGIRequest, guild_id: uuid.UUID) -> HttpResponse:
         guild = get_guild(guild_id)
-        form = GuildChangeForm(request.POST, request.FILES, instance=guild)
+        form = GuildChannelsForm(request.POST, instance=guild)
 
-        if form.is_valid():
-            form.save()
+        if form.is_valid() and (members := form.data.get("members")):
+            if form.data.get("action") == "kick":
+                for member in members:
+                    guild.members.remove(User.objects.get(id=member))
+
+                messages.add_message(
+                    request,
+                    messages.SUCCESS,
+                    f"{len(members)} {_('members kicked')}",
+                )
+
+            elif form.data.get("action") == "ban":
+                messages.add_message(
+                    request, messages.INFO, "Not Implemented Yet"
+                )
 
             return redirect(
                 "guild:guild_details", guild_id=str(form.instance.id)
