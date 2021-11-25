@@ -46,12 +46,12 @@
     <div class="uk-animation-fade uk-animation-fast uk-flex-1 {% if SHOW_SIDEBAR %}uk-padding-small{% else %}uk-padding-large{% endif %}">
         <div {% if SHOW_SIDEBAR %} class="uk-grid-small" uk-grid {% else %} class="uk-container" {% endif %}>
             {% if SHOW_SIDEBAR %}
-                <div class="uk-width-1-1 uk-width-1-6@l">
+                <div class="uk-width-1-1">
                     {% include 'layouts/parts/sidebar.html' %}
                 </div>
             {% endif %}
 
-            <div class="uk-width-1-1 {% if SHOW_SIDEBAR %}uk-width-expand@l {% endif %}">
+            <div class="uk-width-1-1">
                 {% block content %}{% endblock content %}
             </div>
         </div>

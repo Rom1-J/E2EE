@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 
 from chat.users.forms import UserChangeForm, UserCreationForm
+from chat.users.models import UserSettings
 
 User = get_user_model()
 
@@ -14,17 +15,7 @@ class UserAdmin(auth_admin.UserAdmin):
     add_form = UserCreationForm
 
     fieldsets = (
-        (None, {"fields": ("username", "password")}),
-        (
-            _("Personal info"),
-            {
-                "fields": (
-                    "avatar",
-                    "language",
-                    "bio",
-                )
-            },
-        ),
+        (None, {"fields": ("username", "password", "settings")}),
         (
             _("Permissions"),
             {
@@ -42,3 +33,25 @@ class UserAdmin(auth_admin.UserAdmin):
 
     list_display = ["id", "username", "is_superuser"]
     search_fields = ["username", "id"]
+
+
+# =============================================================================
+
+
+@admin.register(UserSettings)
+class UserSettingsAdmin(admin.ModelAdmin):
+    fieldsets = (
+        (None, {"fields": ("theme", "language")}),
+        (
+            _("Personal info"),
+            {
+                "fields": (
+                    "avatar",
+                    "bio",
+                )
+            },
+        ),
+    )
+
+    list_display = ["id", "theme", "language"]
+    search_fields = ["theme", "language", "id"]

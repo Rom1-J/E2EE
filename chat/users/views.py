@@ -5,17 +5,16 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.tokens import default_token_generator
-from django.contrib.messages.views import SuccessMessageMixin
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views import View
-from django.views.generic import DetailView, RedirectView, UpdateView
+from django.views.generic import DetailView, RedirectView
 from faker import Faker
 
-from chat.users.forms import ResetPasswordForm
+from .forms import ResetPasswordForm, UserSettingsForm
 
 User = get_user_model()
 template_path = "users/"
@@ -43,18 +42,6 @@ class UserDetailView(BaseUsersView, DetailView):
 # =============================================================================
 
 
-class UserUpdateView(BaseUsersView, SuccessMessageMixin, UpdateView):
-    model = User
-    fields = ["username", "avatar", "language", "bio"]
-    success_message = _("Information successfully updated")
-
-    def get_object(self):
-        return self.request.user
-
-
-# =============================================================================
-
-
 class UserRedirectView(BaseUsersView, RedirectView):
     permanent = False
 
@@ -62,6 +49,34 @@ class UserRedirectView(BaseUsersView, RedirectView):
         return reverse(
             "users:detail", kwargs={"username": self.request.user.username}
         )
+
+
+# =============================================================================
+
+
+class UserUpdateView(BaseUsersView, View):
+    template_name = template_path + "settings.html"
+
+    def get(self, request: WSGIRequest) -> HttpResponse:
+        form = UserSettingsForm(instance=request.user.settings)  # type: ignore
+
+        return render(request, self.template_name, {"form": form})
+
+    def post(self, request: WSGIRequest) -> HttpResponse:
+        form = UserSettingsForm(request.POST, instance=request.user.settings)  # type: ignore
+
+        if form.is_valid():
+            form.save()
+
+            messages.add_message(
+                request,
+                messages.SUCCESS,
+                _("Information updated successfully"),
+            )
+
+            return redirect("users:redirect")
+
+        return render(request, self.template_name, {"form": form})
 
 
 # =============================================================================

@@ -11,8 +11,6 @@ N
 chat/templates/guild/home.html,d/3/d31aaf09010102dad391ab45c7b40eb4feb83712
 d
 4chat/templates/layouts/components/message/block.html,3/e/3ef08d506c4a64b66203963fc25927b5eb00ea16
-Y
-)chat/templates/layouts/parts/sidebar.html,e/a/eabbd5a8b009dae85951e8d6a0cac8957aacfcf5
 F
 .github/dependabot.yml,0/9/091aff741808a09242f252264b14f4a9adaa5305
 H

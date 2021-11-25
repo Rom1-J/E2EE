@@ -31,24 +31,35 @@
 
                                 <ul class="uk-list">
                                     {% for row in guild|show_channels_and_categories %}
-                                        <li>
-                                            <a class="uk-link">
-                                                <span uk-icon="icon: triangle-down"></span>
-                                                <span>{{ row.name }}</span>
-                                            </a>
-                                            <a class="uk-button uk-button-link uk-text-top">
-                                                <span uk-icon="icon: cog"></span>
-                                            </a>
+                                        <li class="uk-box-shadow-small uk-background uk-padding-small">
+                                            <div class="uk-flex uk-flex-between">
+                                                <div>
+                                                    <a class="uk-link">
+                                                        <span>{{ row.name }}</span>
+                                                        <span class="uk-text-top" uk-icon="icon: cog"></span>
+                                                    </a>
+                                                </div>
+                                                <div class="uk-button-group">
+                                                    <a class="uk-button uk-button-link uk-text-top">
+                                                        <span uk-icon="icon: triangle-down"></span>
+                                                    </a>
+                                                    <a class="uk-button uk-button-link uk-text-top">
+                                                        <span uk-icon="icon: triangle-up"></span>
+                                                    </a>
+                                                </div>
+                                            </div>
                                             {% if not row.parent %}
                                                 <ul class="uk-list uk-margin-left">
                                                     {% for channel in row|show_channels_from_category %}
                                                         <li>
+                                                            <a class="uk-button uk-button-link uk-text-top">
+                                                                <span uk-icon="icon: triangle-down"></span>
+                                                            </a>
                                                             <a class="uk-link">
-                                                                <span uk-icon="icon: hashtag"></span>
                                                                 <span>{{ channel.name }}</span>
                                                             </a>
                                                             <a class="uk-button uk-button-link uk-text-top">
-                                                                <span uk-icon="icon: cog"></span>
+                                                                <span uk-icon="icon: triangle-up"></span>
                                                             </a>
                                                         </li>
                                                     {% endfor %}

@@ -89,9 +89,12 @@ class ForceDefaultLanguageMiddleware(MiddlewareMixin):
     def process_response(
         request: WSGIRequest, response: HttpResponse
     ) -> HttpResponse:
-        response.LANG = getattr(  # type: ignore
-            request.user, "language", settings.LANGUAGE_CODE
-        )
+        lang = settings.LANGUAGE_CODE
+
+        if request.user.is_authenticated and hasattr(request.user, "settings"):
+            lang = getattr(request.user.settings, "language", lang)
+
+        response.LANG = lang.lower().split("-")[0]  # type: ignore
 
         translation.activate(response.LANG)  # type: ignore
         response.LANGUAGE_CODE = response.LANG  # type: ignore

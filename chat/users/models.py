@@ -4,23 +4,23 @@ from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 from PIL import Image
 
 from chat.utils.functions import PathAndRename
 
 
-class User(AbstractUser):
+class UserSettings(models.Model):
+    class Theme(models.TextChoices):
+        DARK = "DK", _("Dark")
+        LIGHT = "LT", _("Light")
+
+    class Meta:
+        verbose_name_plural = _("User Settings")
+
+    # =========================================================================
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-
-    avatar = models.ImageField(
-        upload_to=PathAndRename("users/avatar"), blank=True, null=True
-    )
-
-    bio = models.TextField(max_length=1000, blank=True, null=True)
-
-    first_name = None  # type: ignore
-    last_name = None  # type: ignore
-    email = None  # type: ignore
 
     language = models.CharField(
         max_length=10,
@@ -28,12 +28,15 @@ class User(AbstractUser):
         default=settings.LANGUAGE_CODE,
     )
 
-    first_connect = models.BooleanField(default=True)
-    mnemonic = models.CharField(max_length=255, blank=True, null=True)
+    theme = models.CharField(
+        max_length=2, choices=Theme.choices, default=Theme.DARK
+    )
 
-    # =========================================================================
+    avatar = models.ImageField(
+        upload_to=PathAndRename("users/avatar"), blank=True, null=True
+    )
 
-    USERNAME_FIELD = "username"
+    bio = models.TextField(max_length=1000, blank=True, null=True)
 
     # =========================================================================
 
@@ -48,6 +51,43 @@ class User(AbstractUser):
 
                 img.thumbnail(output_size)
                 img.save(self.avatar.path)
+
+
+# =============================================================================
+
+
+class User(AbstractUser):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    settings = models.ForeignKey(
+        UserSettings,
+        on_delete=models.SET_NULL,
+        related_name="user_settings",
+        blank=True,
+        null=True,
+    )
+
+    first_name = None  # type: ignore
+    last_name = None  # type: ignore
+    email = None  # type: ignore
+
+    first_connect = models.BooleanField(default=True)
+    mnemonic = models.CharField(max_length=255, blank=True, null=True)
+
+    # =========================================================================
+
+    USERNAME_FIELD = "username"
+
+    # =========================================================================
+
+    def save(self, *args, **kwargs):
+        if not self.settings:
+            user_settings = UserSettings()
+            user_settings.save()
+
+            self.settings = user_settings
+
+        super().save(*args, **kwargs)
 
     # =========================================================================
 

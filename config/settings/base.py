@@ -38,8 +38,8 @@ USE_TZ = True
 LOCALE_PATHS = [str(ROOT_DIR / "locale")]
 
 LANGUAGES = [
-    ("fr-FR", "Français (beta)"),
-    ("en-US", "English"),
+    ("fr", "Français (beta)"),
+    ("en", "English"),
 ]
 
 # DATABASES

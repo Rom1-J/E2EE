@@ -19,7 +19,7 @@ def get_messages_sent(member: User, guild: Guild):  # type: ignore
 def show_channels_and_categories(guild: Guild):
     output: List[Union[Category, Channel]] = []
 
-    output.extend(guild.channels.all())
+    output.extend(guild.channels.filter(parent=None).all())
     output.extend(guild.categories.all())
 
     output.sort(key=lambda x: x.position)

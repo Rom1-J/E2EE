@@ -1,0 +1,11 @@
+@import "../variables";
+
+.uk-card-default {
+    border-radius: 5px;
+    background: $background;
+
+    box-shadow: 5px 5px 10px darken($background, 15%),
+    -5px -5px 10px darken($background, 3%);
+
+    outline: 1px solid lighten($background, 2%);
+}

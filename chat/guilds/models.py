@@ -4,7 +4,6 @@ from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from PIL import Image
-from rich import inspect
 
 from chat.users.models import User
 
@@ -55,11 +54,7 @@ class Guild(models.Model):
                 if channel not in self.channels.all():
                     self.channels.add(channel)
 
-        inspect(self.channels, all=True)
-
         super().save(*args, **kwargs)
-
-        inspect(self.channels, all=True)
 
         img = Image.open(self.avatar.path)
 

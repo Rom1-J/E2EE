@@ -3,7 +3,7 @@ from django.http import HttpRequest
 from django.test import RequestFactory
 
 from chat.users.models import User
-from chat.users.views import UserRedirectView, UserUpdateView
+from chat.users.views import UserRedirectView
 
 pytestmark = pytest.mark.django_db
 
@@ -20,15 +20,6 @@ class TestUserUpdateView:
     # noinspection PyMethodMayBeStatic
     def dummy_get_response(self, request: HttpRequest):
         return None
-
-    def test_get_object(self, user: User, rf: RequestFactory):
-        view = UserUpdateView()
-        request = rf.get("/fake-url/")
-        request.user = user
-
-        view.request = request
-
-        assert view.get_object() == user
 
 
 class TestUserRedirectView:

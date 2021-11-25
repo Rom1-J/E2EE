@@ -7,12 +7,17 @@ from django.contrib.auth.hashers import check_password
 from django.core.handlers.wsgi import WSGIRequest
 from django.utils.translation import gettext_lazy as _
 
+from .models import UserSettings
+
 User = get_user_model()
 
 
 class UserChangeForm(admin_forms.UserChangeForm):
     class Meta(admin_forms.UserChangeForm.Meta):
         model = User
+
+
+# =============================================================================
 
 
 class UserCreationForm(admin_forms.UserCreationForm):
@@ -22,6 +27,24 @@ class UserCreationForm(admin_forms.UserCreationForm):
         error_messages = {
             "username": {"unique": _("This username has already been taken.")}
         }
+
+
+# =============================================================================
+
+
+class UserSettingsForm(forms.ModelForm):
+    class Meta:
+        model = UserSettings
+
+        fields = ["bio", "avatar", "language", "theme"]
+
+    def clean_field(self):
+        data = self.cleaned_data["avatar"]
+
+        if not data:
+            data = self.instance.avatar
+
+        return data
 
 
 # =============================================================================
@@ -40,6 +63,9 @@ class SignupForm(AllauthSignupForm):
         self.custom_signup(request, user)
 
         return user
+
+
+# =============================================================================
 
 
 class ResetPasswordForm(forms.Form):
