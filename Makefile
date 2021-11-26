@@ -1,7 +1,7 @@
 #!make
 include .env
 VARS:=$(shell sed -ne 's/ *\#.*$$//; /./ s/=.*$$// p' .env )
-$(foreach v,$(VARS),$(eval $(shell echo export $(v)="$($(v))")))
+$(foreach v,$(VARS),$(eval $(shell echo $(export $(v)="$($(v))"))))
 
 VIRTUAL_ENV := venv
 PYTHON_PATH := $(VIRTUAL_ENV)/bin/python
@@ -19,7 +19,7 @@ run:
 
 .PHONY: gulp
 gulp:
-	DJANGO_READ_DOT_ENV_FILE=True npm run dev
+	DJANGO_READ_DOT_ENV_FILE=True yarn dev
 
 .PHONY: console
 console: shell
@@ -56,7 +56,11 @@ graph_model:
 #######################
 .PHONY: lint
 lint:
-	$(PYTHON_PATH) -m pylint chat --load-plugins=pylint_django --django-settings-module=config.settings.local $(addprefix -d duplicate-code , $(TESTS))
+	$(PYTHON_PATH) -m pylint chat \
+		--load-plugins=pylint_django \
+		--django-settings-module=config.settings.local \
+		$(addprefix -d duplicate-code , $(TESTS)) \
+		$(addprefix -d line-too-long , $(TESTS))
 
 .PHONY: black
 black:

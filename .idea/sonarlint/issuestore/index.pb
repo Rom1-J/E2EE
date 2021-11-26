@@ -23,5 +23,3 @@ W
 'chat/libs/templatetags/humanize_plus.py,e/6/e69c96bb77fcf3507391dcfe017460f3c3e3b5e2
 c
 3chat/templates/account/password_reset_from_key.html,3/9/39b5338a806d18e78fde13397be171ab5da0c9f4
-C
-chat/guilds/urls.py,0/b/0b3e2aca47b3d4658d7a894114a4d492897143a0

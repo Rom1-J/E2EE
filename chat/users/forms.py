@@ -1,3 +1,5 @@
+from typing import Optional, Tuple
+
 from allauth.account.adapter import get_adapter
 from allauth.account.forms import SignupForm as AllauthSignupForm
 from django import forms
@@ -5,8 +7,11 @@ from django.contrib.auth import forms as admin_forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import check_password
 from django.core.handlers.wsgi import WSGIRequest
+from django.http import JsonResponse
 from django.utils.translation import gettext_lazy as _
 
+from ..guilds.features.channels.models import Category
+from ..utils.patch_processor import ProcessAction
 from .models import UserSettings
 
 User = get_user_model()
@@ -86,3 +91,90 @@ class ResetPasswordForm(forms.Form):
                 cleaned_data["mnemonic"], self.user.mnemonic
             ):
                 self.add_error("__all__", _("Username or mnemonic incorrect."))
+
+
+# =============================================================================
+# Custom forms
+# =============================================================================
+
+
+def collapse_category(
+    request: WSGIRequest, data: dict
+) -> Optional[Tuple[bool, dict]]:
+    user_settings: UserSettings = request.user.settings  # type: ignore
+    category: Category = data["values"]["category"]
+
+    if user_settings.collapsed_categories.filter(id=category.id).exists():
+        user_settings.collapsed_categories.remove(category)
+    else:
+        user_settings.collapsed_categories.add(category)
+
+    return True, {
+        "data": {"success": True, "message": "Collapse toggled."},
+        "status": 200,
+    }
+
+
+# =============================================================================
+
+
+def collapse_category_check_category_id(
+    request: WSGIRequest, data: dict
+) -> Optional[Tuple[bool, dict]]:
+    values = data.get("values", {})
+
+    if "category_id" not in values:
+        return False, {
+            "data": {
+                "success": False,
+                "message": "Missing field category_id.",
+            },
+            "status": 400,
+        }
+
+    return True, {}
+
+
+# =============================================================================
+
+
+def collapse_category_check_existing_category(
+    request: WSGIRequest, data: dict
+) -> Optional[Tuple[bool, dict]]:
+    values = data.get("values", {})
+
+    if not (
+        category := Category.objects.filter(
+            id=values.get("category_id"), guild__members__in=[request.user]
+        ).first()
+    ):
+        return False, {
+            "data": {"success": False, "message": "Category unknown."},
+            "status": 400,
+        }
+
+    return True, {"category": category}
+
+
+# =============================================================================
+
+
+collapse_category_actions = [collapse_category]
+collapse_category_checks = [
+    collapse_category_check_category_id,
+    collapse_category_check_existing_category,
+]
+
+
+class UserClientUpdateProcessAction:
+    process = (
+        ProcessAction()
+        .add_actions("collapse_category", *collapse_category_actions)
+        .add_checks("collapse_category", *collapse_category_checks)
+    )
+
+    def __init__(self, request: WSGIRequest):
+        self.process.process(request)
+
+    def response(self) -> JsonResponse:
+        return self.process.response()

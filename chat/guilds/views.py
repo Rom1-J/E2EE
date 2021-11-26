@@ -5,7 +5,7 @@ import uuid
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.handlers.wsgi import WSGIRequest
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.utils.translation import ugettext_lazy as _
 from django.views import View
@@ -19,6 +19,7 @@ from .forms import (
     GuildChannelsForm,
     GuildCreationForm,
     GuildMembersForm,
+    GuildSettingsChannelsProcessAction,
 )
 from .mixins import IsGuildOwnerMixin, IsInGuildMixin
 from .models import Guild
@@ -268,6 +269,11 @@ class GuildSettingsChannelsView(BaseGuildSettingsView):
         return render(
             request, self.template_name, {"form": form, "guild": guild}
         )
+
+    # noinspection PyMethodMayBeStatic
+    def patch(self, request: WSGIRequest, guild_id: uuid.UUID) -> JsonResponse:
+        guild = get_guild(guild_id)
+        return GuildSettingsChannelsProcessAction(request, guild).response()
 
 
 # =============================================================================

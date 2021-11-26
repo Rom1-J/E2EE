@@ -23,9 +23,8 @@ const spawn = require('child_process').spawn
 const uglify = require('gulp-uglify-es').default
 
 // Relative paths function
-function pathsConfig(appName) {
+function pathsConfig() {
     this.app = `./${pjson.name}`
-    const vendorsRoot = 'node_modules'
 
     return {
         app: this.app,
@@ -74,7 +73,7 @@ function scripts() {
     return src(`${paths.js}/project.js`)
         .pipe(eslint())
         .pipe(eslint.format())
-        .pipe(eslint.failAfterError())
+        .pipe(eslint.failOnError())
         .pipe(plumber()) // Checks for errors
         .pipe(uglify()) // Minifies the js
         .pipe(rename({suffix: '.min'}))

@@ -25,7 +25,7 @@
                     </h1>
 
                     <div class="uk-grid-small uk-grid-divider" uk-grid>
-                        <div class="uk-width-1-2@s">
+                        <div class="uk-width-1-2@m">
                             <fieldset class="uk-fieldset">
                                 <legend class="uk-legend uk-text-center">{% trans "Disposition" %}</legend>
 
@@ -35,16 +35,20 @@
                                             <div class="uk-flex uk-flex-between">
                                                 <div>
                                                     <a class="uk-link">
-                                                        <span>{{ row.name }}</span>
                                                         <span class="uk-text-top" uk-icon="icon: cog"></span>
+                                                        <span>{{ row.name }}</span>
                                                     </a>
                                                 </div>
                                                 <div class="uk-button-group">
                                                     <a class="uk-button uk-button-link uk-text-top">
-                                                        <span uk-icon="icon: triangle-down"></span>
+                                                        <span class="move_row" data-direction="down"
+                                                              data-row-id="{{ row.id }}"
+                                                              uk-icon="icon: triangle-down"></span>
                                                     </a>
                                                     <a class="uk-button uk-button-link uk-text-top">
-                                                        <span uk-icon="icon: triangle-up"></span>
+                                                        <span class="move_row" data-direction="up"
+                                                              data-row-id="{{ row.id }}"
+                                                              uk-icon="icon: triangle-up"></span>
                                                     </a>
                                                 </div>
                                             </div>
@@ -52,14 +56,19 @@
                                                 <ul class="uk-list uk-margin-left">
                                                     {% for channel in row|show_channels_from_category %}
                                                         <li>
-                                                            <a class="uk-button uk-button-link uk-text-top">
-                                                                <span uk-icon="icon: triangle-down"></span>
-                                                            </a>
                                                             <a class="uk-link">
+                                                                <span uk-icon="icon: cog"></span>
                                                                 <span>{{ channel.name }}</span>
                                                             </a>
                                                             <a class="uk-button uk-button-link uk-text-top">
-                                                                <span uk-icon="icon: triangle-up"></span>
+                                                                <span class="move_row" data-direction="down"
+                                                                      data-row-id="{{ channel.id }}"
+                                                                      uk-icon="icon: triangle-down"></span>
+                                                            </a>
+                                                            <a class="uk-button uk-button-link uk-text-top">
+                                                                <span class="move_row" data-direction="up"
+                                                                      data-row-id="{{ channel.id }}"
+                                                                      uk-icon="icon: triangle-up"></span>
                                                             </a>
                                                         </li>
                                                     {% endfor %}
@@ -71,7 +80,7 @@
                             </fieldset>
                         </div>
 
-                        <div class="uk-width-1-2@s">
+                        <div class="uk-width-1-2@m">
                             <fieldset class="uk-fieldset">
                                 <legend class="uk-legend uk-text-center">{% trans "Creation" %}</legend>
 
@@ -142,4 +151,35 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block inline_javascript %}
+    <script>
+        const rows = document.querySelectorAll(".move_row");
+        const UPDATE_GUILD_ENDPOINT = "{% url "guild:guild_settings_channels" guild.id %}";
+
+        rows.forEach((el) => {
+            el.addEventListener("click", e => {
+                const direction = el.getAttribute("data-direction");
+                const row_id = el.getAttribute("data-row-id")
+
+                fetch(
+                    UPDATE_GUILD_ENDPOINT,
+                    {
+                        method: "PATCH",
+                        headers: {
+                            "X-CSRFToken": "{{ csrf_token }}"
+                        },
+                        body: JSON.stringify({
+                            action: "move_row",
+                            values: {
+                                row_id: row_id,
+                                direction: direction
+                            },
+                        })
+                    }
+                )
+            })
+        })
+    </script>
 {% endblock %}
