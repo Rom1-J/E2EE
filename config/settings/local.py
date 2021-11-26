@@ -1,5 +1,9 @@
+from rich.traceback import install
+
 from .base import *  # noqa
 from .base import env
+
+install(show_locals=True)
 
 # GENERAL
 # ------------------------------------------------------------------------------

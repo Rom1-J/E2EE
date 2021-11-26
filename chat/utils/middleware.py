@@ -2,8 +2,10 @@ import re
 from typing import Optional
 
 from django.conf import settings
+from django.conf.urls.i18n import is_language_prefix_patterns_used
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import HttpResponse
+from django.middleware.locale import LocaleMiddleware
 from django.shortcuts import redirect
 from django.urls import resolve
 from django.utils import translation
@@ -84,22 +86,33 @@ class SpacelessMiddleware(MiddlewareMixin):
 # =============================================================================
 
 
-class ForceDefaultLanguageMiddleware(MiddlewareMixin):
+class CustomLocaleMiddleware(LocaleMiddleware):
     @staticmethod
-    def process_response(
-        request: WSGIRequest, response: HttpResponse
-    ) -> HttpResponse:
-        lang = settings.LANGUAGE_CODE
+    def process_request(request: WSGIRequest) -> None:  # type: ignore
+        urlconf = getattr(request, "urlconf", settings.ROOT_URLCONF)
+        (
+            i18n_patterns_used,
+            prefixed_default_language,
+        ) = is_language_prefix_patterns_used(urlconf)
+        language = translation.get_language_from_request(
+            request, check_path=i18n_patterns_used
+        )
+        language_from_path = translation.get_language_from_path(
+            request.path_info
+        )
+
+        if (
+            not language_from_path
+            and i18n_patterns_used
+            and not prefixed_default_language
+        ):
+            language = settings.LANGUAGE_CODE
 
         if request.user.is_authenticated and hasattr(request.user, "settings"):
-            lang = getattr(request.user.settings, "language", lang)
+            language = getattr(request.user.settings, "language", language)
 
-        response.LANG = lang.lower().split("-")[0]  # type: ignore
-
-        translation.activate(response.LANG)  # type: ignore
-        response.LANGUAGE_CODE = response.LANG  # type: ignore
-
-        return response
+        translation.activate(language)
+        request.LANGUAGE_CODE = translation.get_language()  # type: ignore
 
 
 # =============================================================================

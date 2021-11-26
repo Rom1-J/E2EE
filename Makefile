@@ -72,4 +72,4 @@ style: black type lint
 
 .PHONY: pre_commit
 pre_commit:
-	pre-commit run --all-files
+	./$(VIRTUAL_ENV)/bin/pre-commit run --all-files

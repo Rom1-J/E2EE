@@ -1,12 +1,17 @@
 .uk-card-default {
   border-radius: 5px;
-  background: #f9f9f9;
-  -webkit-box-shadow: 5px 5px 10px lightgray, -5px -5px 10px #f1f1f1;
-          box-shadow: 5px 5px 10px lightgray, -5px -5px 10px #f1f1f1;
-  outline: 1px solid #fefefe; }
+  background: #eee;
+  -webkit-box-shadow: 5px 5px 10px #c8c8c8, -5px -5px 10px #e6e6e6;
+          box-shadow: 5px 5px 10px #c8c8c8, -5px -5px 10px #e6e6e6;
+  outline: 1px solid #f3f3f3; }
+  .uk-card-default .uk-card-header {
+    border-bottom: 1px solid #e6e6e6; }
 
 .uk-navbar.uk-background-secondary .uk-navbar-item {
   color: #fff; }
+
+.uk-navbar-dropdown {
+  padding: 10px; }
 
 .uk-offcanvas-bar {
   min-width: -webkit-fit-content;
@@ -17,13 +22,13 @@
     background: transparent;
     width: 8px; }
   .uk-offcanvas-bar::-webkit-scrollbar-thumb {
-    background: #f1f1f1;
+    background: #838383;
     border-radius: 8px; }
     .uk-offcanvas-bar::-webkit-scrollbar-thumb:hover {
-      background: lightgray; }
+      background: #6f6f6f; }
 
 body {
-  background-color: #f9f9f9;
+  background-color: #eee;
   min-height: 100vh; }
 
 .text-monospace {

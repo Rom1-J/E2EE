@@ -50,7 +50,15 @@ class Guild(models.Model):
 
     def save(self, *args, **kwargs):
         for category in self.categories.all():
+            if not category.guild:
+                category.guild = self
+                category.save()
+
             for channel in Channel.objects.filter(parent=category).all():
+                if not channel.guild:
+                    channel.guild = self
+                    channel.save()
+
                 if channel not in self.channels.all():
                     self.channels.add(channel)
 

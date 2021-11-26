@@ -50,7 +50,7 @@ class InviteAdmin(admin.ModelAdmin):
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    fieldsets = ((None, {"fields": ("name", "position")}),)
+    fieldsets = ((None, {"fields": ("name", "position", "guild")}),)
     list_display = ["id", "name", "guild", "position", "channels_count"]
     search_fields = ["id", "name"]
 
@@ -60,7 +60,9 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Channel)
 class ChannelAdmin(admin.ModelAdmin):
-    fieldsets = ((None, {"fields": ("name", "topic", "position", "parent")}),)
+    fieldsets = (
+        (None, {"fields": ("name", "topic", "position", "parent", "guild")}),
+    )
     list_display = [
         "id",
         "name",

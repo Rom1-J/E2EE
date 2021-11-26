@@ -3,13 +3,14 @@ import string
 import uuid
 
 from django.contrib import messages
-from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.utils.translation import ugettext_lazy as _
 from django.views import View
+
+from chat.users.models import User
 
 from .features.channels.models import Channel
 from .features.invites.models import Invite
@@ -23,7 +24,6 @@ from .mixins import IsGuildOwnerMixin, IsInGuildMixin
 from .models import Guild
 from .utils import get_guild
 
-User = get_user_model()
 template_path = "guild/"
 
 

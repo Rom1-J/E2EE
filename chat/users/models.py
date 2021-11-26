@@ -38,6 +38,10 @@ class UserSettings(models.Model):
 
     bio = models.TextField(max_length=1000, blank=True, null=True)
 
+    collapsed_categories = models.ManyToManyField(
+        "guilds.Category", default=None, blank=True
+    )
+
     # =========================================================================
 
     def save(self, *args, **kwargs):

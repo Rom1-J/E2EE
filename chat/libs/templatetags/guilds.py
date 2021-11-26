@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model
 
 from chat.guilds.features.channels.models import Category, Channel, Message
 from chat.guilds.models import Guild
+from chat.users.models import UserSettings
 
 User = get_user_model()
 register = template.Library()
@@ -36,3 +37,15 @@ def show_channels_from_category(category: Category):
     output.sort(key=lambda x: x.position)
 
     return output
+
+
+@register.simple_tag(name="collapsed_category")
+def collapsed_category(category: Category, member: User):  # type: ignore
+    if hasattr(member, "settings"):
+        user_settings: UserSettings = member.settings  # type: ignore
+
+        return user_settings.collapsed_categories.filter(
+            id=category.id
+        ).exists()
+
+    return False

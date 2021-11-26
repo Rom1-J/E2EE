@@ -51,6 +51,10 @@ class UserSettingsAdmin(admin.ModelAdmin):
                 )
             },
         ),
+        (
+            _("Client"),
+            {"fields": ("collapsed_categories",)},
+        ),
     )
 
     list_display = ["id", "theme", "language"]

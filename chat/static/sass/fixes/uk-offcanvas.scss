@@ -10,11 +10,11 @@
     }
 
     &::-webkit-scrollbar-thumb {
-        background: darken($background, 3%);
+        background: darken($background, 42%);
         border-radius: 8px;
 
         &:hover {
-            background: darken($background, 15%);
+            background: darken($background, 50%);
         }
     }
 }

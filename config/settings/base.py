@@ -38,8 +38,8 @@ USE_TZ = True
 LOCALE_PATHS = [str(ROOT_DIR / "locale")]
 
 LANGUAGES = [
-    ("fr", "Français (beta)"),
-    ("en", "English"),
+    ("fr-fr", "Français (beta)"),
+    ("en-us", "English"),
 ]
 
 # DATABASES
@@ -133,7 +133,6 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -142,7 +141,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.middleware.gzip.GZipMiddleware",
     "chat.utils.middleware.SpacelessMiddleware",
-    "chat.utils.middleware.ForceDefaultLanguageMiddleware",
+    "chat.utils.middleware.CustomLocaleMiddleware",
     "chat.utils.middleware.EnsureMnemonicGeneration",
 ]
 
