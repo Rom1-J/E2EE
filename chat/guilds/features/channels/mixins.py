@@ -12,9 +12,7 @@ def chan_exists(request, *args, **kwargs):
         channel = Guild.objects.get(
             id=guild_id,
             members__in=[request.user],
-        ).get_channel(  # type: ignore
-            channel_id
-        )
+        ).channels.get(id__exact=channel_id)
 
         return channel or redirect("guild:guild_details", guild_id=guild_id)
 

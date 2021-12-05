@@ -1,3 +1,21 @@
 @import "uk-card";
 @import "uk-navbar";
 @import "uk-offcanvas";
+@import "uk-textarea";
+@import "uk-padding";
+
+* {
+    &::-webkit-scrollbar {
+        background: transparent;
+        width: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: darken($background, 42%);
+        border-radius: 8px;
+
+        &:hover {
+            background: darken($background, 50%);
+        }
+    }
+}

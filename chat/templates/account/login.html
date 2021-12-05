@@ -32,8 +32,7 @@
                                    class="uk-input uk-form-large
                                                     {% if form.login.errors %}uk-form-danger{% endif %}"
                                    placeholder="{% trans "Username" %}" type="text"
-                                   id="{{ form.login.id_for_label }}"
-                                   required>
+                                   id="{{ form.login.id_for_label }}" required>
                         </label>
                     </div>
 
@@ -46,15 +45,6 @@
                                    placeholder="{% trans "Password" %}" type="password"
                                    id="{{ form.password.id_for_label }}"
                                    required>
-                        </label>
-                    </div>
-
-                    <div class="uk-margin">
-                        <label class="uk-inline uk-width-1-1" for="{{ form.remember.id_for_label }}">
-                            <input name="{{ form.remember.name }}"
-                                   class="uk-checkbox" type="checkbox"
-                                   id="{{ form.remember.id_for_label }}">
-                            <span>{% trans "Keep me signed in" %}</span>
                         </label>
                     </div>
 

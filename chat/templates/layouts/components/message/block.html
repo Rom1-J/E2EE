@@ -1,3 +1,4 @@
+{% load define %}
 {% load static %}
 {% load debug %}
 {% load markdown %}
@@ -5,66 +6,51 @@
 {% load humanize %}
 {% load humanize_plus %}
 
-<div
-    {% with author=message.author %}
-        class="message
-{% if author == request.user %}message-me {% endif %}
-{% if message.same_previous_author %}no-radius-top {% endif %}
-{% if message.same_next_author %}no-radius-bottom {% endif %}
-"
-    {% endwith %}
-        id="{{ message.id }}">
-    <img class="messageAvatar"
-         src="
-{% if message.author.avatar.url %}
-{{ message.author.avatar.url }}
-{% else %}
-{% static "images/icons/circle_user.svg" %}
-{% endif %}
-" alt="" loading="lazy">
-    <div class="messageHeader">
-        <span class="username">
-            {{ message.author }}
-        </span>
-
-        <span class="timestamp">
-            <time title="{{ message.created_at }}" aria-label="{{ message.created_at|naturaltime }}"
-                  datetime="{{ message.created_at|date:"c" }}">
-                {{ message.created_at|naturaltime }}
-            </time>
-        </span>
-    </div>
-    <div class="messageContent">
-        <div class="content">
-            {{ message.content }}
-        </div>
-
-        {% with attachments=message.attachments.all %}
-            {% if attachments %}
-                <div class="attachments">
-                    <ul>
-                        {% for attachment in attachments %}
-                            <li>
-                                <a target="_blank" class="link" href="{{ attachment.file.url }}">
-                                    {{ attachment.filename|bold_extension }} {% trans "file" %}
-                                    <span>({{ attachment.file.size|naturalsize }})</span>
-                                </a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            {% endif %}
-        {% endwith %}
-    </div>
-
-
-    {% if message.author == request.user %}
-        <div class="messageAction">
-            <form action="">
-                <button type="submit">
-                    x
-                </button>
-            </form>
-        </div>
+{% with request|fake_message as message %}
+    {% if message.author.settings.avatar %}
+        {% define message.author.settings.avatar.url as messageAvatar %}
+    {% else %}
+        {% static "images/icons/circle_user.svg" as messageAvatar %}
     {% endif %}
-</div>
+
+    <article class="uk-alert uk-comment uk-position-relative uk-padding-small uk-margin-small uk-border-rounded
+        message {% if message.author == request.user %}message-me uk-alert-success{% else %}uk-alert-primary{% endif %}">
+
+        <header class="uk-comment-header">
+            <div class="uk-grid-medium uk-flex-middle" uk-grid>
+                <div class="uk-width-auto">
+                    <img class="uk-comment-avatar" src="{{ messageAvatar }}" width="42" height="42" alt="">
+                </div>
+                <div class="uk-width-expand">
+                    <h4 class="uk-comment-title uk-margin-remove">
+                        <a class="uk-link-reset" href="#">{{ message.author }}</a>
+                    </h4>
+
+                    <div class="uk-overflow-auto">
+                        <ul class="uk-comment-meta uk-subnav-divider uk-subnav uk-margin-remove-top">
+                            {% with attachments=message.attachments %}
+                                {% if attachments %}
+                                    {% for attachment in attachments %}
+                                        <li>
+                                            <a target="_blank" class="link" href="{{ attachment.file.url }}">
+                                                {{ attachment.filename|bold_extension }} {% trans "file" %}
+                                                <span>({{ attachment.file.size|naturalsize }})</span>
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endwith %}
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </header>
+
+        <div class="uk-comment-body">
+            <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore
+                et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
+                rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+        </div>
+    </article>
+{% endwith %}

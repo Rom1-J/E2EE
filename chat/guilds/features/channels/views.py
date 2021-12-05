@@ -69,8 +69,9 @@ class GuildChannelDetailView(BaseChannelView):
         channel_id: uuid.UUID,
     ) -> HttpResponse:
         params = get_params(request, guild_id)
+        guild: Guild = params["guild"]
 
-        channel = params["guild"].get_channel(channel_id)
+        channel = guild.channels.get(id__exact=channel_id)
 
         if not channel:
             return redirect("guild:guild_details", guild_id=str(guild_id))

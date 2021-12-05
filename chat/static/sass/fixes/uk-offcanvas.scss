@@ -2,19 +2,5 @@
 
 .uk-offcanvas-bar {
     min-width: fit-content;
-    border-right: 5px solid transparent;
-
-    &::-webkit-scrollbar {
-        background: transparent;
-        width: 8px;
-    }
-
-    &::-webkit-scrollbar-thumb {
-        background: darken($background, 42%);
-        border-radius: 8px;
-
-        &:hover {
-            background: darken($background, 50%);
-        }
-    }
+    border-right: 8px solid transparent;
 }

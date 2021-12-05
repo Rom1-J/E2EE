@@ -1,4 +1,6 @@
 {% extends "layouts/base.html" %}
+{% load define %}
+{% load checks %}
 {% load debug %}
 {% load crispy_forms_tags %}
 {% load i18n %}
@@ -31,12 +33,21 @@
 
                                 <ul class="uk-list">
                                     {% for row in guild|show_channels_and_categories %}
+                                        {% define row|isinstance:"chat.guilds.models.Category" as is_category %}
+
                                         <li class="uk-box-shadow-small uk-background uk-padding-small">
                                             <div class="uk-flex uk-flex-between">
                                                 <div>
                                                     <a class="uk-link">
-                                                        <span class="uk-text-top" uk-icon="icon: cog"></span>
+                                                        {% if is_category %}
+                                                            <span class="uk-text-top"
+                                                                  uk-icon="icon: chevron-down"></span>
+                                                        {% else %}
+                                                            <span class="uk-text-top"
+                                                                  uk-icon="icon: hashtag"></span>
+                                                        {% endif %}
                                                         <span>{{ row.name }}</span>
+                                                        <span class="uk-text-top" uk-icon="icon: cog"></span>
                                                     </a>
                                                 </div>
                                                 <div class="uk-button-group">
@@ -52,13 +63,15 @@
                                                     </a>
                                                 </div>
                                             </div>
-                                            {% if not row.parent %}
+                                            {% if is_category %}
                                                 <ul class="uk-list uk-margin-left">
                                                     {% for channel in row|show_channels_from_category %}
                                                         <li>
                                                             <a class="uk-link">
-                                                                <span uk-icon="icon: cog"></span>
+                                                                <span class="uk-text-top"
+                                                                      uk-icon="icon: hashtag"></span>
                                                                 <span>{{ channel.name }}</span>
+                                                                <span class="uk-text-top" uk-icon="icon: cog"></span>
                                                             </a>
                                                             <a class="uk-button uk-button-link uk-text-top">
                                                                 <span class="move_row" data-direction="down"
@@ -159,7 +172,7 @@
         const UPDATE_GUILD_ENDPOINT = "{% url "guild:guild_settings_channels" guild.id %}";
 
         rows.forEach((el) => {
-            el.addEventListener("click", e => {
+            el.addEventListener("click", () => {
                 const direction = el.getAttribute("data-direction");
                 const row_id = el.getAttribute("data-row-id")
 

@@ -92,12 +92,12 @@ class GuildChannelsForm(forms.ModelForm):
 
 def move_row(request: WSGIRequest, data: dict) -> Optional[Tuple[bool, dict]]:
     def get_channels_and_categories(
-        guild: Guild,
+        g: Guild,
     ) -> List[Union[Category, Channel]]:
         output: List[Union[Category, Channel]] = []
 
-        output.extend(guild.channels.filter(parent=None).all())
-        output.extend(guild.categories.all())
+        output.extend(g.channels.filter(parent=None).all())
+        output.extend(g.categories.all())
 
         output.sort(key=lambda x: x.position)
 
@@ -105,12 +105,25 @@ def move_row(request: WSGIRequest, data: dict) -> Optional[Tuple[bool, dict]]:
 
     row: Union[Category, Channel] = data["values"]["row"]
     guild: Guild = data["values"]["guild"]
-    direction: str = data["values"]["row"]
+    direction: str = data["values"]["direction"]
+
+    channels_and_categories = get_channels_and_categories(guild)
 
     if isinstance(row, Category):
-        inspect(guild)
-        inspect(direction)
-        inspect(get_channels_and_categories(guild))
+        index = channels_and_categories.index(row)
+
+        if (direction == "up" and index == 0) or (
+            direction == "down" and index + 1 == len(channels_and_categories)
+        ):
+            return True, {
+                "data": {
+                    "success": True,
+                    "message": "Nothing to move, row already at extremum.",
+                },
+                "status": 200,
+            }
+
+        inspect(index)  # todo: implement
 
     return True, {
         "data": {"success": True, "message": "Row moved."},

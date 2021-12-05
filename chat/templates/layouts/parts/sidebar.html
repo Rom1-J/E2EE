@@ -1,95 +1,78 @@
+{% load checks %}
 {% load define %}
 {% load guilds %}
 {% load static %}
 {% load compress %}
 {% load i18n %}
 
-<div class="uk-navbar-container uk-navbar-transparent uk-card-default uk-width-1-1"
-     uk-navbar="duration: 100; offset: 100px;">
-    <div class="uk-navbar-left">
-        <div class="uk-grid-small uk-flex-middle uk-margin-remove-left" uk-grid>
-            <div class="uk-width-auto">
-                <img class="uk-border-rounded" width="40" height="40" src="{{ guild.avatar.url }}"
-                     alt="{{ guild.name }}">
-            </div>
-            <div class="uk-width-expand">
-                <h3 class="uk-card-title uk-margin-remove-bottom uk-overflow-hidden">
-                    {{ guild.name }}
-                    {% if guild.owner == request.user %}
-                        <a href="{% url 'guild:guild_settings' guild.id %}">
-                            <span class="uk-text-middle" uk-icon="icon: cog"></span>
-                        </a>
-                    {% endif %}
-                </h3>
-                <p class="uk-text-meta uk-margin-remove-top">
-                    <span>{{ guild.members_count }} {% trans "members" %}</span>
-                </p>
+<div class="uk-card-header uk-padding-remove">
+    <div class="uk-navbar-container uk-navbar-transparent" uk-navbar="duration: 100; offset: 100px;">
+        <div class="uk-navbar-left">
+            <div class="uk-grid-small uk-flex-middle uk-margin-remove-left" uk-grid>
+                <div class="uk-width-auto">
+                    <img class="uk-border-rounded" width="40" height="40" src="{{ guild.avatar.url }}"
+                         alt="{{ guild.name }}">
+                </div>
+                <div class="uk-width-expand">
+                    <h3 class="uk-card-title uk-margin-remove-bottom uk-overflow-hidden">
+                        <a class="uk-card-title"
+                           href="{% url 'guild:guild_details' guild.id %}">{{ guild.name }}</a>
+                        {% if guild.owner == request.user %}
+                            <a href="{% url 'guild:guild_settings' guild.id %}">
+                                <span class="uk-text-middle" uk-icon="icon: cog"></span>
+                            </a>
+                        {% endif %}
+                    </h3>
+                    <p class="uk-text-meta uk-margin-remove-top">
+                        <span>{{ guild.members_count }} {% trans "members" %}</span>
+                    </p>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="uk-navbar-right">
-        <a class="uk-navbar-toggle uk-hidden@m" uk-toggle="target: #offcanvas-overlay">
-            <span uk-navbar-toggle-icon></span>
-            <span class="uk-margin-small-left">{% trans "Channels" %}</span>
-        </a>
-        <ul class="uk-navbar-nav uk-visible@m">
-            {% for row in guild|show_channels_and_categories %}
-                <li>
-                    {% if row.parent %}
-                        <a href="#">
-                            <span uk-icon="icon: hashtag"></span>
-                            <span>{{ channel.name }}</span>
-                        </a>
-                    {% else %}
-                        <a href="#">
-                            <span uk-icon="icon: chevron-down"></span>
-                            <span>{{ row.name }}</span>
-                        </a>
+        {% if channel %}
+            <div class="uk-navbar-center uk-card-title uk-visible@m">
+                <span uk-icon="icon: hashtag"></span>
+                {{ channel.name }}
+            </div>
+        {% endif %}
 
-                        <div class="uk-navbar-dropdown uk-card-default">
-                            <ul class="uk-nav uk-navbar-dropdown-nav">
-                                {% for channel in row|show_channels_from_category %}
-                                    <li>
-                                        <a class="uk-link">
-                                            <span uk-icon="icon: hashtag"></span>
-                                            <span>{{ channel.name }}</span>
-                                        </a>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
+        <div class="uk-navbar-right">
+            <a class="uk-navbar-toggle" uk-toggle="target: #offcanvas-overlay">
+                <span uk-navbar-toggle-icon></span>
+                <span class="uk-margin-small-left">{% trans "Channels" %}</span>
+            </a>
+        </div>
     </div>
 </div>
 
-<div id="offcanvas-overlay" uk-offcanvas="overlay: true; mode: reveal">
+<div id="offcanvas-overlay" uk-offcanvas="overlay: true">
     <div class="uk-offcanvas-bar">
         <button class="uk-offcanvas-close" type="button" uk-close></button>
 
         <ul class="uk-list">
             {% for row in guild|show_channels_and_categories %}
                 <li>
-                    {% if row.parent %}
-                        <a class="uk-link uk-nav-header uk-text-muted">
+                    {% if not row|isinstance:"chat.guilds.models.Category" %}
+                        <a href="{% url 'guild:channel_details' guild.id row.id %}" class="uk-link uk-text-muted">
                             <span uk-icon="icon: hashtag"></span>
-                            <span>{{ channel.name }}</span>
+                            <span>{{ row.name }}</span>
                         </a>
                     {% else %}
                         {% collapsed_category category=row member=request.user as collasped %}
                         <a class="uk-nav-header uk-text-muted" uk-toggle="target: .toggle_{{ row.id }};">
-                            <span class="toggle_{{ row.id }}" {% if collasped %}hidden{% endif %} uk-icon="icon: chevron-down"></span>
-                            <span class="toggle_{{ row.id }}" {% if not collasped %}hidden{% endif %} uk-icon="icon: chevron-right"></span>
+                            <span class="toggle_{{ row.id }}" {% if collasped %}hidden{% endif %}
+                                  uk-icon="icon: chevron-down"></span>
+                            <span class="toggle_{{ row.id }}" {% if not collasped %}hidden{% endif %}
+                                  uk-icon="icon: chevron-right"></span>
                             <span>{{ row.name }}</span>
                         </a>
 
                         <ul class="uk-list uk-margin-left toggle_{{ row.id }}" {% if collasped %}hidden{% endif %}>
                             {% for channel in row|show_channels_from_category %}
                                 <li>
-                                    <a class="uk-link uk-text-muted">
+                                    <a href="{% url 'guild:channel_details' guild.id channel.id %}"
+                                       class="uk-link uk-text-muted">
                                         <span uk-icon="icon: hashtag"></span>
                                         <span>{{ channel.name }}</span>
                                     </a>

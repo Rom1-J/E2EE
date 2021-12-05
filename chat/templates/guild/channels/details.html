@@ -1,29 +1,84 @@
 {% extends "layouts/base.html" %}
-{% load fakers %}
 {% load i18n %}
 
 {% block title %}{{ channel.name }} - {{ APP_NAME }}{% endblock %}
 
+{% block inline_stylesheet %}
+    <style>
+        #message_input:focus {
+            outline: none;
+            border: 1px solid #e5e5e5;
+        }
+    </style>
+{% endblock %}
+
 {% block content %}
-    <div id="messages" class="width-100 height-100">
+    <div class="uk-padding-small uk-card-body uk-padding-remove-bottom uk-overflow-auto" id="messages"
+         uk-height-viewport="offset-top: true; offset-bottom: true">
         {% with messages=channel.messages.all %}
             {% if messages %}
                 {% for message in messages %}
                     {% include "layouts/components/message/block.html" with message=message %}
                 {% endfor %}
             {% else %}
-                <div class="flex height-100 justify-center align-center">
-                    {% trans "No message..." %}
-                </div>
+                {#                            <div class="uk-text-center">#}
+                {#                                {% trans "No message..." %}#}
+                {#                            </div>#}
+
+                {% for message in "x"|rjust:"20" %}
+                    {% include "layouts/components/message/block.html" with message=message %}
+                {% endfor %}
             {% endif %}
-            </div>
         {% endwith %}
+    </div>
+
+    <div class="uk-card-footer">
+        <form action="">
+            <label class="uk-flex">
+                <button class="uk-button uk-button-default uk-padding-small uk-padding-remove-vertical">
+                    <span uk-icon="icon: plus-circle"></span>
+                </button>
+
+                <textarea id="message_input" class="uk-textarea"
+                          style="resize: none; max-height: 20vh"
+                          rows="2" placeholder="Message {{ channel }}"
+                ></textarea>
+
+                <button type="submit"
+                        class="uk-button uk-button-primary uk-padding-small uk-padding-remove-vertical">
+                    <span uk-icon="icon: forward"></span>
+                </button>
+            </label>
+        </form>
+    </div>
 {% endblock %}
 
 {% block inline_javascript %}
     <script>
         const messages = document.getElementById("messages");
-        messages.scrollTop = messages.scrollHeight;
+
+        document.addEventListener("DOMContentLoaded", () => {
+            console.log("a", messages.scrollHeight)
+            console.log("b", messages.scrollTop)
+            messages.scrollTop = messages.scrollHeight;
+            console.log("c", messages.scrollTop)
+        })
+
+        //////////////////////////////////////////////////////
+
+        const observer = new MutationObserver(function (mutations) {
+            mutations.forEach(function (mutationRecord) {
+                const style = mutationRecord.target.style;
+
+                if (style) {
+                    style.maxHeight = style.minHeight;
+                    observer.disconnect();
+                }
+            });
+        });
+
+        observer.observe(messages, {attributes: true, attributeFilter: ['style']})
+
     </script>
     {% include "layouts/components/message/decryptor.html" %}
 {% endblock %}

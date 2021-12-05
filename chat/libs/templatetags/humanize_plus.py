@@ -16,4 +16,10 @@ def bold_extension(filename: str):
 
     extension = frags.pop()
 
-    return mark_safe(f"{'.'.join(frags)}<b>.{extension}</b>")
+    return mark_safe(
+        f"<span>{'.'.join(frags)}"
+        f"<b class='uk-text-warning uk-text-bold'>"
+        f".{extension}"
+        f"</b>"
+        f"</span>"
+    )

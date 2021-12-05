@@ -1,1 +1,24 @@
 $background: #eee;
+
+// Alert // (colors from UiKit)
+$primary-background-color: #d8eafc;
+$primary-color: #1d68a4;
+
+$success-background-color: #edfbf6;
+$success-color: #029163;
+
+$warning-background-color: #fff6ee;
+$warning-color: #faa05a;
+
+$danger-background-color: #fef4f6;
+$danger-color: #f0506e;
+
+// Breakpoints // (Breakpoints from UiKit)
+$breakpoint-small: 640px !default;
+$breakpoint-medium: 960px !default;
+$breakpoint-large: 1200px !default;
+$breakpoint-xlarge: 1600px !default;
+$breakpoint-xsmall-max: ($breakpoint-small - 1) !default;
+$breakpoint-small-max: ($breakpoint-medium - 1) !default;
+$breakpoint-medium-max: ($breakpoint-large - 1) !default;
+$breakpoint-large-max: ($breakpoint-xlarge - 1) !default;
