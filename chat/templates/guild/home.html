@@ -3,51 +3,51 @@
 {% load good_morning %}
 {% load i18n %}
 
-{% block content %}
-    <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid>
-        <div class="uk-width-1-1@m">
-            <div class="uk-margin uk-margin-auto uk-card uk-card-default uk-text-center">
-                <div class="uk-card-header">
-                    <img class="uk-border-rounded" width="64" height="64"
-                        {% if user.avatar %}
-                         src="{{ user.avatar.url }}"
-                        {% else %}
-                         src="{% static 'images/icons/circle_user.svg' %}"
-                        {% endif %}
-                         alt="Avatar">
-                    <h1 class="uk-card-title">
-                        {{ user.username|good_morning }}
-                    </h1>
-                    <a href="{% url 'users:detail' user %}">{% trans "Account Settings" %}</a>
-                </div>
-                <div class="uk-card-body">
-                    <div class="uk-flex-center uk-grid-match uk-text-center" uk-grid>
-                        {% for guild in guilds %}
-                            <a href="{% url "guild:guild_details" guild.id %}">
-                                <div uk-tooltip="{{ guild.name }}" class="uk-card">
-                                    <div class="uk-card-body uk-flex uk-flex-column uk-flex-middle uk-padding-remove-vertical">
-                                        <img class="uk-border-rounded" loading="lazy"
-                                             width="69" height="69" alt="{{ guild.name }} Icon"
-                                             src="{{ guild.avatar.url }}">
-                                        <span>{{ guild.name }}</span>
-                                    </div>
-                                </div>
-                            </a>
-                        {% endfor %}
+{% block content_header %}
+    <div class="uk-card-header uk-text-center">
+        <img class="uk-border-rounded" width="128" height="128"
+            {% if user.settings.avatar %}
+             src="{{ user.settings.avatar.url }}"
+            {% else %}
+             src="{% static 'images/icons/circle_user.svg' %}"
+            {% endif %}
+             alt="Avatar">
+        <h1 class="uk-card-title uk-text-bold">
+            {{ user.username|good_morning }}
+        </h1>
+        <a class="uk-text-bold" href="{% url 'users:detail' user %}">
+            <span>{% trans "Account Settings" %}</span>
+            <span uk-icon="icon: chevron-right"></span>
+        </a>
+    </div>
+{% endblock %}
 
-                        <a title="{% trans 'Create guild' %}" href="{% url 'guild:create' %}"
-                           aria-label="{% trans "Create guild" %}">
-                            <div uk-tooltip="{% trans 'Create guild' %}" class="uk-card">
-                                <div class="uk-card-body uk-flex uk-flex-column uk-padding-remove-vertical">
-                                    <img class="uk-border-circle" loading="lazy"
-                                         width="69" height="69" alt="{{ guild.name }} Icon"
-                                         src="{% static "images/icons/circle_plus.svg" %}">
-                                </div>
-                            </div>
-                        </a>
+{% block content %}
+    <div class="uk-card-body">
+        <div class="uk-flex-center uk-grid-match uk-text-center uk-flex-bottom" uk-grid>
+            {% for guild in guilds %}
+                <a href="{% url "guild:guild_details" guild.id %}">
+                    <div uk-tooltip="{{ guild.name }}" class="uk-card">
+                        <div class="uk-card-body uk-flex uk-flex-column uk-flex-middle uk-padding-remove-vertical">
+                            <img class="uk-border-rounded" loading="lazy"
+                                 width="69" height="69" alt="{{ guild.name }} Icon"
+                                 src="{{ guild.avatar.url }}">
+                            <span>{{ guild.name }}</span>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+
+            <a title="{% trans 'Create guild' %}" href="{% url 'guild:create' %}"
+               aria-label="{% trans "Create guild" %}">
+                <div uk-tooltip="{% trans 'Create guild' %}" class="uk-card">
+                    <div class="uk-card-body uk-flex uk-flex-column uk-padding-remove-vertical">
+                        <img class="uk-border-circle" loading="lazy"
+                             width="69" height="69" alt="{{ guild.name }} Icon"
+                             src="{% static "images/icons/circle_plus.svg" %}">
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
 {% endblock content %}

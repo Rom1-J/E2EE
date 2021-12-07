@@ -68,7 +68,9 @@ class UserUpdateView(BaseUsersView, View):
 
     def post(self, request: WSGIRequest) -> HttpResponse:
         form = UserSettingsForm(
-            request.POST, instance=request.user.settings  # type: ignore
+            request.POST,
+            request.FILES,
+            instance=request.user.settings,  # type: ignore
         )
 
         if form.is_valid():

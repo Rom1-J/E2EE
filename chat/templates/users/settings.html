@@ -7,159 +7,153 @@
 {% block title %}{% trans "Personal data" %}{% endblock %}
 
 {% block content %}
-    <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid>
-        <div class="uk-width-1-1@m">
-            <div class="uk-margin uk-width-1 uk-margin-auto uk-card uk-card-default">
-                <div class="uk-card-body">
-                    <h1 class="uk-card-title uk-text-center">{% trans "Personal data" %}</h1>
+    <div class="uk-card-body">
+        <h1 class="uk-card-title uk-text-center">{% trans "Personal data" %}</h1>
 
-                    <form class="uk-grid" uk-grid method="post" action="{% url 'users:update' %}"
-                          enctype="multipart/form-data">
-                        {% csrf_token %}
+        <form class="uk-grid" uk-grid method="post" action="{% url 'users:update' %}"
+              enctype="multipart/form-data">
+            {% csrf_token %}
 
-                        {% if redirect_field_value %}
-                            <input type="hidden" name="{{ redirect_field_name }}"
-                                   value="{{ redirect_field_value }}"/>
-                        {% endif %}
+            {% if redirect_field_value %}
+                <input type="hidden" name="{{ redirect_field_name }}"
+                       value="{{ redirect_field_value }}"/>
+            {% endif %}
 
-                        {% if form.non_field_errors %}
-                            <div class="uk-alert uk-alert-danger">
-                                {{ form.non_field_errors }}
-                            </div>
-                        {% endif %}
+            {% if form.non_field_errors %}
+                <div class="uk-alert uk-alert-danger">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
 
-                        <div class="uk-margin uk-width-1-1">
-                            <label class="uk-form-label" for="id_username">
-                                {% trans "Username" %}
-                            </label>
-                            <div class="uk-form-controls">
-                                <input class="uk-input" type="text" required disabled
-                                       value="{{ request.user.username }}"
-                                       id="id_username" placeholder="{% trans 'Username' %}">
-                            </div>
-                        </div>
-
-                        <div class="uk-margin uk-width-1-3@s" uk-form-custom="target: true">
-                            <label class="uk-form-label" for="{{ form.avatar.id_for_label }}">
-                                {{ form.avatar.label }}
-                                {% if form.avatar.help_text %}
-                                    <span class="uk-text-muted">({{ form.avatar.help_text }})</span>
-                                {% endif %}
-                            </label>
-                            <input type="file" name="{{ form.avatar.name }}">
-                            <input class="uk-input {% if form.avatar.errors %}uk-form-danger{% endif %}" type="text"
-                                   placeholder="{% trans 'Choose an avatar' %}" id="{{ form.avatar.id_for_label }}"
-                                   disabled>
-
-                            {% if form.avatar.errors %}
-                                <ul class="uk-list uk-margin-remove uk-list-disc uk-list-collapse">
-                                    {% for error in form.avatar.errors %}
-                                        <li class="uk-text-danger">{{ error }}</li>
-                                    {% endfor %}
-                                </ul>
-                            {% endif %}
-                        </div>
-
-                        <div class="uk-margin uk-width-1-3@s">
-                            <label class="uk-form-label" for="{{ form.language.id_for_label }}">
-                                {{ form.language.label }}
-                                {% if form.language.help_text %}
-                                    <span class="uk-text-muted">({{ form.language.help_text }})</span>
-                                {% endif %}
-                            </label>
-                            <div class="uk-form-controls">
-                                <select class="uk-select {% if form.language.errors %}uk-form-danger{% endif %}"
-                                        id="{{ form.language.id_for_label }}" name="{{ form.language.name }}">
-                                    {% for choice in form.language %}
-                                        <option value="{{ choice.data.value }}"
-                                            {% if choice.data.selected %}
-                                                selected
-                                            {% endif %}>
-                                            {{ choice.data.label }}
-                                        </option>
-                                    {% endfor %}
-                                </select>
-
-                                {% if form.language.errors %}
-                                    <ul class="uk-list uk-margin-remove uk-list-disc uk-list-collapse">
-                                        {% for error in form.language.errors %}
-                                            <li class="uk-text-danger">{{ error }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        <div class="uk-margin uk-width-1-3@s">
-                            <label class="uk-form-label" for="{{ form.theme.id_for_label }}">
-                                {{ form.theme.label }}
-                                {% if form.theme.help_text %}
-                                    <span class="uk-text-muted">({{ form.theme.help_text }})</span>
-                                {% endif %}
-                            </label>
-                            <div class="uk-form-controls">
-                                <select class="uk-select {% if form.theme.errors %}uk-form-danger{% endif %}"
-                                        id="{{ form.theme.id_for_label }}" name="{{ form.theme.name }}">
-                                    {% for choice in form.theme %}
-                                        <option value="{{ choice.data.value }}"
-                                            {% if choice.data.selected %}
-                                                selected
-                                            {% endif %}>
-                                            {{ choice.data.label }}
-                                        </option>
-                                    {% endfor %}
-                                </select>
-
-                                {% if form.theme.errors %}
-                                    <ul class="uk-list uk-margin-remove uk-list-disc uk-list-collapse">
-                                        {% for error in form.theme.errors %}
-                                            <li class="uk-text-danger">{{ error }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        <div class="uk-margin uk-width-1-1">
-                            <label class="uk-form-label" for="{{ form.bio.id_for_label }}">
-                                {{ form.bio.label }}
-                                {% if form.bio.help_text %}
-                                    <span class="uk-text-muted">({{ form.bio.help_text }})</span>
-                                {% endif %}
-                            </label>
-                            <div class="uk-form-controls">
-                                {% if form.bio.initial %}
-                                    {% define form.bio.initial as initial %}
-                                {% else %}
-                                    {% define "" as initial %}
-                                {% endif %}
-
-                                <textarea class="uk-textarea {% if form.bio.errors %}uk-form-danger{% endif %}"
-                                          name="{{ form.bio.name }}" id="{{ form.bio.id_for_label }}"
-                                          style="resize: vertical"
-                                          rows="5" placeholder="{% trans 'Bio' %}">{{ initial }}</textarea>
-
-                                {% if form.bio.errors %}
-                                    <ul class="uk-list uk-margin-remove uk-list-disc uk-list-collapse">
-                                        {% for error in form.bio.errors %}
-                                            <li class="uk-text-danger">{{ error }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        <div class="uk-margin uk-width-1-1 uk-flex uk-flex-between">
-                            <button class="uk-button uk-button-primary" type="submit">
-                                {% trans "Save" %}
-                            </button>
-                            <a class="uk-button uk-button-default" href="{% url 'users:detail' user %}">
-                                {% trans "Back" %}
-                            </a>
-                        </div>
-                    </form>
+            <div class="uk-margin uk-width-1-1">
+                <label class="uk-form-label" for="id_username">
+                    {% trans "Username" %}
+                </label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" type="text" required disabled
+                           value="{{ request.user.username }}"
+                           id="id_username" placeholder="{% trans 'Username' %}">
                 </div>
             </div>
-        </div>
+
+            <div class="uk-margin uk-width-1-3@s" uk-form-custom="target: true">
+                <label class="uk-form-label" for="{{ form.avatar.id_for_label }}">
+                    {{ form.avatar.label }}
+                    {% if form.avatar.help_text %}
+                        <span class="uk-text-muted">({{ form.avatar.help_text }})</span>
+                    {% endif %}
+                </label>
+                <input type="file" name="{{ form.avatar.name }}">
+                <input class="uk-input {% if form.avatar.errors %}uk-form-danger{% endif %}" type="text"
+                       placeholder="{% trans 'Choose an avatar' %}" id="{{ form.avatar.id_for_label }}"
+                       disabled>
+
+                {% if form.avatar.errors %}
+                    <ul class="uk-list uk-margin-remove uk-list-disc uk-list-collapse">
+                        {% for error in form.avatar.errors %}
+                            <li class="uk-text-danger">{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="uk-margin uk-width-1-3@s">
+                <label class="uk-form-label" for="{{ form.language.id_for_label }}">
+                    {{ form.language.label }}
+                    {% if form.language.help_text %}
+                        <span class="uk-text-muted">({{ form.language.help_text }})</span>
+                    {% endif %}
+                </label>
+                <div class="uk-form-controls">
+                    <select class="uk-select {% if form.language.errors %}uk-form-danger{% endif %}"
+                            id="{{ form.language.id_for_label }}" name="{{ form.language.name }}">
+                        {% for choice in form.language %}
+                            <option value="{{ choice.data.value }}"
+                                {% if choice.data.selected %}
+                                    selected
+                                {% endif %}>
+                                {{ choice.data.label }}
+                            </option>
+                        {% endfor %}
+                    </select>
+
+                    {% if form.language.errors %}
+                        <ul class="uk-list uk-margin-remove uk-list-disc uk-list-collapse">
+                            {% for error in form.language.errors %}
+                                <li class="uk-text-danger">{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="uk-margin uk-width-1-3@s">
+                <label class="uk-form-label" for="{{ form.theme.id_for_label }}">
+                    {{ form.theme.label }}
+                    {% if form.theme.help_text %}
+                        <span class="uk-text-muted">({{ form.theme.help_text }})</span>
+                    {% endif %}
+                </label>
+                <div class="uk-form-controls">
+                    <select class="uk-select {% if form.theme.errors %}uk-form-danger{% endif %}"
+                            id="{{ form.theme.id_for_label }}" name="{{ form.theme.name }}">
+                        {% for choice in form.theme %}
+                            <option value="{{ choice.data.value }}"
+                                {% if choice.data.selected %}
+                                    selected
+                                {% endif %}>
+                                {{ choice.data.label }}
+                            </option>
+                        {% endfor %}
+                    </select>
+
+                    {% if form.theme.errors %}
+                        <ul class="uk-list uk-margin-remove uk-list-disc uk-list-collapse">
+                            {% for error in form.theme.errors %}
+                                <li class="uk-text-danger">{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="uk-margin uk-width-1-1">
+                <label class="uk-form-label" for="{{ form.bio.id_for_label }}">
+                    {{ form.bio.label }}
+                    {% if form.bio.help_text %}
+                        <span class="uk-text-muted">({{ form.bio.help_text }})</span>
+                    {% endif %}
+                </label>
+                <div class="uk-form-controls">
+                    {% if form.bio.initial %}
+                        {% define form.bio.initial as initial %}
+                    {% else %}
+                        {% define "" as initial %}
+                    {% endif %}
+
+                    <textarea class="uk-textarea {% if form.bio.errors %}uk-form-danger{% endif %}"
+                              name="{{ form.bio.name }}" id="{{ form.bio.id_for_label }}"
+                              style="resize: vertical"
+                              rows="5" placeholder="{% trans 'Bio' %}">{{ initial }}</textarea>
+
+                    {% if form.bio.errors %}
+                        <ul class="uk-list uk-margin-remove uk-list-disc uk-list-collapse">
+                            {% for error in form.bio.errors %}
+                                <li class="uk-text-danger">{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="uk-margin uk-width-1-1 uk-flex uk-flex-between">
+                <button class="uk-button uk-button-primary" type="submit">
+                    {% trans "Save" %}
+                </button>
+                <a class="uk-button uk-button-default" href="{% url 'users:detail' user %}">
+                    {% trans "Back" %}
+                </a>
+            </div>
+        </form>
     </div>
 {% endblock %}

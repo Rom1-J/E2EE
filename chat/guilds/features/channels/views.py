@@ -2,7 +2,7 @@ import uuid
 from typing import Any, Dict
 
 from django.core.handlers.wsgi import WSGIRequest
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 
 from ...models import Guild
@@ -80,3 +80,15 @@ class GuildChannelDetailView(BaseChannelView):
 
         print("pre render")
         return render(request, self.template_name, params)
+
+    # =========================================================================
+
+    def post(
+        self,
+        request: WSGIRequest,
+        guild_id: uuid.UUID,
+        channel_id: uuid.UUID,
+    ) -> JsonResponse:
+        result = {}
+
+        return JsonResponse(result)

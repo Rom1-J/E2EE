@@ -1,11 +1,12 @@
 @import "variables";
-@import "fixes/fixes";
 
-@import "components/message";
+@import "fixes/fixes";
+@import "components/components";
 
 body {
     background-color: $background;
     min-height: 100vh;
+    overflow: hidden;
 }
 
 .text-monospace {

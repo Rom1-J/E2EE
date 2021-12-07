@@ -6,63 +6,64 @@
 
 {% block title %}{{ APP_NAME }} - {% trans 'Invite' %}{% endblock %}
 
+{% block content_class %}
+    uk-width-large
+{% endblock %}
+
+{% block content_header %}
+    <div class="uk-card-header uk-text-center">
+        <h1 class="uk-card-title">
+            {% trans "Invite" %}
+        </h1>
+        <span class="uk-text-muted">({% trans "Uses:" %} {{ invite.uses }})</span>
+    </div>
+{% endblock %}
+
 {% block content %}
-    <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid>
-        <div class="uk-width-1-1@m">
-            <div
-                    class="uk-margin uk-width-large uk-margin-auto uk-card uk-card-default uk-text-center">
-                <div class="uk-card-header">
-                    <h1 class="uk-card-title">
-                        {% trans "Invite" %}
-                    </h1>
-                    <span class="uk-text-muted">({% trans "Uses:" %} {{ invite.uses }})</span>
+    <div class="uk-margin uk-margin-auto">
+        <div class="uk-card-body uk-padding-remove-top">
+            <form autocomplete="off" method="post" action="{% url 'guild:invite_delete' invite.key %}">
+                {% csrf_token %}
+
+                {% if redirect_field_value %}
+                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                {% endif %}
+
+                <div class="uk-margin">
+                    <a class="uk-width-1-1" target="_blank"
+                       href="{{ invite|generate_qr_code }}"
+                       download="{{ invite.guild.name }}_invite.png">
+                        <img src="{{ invite|generate_qr_code }}" alt="{{ invite.guild.name }} QR">
+                    </a>
                 </div>
-                <div class="uk-card-body uk-padding-remove-top">
-                    <form autocomplete="off" method="post" action="{% url 'guild:invite_delete' invite.key %}">
-                        {% csrf_token %}
 
-                        {% if redirect_field_value %}
-                            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-                        {% endif %}
+                {% if form.non_field_errors %}
+                    <div class="uk-alert uk-alert-danger">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
 
-                        <div class="uk-margin">
-                            <a class="uk-width-1-1" target="_blank"
-                               href="{{ invite|generate_qr_code }}"
-                               download="{{ invite.guild.name }}_invite.png">
-                                <img src="{{ invite|generate_qr_code }}" alt="{{ invite.guild.name }} QR">
-                            </a>
-                        </div>
-
-                        {% if form.non_field_errors %}
-                            <div class="uk-alert uk-alert-danger">
-                                {{ form.non_field_errors }}
-                            </div>
-                        {% endif %}
-
-                        <div class="uk-margin">
-                            <label class="uk-inline uk-width-1-1" for="id_invite">
-                                <span class="uk-form-icon" uk-icon="icon: link"></span>
-                                <input class="uk-input uk-form-large text-monospace" type="text"
-                                       value="{{ invite.key_url|abs_url }}"
-                                       id="id_invite">
-                            </label>
-                        </div>
-
-                        {% if invite.guild.owner == request.user %}
-                            <div class="uk-margin">
-                                <button type="submit" class="uk-button uk-button-danger uk-button-large uk-width-1-1">
-                                    {% trans "Delete" %}
-                                </button>
-                            </div>
-                        {% endif %}
-
-                        <div class="uk-text-small uk-text-center">
-                            <a href="{% url 'guild:guild_details' invite.guild.id %}">{% trans "Guild home" %}</a>
-                        </div>
-                    </form>
+                <div class="uk-margin">
+                    <label class="uk-inline uk-width-1-1" for="id_invite">
+                        <span class="uk-form-icon" uk-icon="icon: link"></span>
+                        <input class="uk-input uk-form-large text-monospace" type="text"
+                               value="{{ invite.key_url|abs_url }}"
+                               id="id_invite">
+                    </label>
                 </div>
-            </div>
+
+                {% if invite.guild.owner == request.user %}
+                    <div class="uk-margin">
+                        <button type="submit" class="uk-button uk-button-danger uk-button-large uk-width-1-1">
+                            {% trans "Delete" %}
+                        </button>
+                    </div>
+                {% endif %}
+
+                <div class="uk-text-small uk-text-center">
+                    <a href="{% url 'guild:guild_details' invite.guild.id %}">{% trans "Guild home" %}</a>
+                </div>
+            </form>
         </div>
     </div>
-
 {% endblock %}

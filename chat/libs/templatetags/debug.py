@@ -24,7 +24,7 @@ def _fake_message(request):
 
         for _ in range(
             random.choices(
-                range(5, 10), weights=[0.6, 0.3, 0.2, 0.05, 0.05], k=1
+                range(0, 5), weights=[0.6, 0.3, 0.2, 0.05, 0.05], k=1
             )[0]
         ):
             attachments.append(
@@ -32,7 +32,7 @@ def _fake_message(request):
                     "filename": fake.file_name(),
                     "file": {
                         "url": "dzadzadazdza",
-                        "size": random.randint(100, 4000),
+                        "size": random.randint(1000, 99999999),
                     },
                 }
             )

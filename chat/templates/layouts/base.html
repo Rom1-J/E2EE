@@ -43,20 +43,19 @@
         {% include 'layouts/parts/navbar.html' %}
     {% endblock navbar %}
 
-    <div
-        class="uk-padding-remove-horizontal@s uk-animation-fade uk-animation-fast uk-flex-1 uk-padding-remove-bottom {% if SHOW_SIDEBAR %}uk-padding-small{% else %}uk-padding-large{% endif %}">
+    <div class="uk-animation-fade uk-animation-fast uk-flex-1 uk-padding-remove-horizontal uk-padding-remove-bottom
+            {% if not SHOW_SIDEBAR %}uk-padding-large{% else %}uk-card-shadow{% endif %}">
         <div {% if SHOW_SIDEBAR %} class="uk-grid-small" uk-grid {% else %} class="uk-container" {% endif %}>
-            <div class="uk-width-1-1">
-                <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid>
-                    <div class="uk-width-1-1@m">
-                        <div class="uk-margin uk-margin-auto uk-card uk-card-default">
-                            {% if SHOW_SIDEBAR %}
-                                    {% include 'layouts/parts/sidebar.html' %}
-                            {% endif %}
+            <div class="uk-width-1-1@m">
+                <div class="uk-margin uk-margin-auto
+                    {% block content_class %}{% endblock content_class %} uk-card uk-card-default">
+                    {% if SHOW_SIDEBAR %}
+                        {% include 'layouts/parts/sidebar.html' %}
+                    {% endif %}
 
-                            {% block content %}{% endblock content %}
-                        </div>
-                    </div>
+                    {% block content_header %}{% endblock content_header %}
+
+                    {% block content %}{% endblock content %}
                 </div>
             </div>
         </div>

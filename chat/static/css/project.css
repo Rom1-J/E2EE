@@ -1,9 +1,10 @@
 .uk-card-default {
   border-radius: 5px;
-  background: #eee;
-  -webkit-box-shadow: 5px 5px 10px #c8c8c8, -5px -5px 10px #e6e6e6;
-          box-shadow: 5px 5px 10px #c8c8c8, -5px -5px 10px #e6e6e6;
-  outline: 1px solid #f3f3f3; }
+  background: #eee; }
+  .uk-card-default.uk-card-shadow {
+    outline: 1px solid #f3f3f3;
+    -webkit-box-shadow: 5px 5px 10px #c8c8c8, -5px -5px 10px #e6e6e6;
+            box-shadow: 5px 5px 10px #c8c8c8, -5px -5px 10px #e6e6e6; }
   .uk-card-default .uk-card-header {
     border-bottom: 1px solid #e6e6e6; }
 
@@ -17,7 +18,7 @@
   min-width: -webkit-fit-content;
   min-width: -moz-fit-content;
   min-width: fit-content;
-  border-right: 8px solid transparent; }
+  border-right: 5px solid transparent; }
 
 .uk-textarea {
   min-height: 41px; }
@@ -26,6 +27,10 @@
   [class^="uk-padding-remove-horizontal@s"] {
     padding-left: 0 !important;
     padding-right: 0 !important; } }
+
+.uk-badge-danger {
+  background-color: #f0506e;
+  color: white; }
 
 *::-webkit-scrollbar {
   background: transparent;
@@ -36,6 +41,9 @@
   border-radius: 8px; }
   *::-webkit-scrollbar-thumb:hover {
     background: #6f6f6f; }
+
+#messages {
+  border-right: 5px solid transparent; }
 
 .message {
   margin-right: 1.5em;
@@ -72,7 +80,8 @@
 
 body {
   background-color: #eee;
-  min-height: 100vh; }
+  min-height: 100vh;
+  overflow: hidden; }
 
 .text-monospace {
   font-family: monospace !important; }

@@ -14,7 +14,8 @@
     {% endif %}
 
     <article class="uk-alert uk-comment uk-position-relative uk-padding-small uk-margin-small uk-border-rounded
-        message {% if message.author == request.user %}message-me uk-alert-success{% else %}uk-alert-primary{% endif %}">
+        message {% if message.author == request.user %}message-me uk-alert-success{% else %}uk-alert-primary{% endif %}
+        uk-box-shadow-hover-medium uk-text-secondary">
 
         <header class="uk-comment-header">
             <div class="uk-grid-medium uk-flex-middle" uk-grid>
@@ -23,7 +24,7 @@
                 </div>
                 <div class="uk-width-expand">
                     <h4 class="uk-comment-title uk-margin-remove">
-                        <a class="uk-link-reset" href="#">{{ message.author }}</a>
+                        <a class="uk-link-reset" target="_blank" href="{% url 'users:detail' message.author %}">{{ message.author }}</a>
                     </h4>
 
                     <div class="uk-overflow-auto">
@@ -33,7 +34,7 @@
                                     {% for attachment in attachments %}
                                         <li>
                                             <a target="_blank" class="link" href="{{ attachment.file.url }}">
-                                                {{ attachment.filename|bold_extension }} {% trans "file" %}
+                                                {{ attachment.filename|bold_extension }}
                                                 <span>({{ attachment.file.size|naturalsize }})</span>
                                             </a>
                                         </li>

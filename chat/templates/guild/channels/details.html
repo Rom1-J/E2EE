@@ -33,14 +33,14 @@
     </div>
 
     <div class="uk-card-footer">
-        <form action="">
+        <form id="message_form">
             <label class="uk-flex">
                 <button class="uk-button uk-button-default uk-padding-small uk-padding-remove-vertical">
                     <span uk-icon="icon: plus-circle"></span>
                 </button>
 
                 <textarea id="message_input" class="uk-textarea"
-                          style="resize: none; max-height: 20vh"
+                          style="resize: none; max-height: 20vh" autofocus
                           rows="2" placeholder="Message {{ channel }}"
                 ></textarea>
 
@@ -56,13 +56,10 @@
 {% block inline_javascript %}
     <script>
         const messages = document.getElementById("messages");
+        const textarea = document.getElementById("message_input");
+        const form = document.getElementById("message_form");
 
-        document.addEventListener("DOMContentLoaded", () => {
-            console.log("a", messages.scrollHeight)
-            console.log("b", messages.scrollTop)
-            messages.scrollTop = messages.scrollHeight;
-            console.log("c", messages.scrollTop)
-        })
+        const POST_MESSAGE_ENDPOINT = "{% url 'guild:channel_details' guild.id channel.id %}"
 
         //////////////////////////////////////////////////////
 
@@ -74,10 +71,42 @@
                     style.maxHeight = style.minHeight;
                     observer.disconnect();
                 }
+
+                messages.scrollTop = messages.scrollHeight;
             });
         });
 
         observer.observe(messages, {attributes: true, attributeFilter: ['style']})
+
+        //////////////////////////////////////////////////////
+
+        function send_message() {
+            const formData = new FormData();
+            formData.append("content", textarea.value);
+            formData.append("attachments", undefined);
+
+            fetch(
+                POST_MESSAGE_ENDPOINT,
+                {
+                    method: "POST",
+                    headers: {
+                        "X-CSRFToken": "{{ csrf_token }}"
+                    },
+                    body: formData
+                }
+            )
+        }
+
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            send_message();
+        })
+
+        textarea.addEventListener("keyup", (e) => {
+            if (e.key === "Enter") {
+                send_message();
+            }
+        })
 
     </script>
     {% include "layouts/components/message/decryptor.html" %}

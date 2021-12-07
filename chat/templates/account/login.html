@@ -4,63 +4,63 @@
 
 {% block title %}{% trans "Sign In" %}{% endblock %}
 
+{% block content_class %}
+    uk-width-large
+{% endblock %}
+
 {% block content %}
-    <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid>
-        <div class="uk-width-1-1@m">
-            <div class="uk-margin uk-width-large uk-margin-auto uk-card uk-card-default uk-card-body">
-                <h1 class="uk-card-title uk-text-center">{% trans "Sign In" %} - {{ APP_NAME }}</h1>
+    <div class="uk-margin uk-margin-auto uk-card-body">
+        <h1 class="uk-card-title uk-text-center">{% trans "Sign In" %} - {{ APP_NAME }}</h1>
 
-                <form autocomplete="off" method="post" action="{% url "account_login" %}">
-                    {% csrf_token %}
+        <form autocomplete="off" method="post" action="{% url "account_login" %}">
+            {% csrf_token %}
 
-                    {% if redirect_field_value %}
-                        <input type="hidden" name="{{ redirect_field_name }}"
-                               value="{{ redirect_field_value }}"/>
-                    {% endif %}
+            {% if redirect_field_value %}
+                <input type="hidden" name="{{ redirect_field_name }}"
+                       value="{{ redirect_field_value }}"/>
+            {% endif %}
 
-                    {% if form.non_field_errors %}
-                        <div class="uk-alert uk-alert-danger">
-                            {{ form.non_field_errors }}
-                        </div>
-                    {% endif %}
+            {% if form.non_field_errors %}
+                <div class="uk-alert uk-alert-danger">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
 
-                    <div class="uk-margin">
-                        <label class="uk-inline uk-width-1-1" for="{{ form.login.id_for_label }}">
-                            <span class="uk-form-icon" uk-icon="icon: user"></span>
-                            <input name="{{ form.login.name }}"
-                                   value="{{ form.data.login }}"
-                                   class="uk-input uk-form-large
+            <div class="uk-margin">
+                <label class="uk-inline uk-width-1-1" for="{{ form.login.id_for_label }}">
+                    <span class="uk-form-icon" uk-icon="icon: user"></span>
+                    <input name="{{ form.login.name }}"
+                           value="{{ form.data.login }}"
+                           class="uk-input uk-form-large
                                                     {% if form.login.errors %}uk-form-danger{% endif %}"
-                                   placeholder="{% trans "Username" %}" type="text"
-                                   id="{{ form.login.id_for_label }}" required>
-                        </label>
-                    </div>
-
-                    <div class="uk-margin">
-                        <label class="uk-inline uk-width-1-1" for="{{ form.password.id_for_label }}">
-                            <span class="uk-form-icon" uk-icon="icon: lock"></span>
-                            <input name="{{ form.password.name }}"
-                                   class="uk-input uk-form-large
-                                                    {% if form.password.errors %}uk-form-danger{% endif %}"
-                                   placeholder="{% trans "Password" %}" type="password"
-                                   id="{{ form.password.id_for_label }}"
-                                   required>
-                        </label>
-                    </div>
-
-                    <div class="uk-margin">
-                        <button class="uk-button uk-button-primary uk-button-large uk-width-1-1">
-                            {% trans "Login" %}
-                        </button>
-                    </div>
-
-                    <div class="uk-text-small uk-text-center">
-                        <a href="{% url 'users:reset_password' %}">{% trans "Forgot password?" %}</a>
-                        <hr class="uk-divider-small">
-                        <a href="{% url 'account_signup' %}">{% trans "Create an account?" %}</a>
-                    </div>
-                </form>
+                           placeholder="{% trans "Username" %}" type="text"
+                           id="{{ form.login.id_for_label }}" required>
+                </label>
             </div>
-        </div>
+
+            <div class="uk-margin">
+                <label class="uk-inline uk-width-1-1" for="{{ form.password.id_for_label }}">
+                    <span class="uk-form-icon" uk-icon="icon: lock"></span>
+                    <input name="{{ form.password.name }}"
+                           class="uk-input uk-form-large
+                                                    {% if form.password.errors %}uk-form-danger{% endif %}"
+                           placeholder="{% trans "Password" %}" type="password"
+                           id="{{ form.password.id_for_label }}"
+                           required>
+                </label>
+            </div>
+
+            <div class="uk-margin">
+                <button class="uk-button uk-button-primary uk-button-large uk-width-1-1">
+                    {% trans "Login" %}
+                </button>
+            </div>
+
+            <div class="uk-text-small uk-text-center">
+                <a href="{% url 'users:reset_password' %}">{% trans "Forgot password?" %}</a>
+                <hr class="uk-divider-small">
+                <a href="{% url 'account_signup' %}">{% trans "Create an account?" %}</a>
+            </div>
+        </form>
     </div>
 {% endblock %}

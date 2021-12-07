@@ -5,63 +5,62 @@
 
 {% block title %}{{ APP_NAME }} - {% trans 'Create' %}{% endblock %}
 
+{% block content_class %}
+    uk-width-large
+{% endblock %}
+
 {% block content %}
-    <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid>
-        <div class="uk-width-1-1@m">
-            <div
-                class="uk-margin uk-width-large uk-margin-auto uk-card uk-card-default uk-card-body">
-                <h1 class="uk-card-title uk-text-center">{% trans "Create a guild" %}</h1>
+    <div class="uk-margin uk-margin-auto uk-card-body">
+        <h1 class="uk-card-title uk-text-center">{% trans "Create a guild" %}</h1>
 
-                <form autocomplete="off" method="post" action="{% url 'guild:create' %}" enctype="multipart/form-data">
-                    {% csrf_token %}
+        <form autocomplete="off" method="post" action="{% url 'guild:create' %}" enctype="multipart/form-data">
+            {% csrf_token %}
 
-                    {% if redirect_field_value %}
-                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-                    {% endif %}
+            {% if redirect_field_value %}
+                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+            {% endif %}
 
-                    {% if form.non_field_errors %}
-                        <div class="uk-alert uk-alert-danger">
-                            {{ form.non_field_errors }}
-                        </div>
-                    {% endif %}
+            {% if form.non_field_errors %}
+                <div class="uk-alert uk-alert-danger">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
 
-                    <div class="uk-margin">
-                        <label class="uk-inline uk-flex uk-flex-center uk-width-1-1" for="id_{{ form.avatar.name }}"
-                               uk-form-custom>
-                            <input type="file" name="{{ form.avatar.name }}">
-                            <button
-                                class="uk-button uk-button-default {% if form.avatar.errors %} uk-button-danger {% endif %}"
-                                type="button" tabindex="-1">
-                                <span uk-icon="icon: camera"></span>
-                            </button>
-                        </label>
-                    </div>
-
-                    <div class="uk-margin">
-                        <label class="uk-inline uk-width-1-1" for="id_{{ form.name.name }}">
-                            <span class="uk-form-icon" uk-icon="icon: hashtag"></span>
-                            <input name="{{ form.name.name }}"
-                                   class="uk-input uk-form-large
-                                                    {% if form.name.errors %}uk-form-danger{% endif %}"
-                                   placeholder="{% trans "Guild name" %}" type="text"
-                                   id="id_{{ form.name.name }}"
-                                   required>
-                        </label>
-                    </div>
-
-                    <div class="uk-margin">
-                        <button class="uk-button uk-button-primary uk-button-large uk-width-1-1">
-                            {% trans "Create" %}
-                        </button>
-                    </div>
-
-                    <div class="uk-text-small uk-text-center">
-                        <a class="link icon-right" href="{% url 'guild:join' %}">
-                            {% trans "The group is already created? Then please join in by following its invitation link." %}
-                        </a>
-                    </div>
-                </form>
+            <div class="uk-margin">
+                <label class="uk-inline uk-flex uk-flex-center uk-width-1-1" for="id_{{ form.avatar.name }}"
+                       uk-form-custom>
+                    <input type="file" name="{{ form.avatar.name }}">
+                    <button
+                        class="uk-button uk-button-default {% if form.avatar.errors %} uk-button-danger {% endif %}"
+                        type="button" tabindex="-1">
+                        <span uk-icon="icon: camera"></span>
+                    </button>
+                </label>
             </div>
-        </div>
+
+            <div class="uk-margin">
+                <label class="uk-inline uk-width-1-1" for="id_{{ form.name.name }}">
+                    <span class="uk-form-icon" uk-icon="icon: hashtag"></span>
+                    <input name="{{ form.name.name }}"
+                           class="uk-input uk-form-large
+                                                    {% if form.name.errors %}uk-form-danger{% endif %}"
+                           placeholder="{% trans "Guild name" %}" type="text"
+                           id="id_{{ form.name.name }}"
+                           required>
+                </label>
+            </div>
+
+            <div class="uk-margin">
+                <button class="uk-button uk-button-primary uk-button-large uk-width-1-1">
+                    {% trans "Create" %}
+                </button>
+            </div>
+
+            <div class="uk-text-small uk-text-center">
+                <a class="link icon-right" href="{% url 'guild:join' %}">
+                    {% trans "The group is already created? Then please join in by following its invitation link." %}
+                </a>
+            </div>
+        </form>
     </div>
 {% endblock %}

@@ -7,48 +7,47 @@
 {% block title %}{{ APP_NAME }} - {% trans 'Join' %}{% endblock %}
 
 
+{% block content_class %}
+    uk-width-large
+{% endblock %}
+
 {% block content %}
-    <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid>
-        <div class="uk-width-1-1@m">
-            <div class="uk-margin uk-width-large uk-margin-auto uk-card uk-card-default uk-card-body">
-                <h1 class="uk-card-title uk-text-center">{% trans "Join a guild" %}</h1>
+    <div class="uk-margin uk-margin-auto uk-card-body">
+        <h1 class="uk-card-title uk-text-center">{% trans "Join a guild" %}</h1>
 
-                <form autocomplete="off" method="post" autocomplete="off" method="post" action="{% url 'guild:join' %}">
-                    {% csrf_token %}
+        <form autocomplete="off" method="post" autocomplete="off" method="post" action="{% url 'guild:join' %}">
+            {% csrf_token %}
 
-                    {% if redirect_field_value %}
-                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-                    {% endif %}
+            {% if redirect_field_value %}
+                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+            {% endif %}
 
-                    {% if form.non_field_errors %}
-                        <div class="uk-alert uk-alert-danger">
-                            {{ form.non_field_errors }}
-                        </div>
-                    {% endif %}
+            {% if form.non_field_errors %}
+                <div class="uk-alert uk-alert-danger">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
 
-                    <div class="uk-margin">
-                        <label class="uk-inline uk-width-1-1" for="id_invite">
-                            <span class="uk-form-icon" uk-icon="icon: link"></span>
-                            <input class="uk-input uk-form-large" type="text" name="invite_key"
-                                   placeholder="{{ "/invite/hi"|abs_url }}"
-                                   required id="id_invite">
-                        </label>
-                    </div>
-
-                    <div class="uk-margin">
-                        <button class="uk-button uk-button-primary uk-button-large uk-width-1-1">
-                            {% trans "Join" %}
-                        </button>
-                    </div>
-
-                    <div class="uk-text-small uk-text-center">
-                        <a class="link icon-right" href="{% url 'guild:create' %}">
-                            {% trans "The group is not created? Then please create it in by following this link." %}
-                        </a>
-                    </div>
-                </form>
+            <div class="uk-margin">
+                <label class="uk-inline uk-width-1-1" for="id_invite">
+                    <span class="uk-form-icon" uk-icon="icon: link"></span>
+                    <input class="uk-input uk-form-large" type="text" name="invite_key"
+                           placeholder="{{ "/invite/hi"|abs_url }}"
+                           required id="id_invite">
+                </label>
             </div>
-        </div>
-    </div>
 
+            <div class="uk-margin">
+                <button class="uk-button uk-button-primary uk-button-large uk-width-1-1">
+                    {% trans "Join" %}
+                </button>
+            </div>
+
+            <div class="uk-text-small uk-text-center">
+                <a class="link icon-right" href="{% url 'guild:create' %}">
+                    {% trans "The group is not created? Then please create it in by following this link." %}
+                </a>
+            </div>
+        </form>
+    </div>
 {% endblock %}

@@ -1,5 +1,9 @@
 @import "../variables";
 
+#messages {
+    border-right: $scrollbar-margin-right solid transparent;
+}
+
 .message {
     margin-right: 1.5em;
     margin-left: .5em;
