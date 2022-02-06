@@ -9,14 +9,14 @@ from .base import *  # noqa
 from .base import env
 
 # GENERAL
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
 SECRET_KEY = env("DJANGO_SECRET_KEY")
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=["gnous.eu"])
 
 # DATABASES
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 DATABASES["default"] = env.db("DATABASE_URL")  # noqa F405
 DATABASES["default"]["ATOMIC_REQUESTS"] = True  # noqa F405
 DATABASES["default"]["CONN_MAX_AGE"] = env.int(  # noqa F405
@@ -24,7 +24,7 @@ DATABASES["default"]["CONN_MAX_AGE"] = env.int(  # noqa F405
 )
 
 # CACHES
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
@@ -39,7 +39,7 @@ CACHES = {
 }
 
 # SECURITY
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#secure-proxy-ssl-header
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 # https://docs.djangoproject.com/en/dev/ref/settings/#secure-ssl-redirect
@@ -67,10 +67,10 @@ SECURE_CONTENT_TYPE_NOSNIFF = env.bool(
 # ------------------------
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # MEDIA
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 # TEMPLATES
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#templates
 TEMPLATES[-1]["OPTIONS"]["loaders"] = [  # type: ignore[index] # noqa F405
     (
@@ -83,7 +83,7 @@ TEMPLATES[-1]["OPTIONS"]["loaders"] = [  # type: ignore[index] # noqa F405
 ]
 
 # EMAIL
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#default-from-email
 DEFAULT_FROM_EMAIL = env(
     "DJANGO_DEFAULT_FROM_EMAIL", default="Chat <noreply@gnous.eu>"
@@ -97,12 +97,12 @@ EMAIL_SUBJECT_PREFIX = env(
 )
 
 # ADMIN
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # Django Admin URL regex.
 ADMIN_URL = env("DJANGO_ADMIN_URL")
 
 # Anymail
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # https://anymail.readthedocs.io/en/stable/installation/#installing-anymail
 INSTALLED_APPS += ["anymail"]  # noqa F405
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
@@ -112,7 +112,7 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 ANYMAIL = {}
 
 # django-compressor
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # https://django-compressor.readthedocs.io/en/latest/settings/#django.conf.settings.COMPRESS_ENABLED
 COMPRESS_ENABLED = env.bool("COMPRESS_ENABLED", default=True)
 # https://django-compressor.readthedocs.io/en/latest/settings/#django.conf.settings.COMPRESS_STORAGE
@@ -133,7 +133,7 @@ COMPRESS_FILTERS = {
 }
 
 # LOGGING
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#logging
 # See https://docs.djangoproject.com/en/dev/topics/logging for
 # more details on how to customize your logging configuration.
@@ -186,7 +186,7 @@ LOGGING = {
 }
 
 # Sentry
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 SENTRY_DSN = env("SENTRY_DSN")
 SENTRY_LOG_LEVEL = env.int("DJANGO_SENTRY_LOG_LEVEL", logging.INFO)
 
@@ -203,4 +203,4 @@ sentry_sdk.init(
 )
 
 # Your stuff...
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------

@@ -6,6 +6,7 @@ argon2-cffi==20.1.0  # https://github.com/hynek/argon2_cffi
 whitenoise==5.3.0  # https://github.com/evansd/whitenoise
 redis==3.5.3  # https://github.com/andymccurdy/redis-py
 hiredis==2.0.0  # https://github.com/redis/hiredis-py
+uvicorn[standard]==0.15.0  # https://github.com/encode/uvicorn
 
 # Django
 # ------------------------------------------------------------------------------
@@ -23,3 +24,6 @@ humanize==3.11.0
 django_cors_headers==3.10.0
 qrcode==7.3.1
 Faker==9.8.0
+
+channels==3.0.4
+channels_redis==3.3.1

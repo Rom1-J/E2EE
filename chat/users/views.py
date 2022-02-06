@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.tokens import default_token_generator
-from django.core.handlers.wsgi import WSGIRequest
+from django.core.handlers.asgi import ASGIRequest
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -61,12 +61,12 @@ class UserRedirectView(BaseUsersView, RedirectView):
 class UserUpdateView(BaseUsersView, View):
     template_name = template_path + "settings.html"
 
-    def get(self, request: WSGIRequest) -> HttpResponse:
+    def get(self, request: ASGIRequest) -> HttpResponse:
         form = UserSettingsForm(instance=request.user.settings)  # type: ignore
 
         return render(request, self.template_name, {"form": form})
 
-    def post(self, request: WSGIRequest) -> HttpResponse:
+    def post(self, request: ASGIRequest) -> HttpResponse:
         form = UserSettingsForm(
             request.POST,
             request.FILES,
@@ -92,7 +92,7 @@ class UserUpdateView(BaseUsersView, View):
 
 class UserClientUpdateView(BaseUsersView, View):
     # noinspection PyMethodMayBeStatic
-    def patch(self, request: WSGIRequest) -> JsonResponse:
+    def patch(self, request: ASGIRequest) -> JsonResponse:
         return UserClientUpdateProcessAction(request).response()
 
 
@@ -102,12 +102,12 @@ class UserClientUpdateView(BaseUsersView, View):
 class UserResetPasswordView(View):
     template_name = template_path + "reset_password.html"
 
-    def get(self, request: WSGIRequest) -> HttpResponse:
+    def get(self, request: ASGIRequest) -> HttpResponse:
         form = ResetPasswordForm()
 
         return render(request, self.template_name, {"form": form})
 
-    def post(self, request: WSGIRequest) -> HttpResponse:
+    def post(self, request: ASGIRequest) -> HttpResponse:
         form = ResetPasswordForm(request.POST)
 
         if form.is_valid():
@@ -126,7 +126,7 @@ class UserResetPasswordView(View):
 class UserFistConnectView(BaseUsersView, View):
     template_name = template_path + "first_connect"
 
-    def get(self, request: WSGIRequest, page: str = "first") -> HttpResponse:
+    def get(self, request: ASGIRequest, page: str = "first") -> HttpResponse:
         if page == "first":
             return render(request, self.template_name + "/first.html")
 
@@ -146,7 +146,7 @@ class UserFistConnectView(BaseUsersView, View):
 
         return redirect("users:first_connect")
 
-    def post(self, request: WSGIRequest, page: str = "first") -> HttpResponse:
+    def post(self, request: ASGIRequest, page: str = "first") -> HttpResponse:
         if page != "next":
             return redirect("users:first_connect")
 

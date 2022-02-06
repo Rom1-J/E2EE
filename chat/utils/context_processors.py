@@ -1,7 +1,7 @@
 from typing import Optional
 
 from django.conf import settings
-from django.core.handlers.wsgi import WSGIRequest
+from django.core.handlers.asgi import ASGIRequest
 
 
 def show_sidebar(url_name: Optional[str]) -> bool:
@@ -12,7 +12,7 @@ def show_sidebar(url_name: Optional[str]) -> bool:
     return any(route in url_name for route in routes)
 
 
-def settings_context(request: WSGIRequest):
+def settings_context(request: ASGIRequest):
     return {
         "DEBUG": settings.DEBUG,
         "APP_NAME": settings.APP_NAME,

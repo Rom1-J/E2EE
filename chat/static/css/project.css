@@ -1,17 +1,18 @@
 .uk-card-default {
   border-radius: 5px;
-  background: #eee; }
+  background: #fff; }
   .uk-card-default.uk-card-shadow {
-    outline: 1px solid #f3f3f3;
-    -webkit-box-shadow: 5px 5px 10px #c8c8c8, -5px -5px 10px #e6e6e6;
-            box-shadow: 5px 5px 10px #c8c8c8, -5px -5px 10px #e6e6e6; }
+    outline: 1px solid white;
+    -webkit-box-shadow: 5px 5px 10px #d9d9d9, -5px -5px 10px #f7f7f7;
+            box-shadow: 5px 5px 10px #d9d9d9, -5px -5px 10px #f7f7f7; }
   .uk-card-default .uk-card-header {
-    border-bottom: 1px solid #e6e6e6; }
+    border-bottom: 1px solid #f7f7f7; }
 
-.uk-navbar.uk-background-secondary .uk-navbar-item {
-  color: #fff; }
+.uk-navbar.uk-background-secondary .uk-navbar-item, .uk-navbar.uk-background-secondary .uk-navbar-nav > li > a, .uk-navbar.uk-background-secondary .uk-navbar-toggle {
+  color: #fff;
+  min-height: unset; }
 
-.uk-navbar-dropdown {
+.uk-navbar .uk-navbar-dropdown {
   padding: 10px; }
 
 .uk-offcanvas-bar {
@@ -37,10 +38,10 @@
   width: 4px; }
 
 *::-webkit-scrollbar-thumb {
-  background: #838383;
+  background: #949494;
   border-radius: 8px; }
   *::-webkit-scrollbar-thumb:hover {
-    background: #6f6f6f; }
+    background: gray; }
 
 #messages {
   border-right: 5px solid transparent; }
@@ -79,7 +80,7 @@
     border-left-color: #999; }
 
 body {
-  background-color: #eee;
+  background-color: #fff;
   min-height: 100vh;
   overflow: hidden; }
 

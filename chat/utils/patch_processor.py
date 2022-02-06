@@ -1,7 +1,7 @@
 import json
 from typing import Any, Callable, Dict, List, Optional
 
-from django.core.handlers.wsgi import WSGIRequest
+from django.core.handlers.asgi import ASGIRequest
 from django.http import JsonResponse
 
 
@@ -10,7 +10,7 @@ class ProcessAction:
     actions: Dict[str, Optional[List[Callable]]] = {}
     checks: Dict[str, Optional[List[Callable]]] = {}
 
-    _request: WSGIRequest
+    _request: ASGIRequest
     _response: Dict[str, Any]
 
     # =========================================================================
@@ -35,7 +35,7 @@ class ProcessAction:
 
     # =========================================================================
 
-    def process(self, request: WSGIRequest, **extra_values):
+    def process(self, request: ASGIRequest, **extra_values):
         self._request = request
         self.data = json.loads(request.body.decode())
 

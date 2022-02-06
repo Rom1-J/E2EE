@@ -1,7 +1,7 @@
 from typing import List, Optional, Tuple, Union
 
 from django import forms
-from django.core.handlers.wsgi import WSGIRequest
+from django.core.handlers.asgi import ASGIRequest
 from django.http import JsonResponse
 from django.utils.translation import gettext_lazy as _
 from rich import inspect
@@ -90,7 +90,7 @@ class GuildChannelsForm(forms.ModelForm):
 # =============================================================================
 
 
-def move_row(request: WSGIRequest, data: dict) -> Optional[Tuple[bool, dict]]:
+def move_row(request: ASGIRequest, data: dict) -> Optional[Tuple[bool, dict]]:
     def get_channels_and_categories(
         g: Guild,
     ) -> List[Union[Category, Channel]]:
@@ -135,7 +135,7 @@ def move_row(request: WSGIRequest, data: dict) -> Optional[Tuple[bool, dict]]:
 
 
 def move_row_check_guild(
-    request: WSGIRequest, data: dict
+    request: ASGIRequest, data: dict
 ) -> Optional[Tuple[bool, dict]]:
     values = data.get("values", {})
 
@@ -155,7 +155,7 @@ def move_row_check_guild(
 
 
 def move_row_check_row_id(
-    request: WSGIRequest, data: dict
+    request: ASGIRequest, data: dict
 ) -> Optional[Tuple[bool, dict]]:
     values = data.get("values", {})
 
@@ -175,7 +175,7 @@ def move_row_check_row_id(
 
 
 def move_row_check_direction(
-    request: WSGIRequest, data: dict
+    request: ASGIRequest, data: dict
 ) -> Optional[Tuple[bool, dict]]:
     values = data.get("values", {})
 
@@ -195,7 +195,7 @@ def move_row_check_direction(
 
 
 def move_row_check_existing_row(
-    request: WSGIRequest, data: dict
+    request: ASGIRequest, data: dict
 ) -> Optional[Tuple[bool, dict]]:
     values = data.get("values", {})
     row: Optional[Union[Category, Channel]]
@@ -242,7 +242,7 @@ class GuildSettingsChannelsProcessAction:
         .add_checks("move_row", *move_row_checks)
     )
 
-    def __init__(self, request: WSGIRequest, guild: Guild):
+    def __init__(self, request: ASGIRequest, guild: Guild):
         self.process.process(request, guild=guild)
 
     def response(self) -> JsonResponse:

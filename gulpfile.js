@@ -88,15 +88,13 @@ function imgCompression() {
 }
 
 // Run django server
-function runServer(cb) {
-    var cmd = spawn(
-        'python',
-        ['manage.py', 'runserver', '0.0.0.0:8000'],
-        {stdio: 'inherit', env: {...process.env}}
+function asyncRunServer() {
+    var cmd = spawn('gunicorn', [
+            'config.asgi', '-k', 'uvicorn.workers.UvicornWorker', '--reload'
+        ], {stdio: 'inherit'}
     )
     cmd.on('close', function (code) {
-        console.log('runServer exited with code ' + code)
-        cb(code)
+        console.log('gunicorn exited with code ' + code)
     })
 }
 
@@ -132,7 +130,7 @@ const generateAssets = parallel(
 
 // Set up dev environment
 const dev = parallel(
-    runServer,
+    asyncRunServer,
     initBrowserSync,
     watchPaths
 )

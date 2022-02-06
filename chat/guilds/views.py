@@ -4,7 +4,7 @@ import uuid
 
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.handlers.wsgi import WSGIRequest
+from django.core.handlers.asgi import ASGIRequest
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.utils.translation import ugettext_lazy as _
@@ -34,7 +34,7 @@ template_path = "guild/"
 class GuildHomeView(LoginRequiredMixin, View):
     template_name = template_path + "home.html"
 
-    def get(self, request: WSGIRequest) -> HttpResponse:
+    def get(self, request: ASGIRequest) -> HttpResponse:
         guilds = Guild.objects.filter(members__in=[request.user])
 
         return render(request, self.template_name, {"guilds": guilds})
@@ -46,12 +46,12 @@ class GuildHomeView(LoginRequiredMixin, View):
 class GuildCreateView(LoginRequiredMixin, View):
     template_name = template_path + "create.html"
 
-    def get(self, request: WSGIRequest) -> HttpResponse:
+    def get(self, request: ASGIRequest) -> HttpResponse:
         form = GuildCreationForm(user=request.user)
 
         return render(request, self.template_name, {"form": form})
 
-    def post(self, request: WSGIRequest) -> HttpResponse:
+    def post(self, request: ASGIRequest) -> HttpResponse:
         form = GuildCreationForm(
             request.POST, request.FILES, user=request.user
         )
@@ -74,11 +74,11 @@ class GuildCreateView(LoginRequiredMixin, View):
 class GuildJoinView(LoginRequiredMixin, View):
     template_name = template_path + "join.html"
 
-    def get(self, request: WSGIRequest) -> HttpResponse:
+    def get(self, request: ASGIRequest) -> HttpResponse:
         return render(request, self.template_name)
 
     # noinspection PyMethodMayBeStatic
-    def post(self, request: WSGIRequest) -> HttpResponse:
+    def post(self, request: ASGIRequest) -> HttpResponse:
         key = request.POST.get("invite_key", "-1").rstrip("/").split("/")[-1]
 
         return redirect("guild:invite_join", invite_key=key)
@@ -118,7 +118,7 @@ class BaseGuildSettingsView(GuildOwnerView):
 class GuildDetailView(BaseGuildView):
     template_name = template_path + "details.html"
 
-    def get(self, request: WSGIRequest, guild_id: uuid.UUID) -> HttpResponse:
+    def get(self, request: ASGIRequest, guild_id: uuid.UUID) -> HttpResponse:
         guilds = Guild.objects.filter(members__in=[request.user])
         guild = get_guild(guild_id)
 
@@ -141,7 +141,7 @@ class GuildDetailView(BaseGuildView):
 class GuildInvitesView(BaseGuildView):
     template_name = template_path + "invite.html"
 
-    def get(self, request: WSGIRequest, guild_id: uuid.UUID) -> HttpResponse:
+    def get(self, request: ASGIRequest, guild_id: uuid.UUID) -> HttpResponse:
         guild = get_guild(guild_id)
 
         if not (invite := Invite.objects.filter(guild_id=guild.id).first()):
@@ -161,7 +161,7 @@ class GuildInvitesView(BaseGuildView):
 class GuildSettingsHomeView(BaseGuildSettingsView):
     template_name = BaseGuildSettingsView.template_path + "settings.html"
 
-    def get(self, request: WSGIRequest, guild_id: uuid.UUID) -> HttpResponse:
+    def get(self, request: ASGIRequest, guild_id: uuid.UUID) -> HttpResponse:
         guild = get_guild(guild_id)
         form = GuildChangeForm(instance=guild)
 
@@ -169,7 +169,7 @@ class GuildSettingsHomeView(BaseGuildSettingsView):
             request, self.template_name, {"form": form, "guild": guild}
         )
 
-    def post(self, request: WSGIRequest, guild_id: uuid.UUID) -> HttpResponse:
+    def post(self, request: ASGIRequest, guild_id: uuid.UUID) -> HttpResponse:
         guild = get_guild(guild_id)
         form = GuildChangeForm(request.POST, request.FILES, instance=guild)
 
@@ -191,7 +191,7 @@ class GuildSettingsHomeView(BaseGuildSettingsView):
 class GuildSettingsMembersView(BaseGuildSettingsView):
     template_name = BaseGuildSettingsView.template_path + "members.html"
 
-    def get(self, request: WSGIRequest, guild_id: uuid.UUID) -> HttpResponse:
+    def get(self, request: ASGIRequest, guild_id: uuid.UUID) -> HttpResponse:
         guild = get_guild(guild_id)
         form = GuildMembersForm(instance=guild)
 
@@ -199,7 +199,7 @@ class GuildSettingsMembersView(BaseGuildSettingsView):
             request, self.template_name, {"form": form, "guild": guild}
         )
 
-    def post(self, request: WSGIRequest, guild_id: uuid.UUID) -> HttpResponse:
+    def post(self, request: ASGIRequest, guild_id: uuid.UUID) -> HttpResponse:
         guild = get_guild(guild_id)
         form = GuildMembersForm(request.POST, instance=guild)
 
@@ -234,7 +234,7 @@ class GuildSettingsMembersView(BaseGuildSettingsView):
 class GuildSettingsChannelsView(BaseGuildSettingsView):
     template_name = BaseGuildSettingsView.template_path + "channels.html"
 
-    def get(self, request: WSGIRequest, guild_id: uuid.UUID) -> HttpResponse:
+    def get(self, request: ASGIRequest, guild_id: uuid.UUID) -> HttpResponse:
         guild = get_guild(guild_id)
         form = GuildChannelsForm(instance=guild)
 
@@ -242,7 +242,7 @@ class GuildSettingsChannelsView(BaseGuildSettingsView):
             request, self.template_name, {"form": form, "guild": guild}
         )
 
-    def post(self, request: WSGIRequest, guild_id: uuid.UUID) -> HttpResponse:
+    def post(self, request: ASGIRequest, guild_id: uuid.UUID) -> HttpResponse:
         guild = get_guild(guild_id)
         form = GuildChannelsForm(request.POST, instance=guild)
 
@@ -271,7 +271,7 @@ class GuildSettingsChannelsView(BaseGuildSettingsView):
         )
 
     # noinspection PyMethodMayBeStatic
-    def patch(self, request: WSGIRequest, guild_id: uuid.UUID) -> JsonResponse:
+    def patch(self, request: ASGIRequest, guild_id: uuid.UUID) -> JsonResponse:
         guild = get_guild(guild_id)
         return GuildSettingsChannelsProcessAction(request, guild).response()
 

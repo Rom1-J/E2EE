@@ -27,12 +27,8 @@ P
  chat/templates/guild/invite.html,f/3/f332a50b0d8418d8cadfc4ef7f7630983a6dd653
 f
 6chat/templates/account/snippets/already_logged_in.html,4/f/4f3077e89d1e6445d37c9983da76939d69b94362
-P
- chat/templates/guild/create.html,b/b/bbd950cecbab80999476d148691ba338c358d2d9
 R
 "chat/templates/account/logout.html,b/1/b186a66404c165d9a7dcab18041e2f057bf7a4d4
-V
-&chat/guilds/features/channels/views.py,2/1/212ebf390744657463adac778d501cbc337e272e
 U
 %chat/templates/users/user_detail.html,5/c/5cfaf706ad68aebd0a285997d95a01b1c0841458
 N

@@ -1,7 +1,7 @@
 import uuid
 from typing import Any, Dict
 
-from django.core.handlers.wsgi import WSGIRequest
+from django.core.handlers.asgi import ASGIRequest
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 
@@ -13,7 +13,7 @@ from .mixins import ChanExistsMixin
 template_path += "channels/"
 
 
-def get_params(request: WSGIRequest, guild_id: uuid.UUID) -> Dict[str, Any]:
+def get_params(request: ASGIRequest, guild_id: uuid.UUID) -> Dict[str, Any]:
     guilds = Guild.objects.filter(members__in=[request.user])
     guild = get_guild(guild_id)
 
@@ -32,7 +32,7 @@ class GuildChannelCreateView(BaseChannelView):
 
     def get(
         self,
-        request: WSGIRequest,
+        request: ASGIRequest,
         guild_id: uuid.UUID,
     ) -> HttpResponse:
         return render(
@@ -48,7 +48,7 @@ class GuildChannelEditView(BaseChannelView):
 
     def get(
         self,
-        request: WSGIRequest,
+        request: ASGIRequest,
         guild_id: uuid.UUID,
     ) -> HttpResponse:
         return render(
@@ -64,7 +64,7 @@ class GuildChannelDetailView(BaseChannelView):
 
     def get(
         self,
-        request: WSGIRequest,
+        request: ASGIRequest,
         guild_id: uuid.UUID,
         channel_id: uuid.UUID,
     ) -> HttpResponse:
@@ -85,7 +85,7 @@ class GuildChannelDetailView(BaseChannelView):
 
     def post(
         self,
-        request: WSGIRequest,
+        request: ASGIRequest,
         guild_id: uuid.UUID,
         channel_id: uuid.UUID,
     ) -> JsonResponse:

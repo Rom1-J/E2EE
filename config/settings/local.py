@@ -6,7 +6,7 @@ from .base import env
 install(show_locals=True)
 
 # GENERAL
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#debug
 DEBUG = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
@@ -19,7 +19,7 @@ ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1", "192.168.1.21"]
 CSRF_TRUSTED_ORIGINS = ALLOWED_HOSTS.copy()
 
 # CACHES
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#caches
 CACHES = {
     "default": {
@@ -29,7 +29,7 @@ CACHES = {
 }
 
 # EMAIL
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
 EMAIL_BACKEND = env(
     "DJANGO_EMAIL_BACKEND",
@@ -40,7 +40,7 @@ EMAIL_HOST = "127.0.0.1"
 EMAIL_PORT = 1025
 
 # WhiteNoise
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # http://whitenoise.evans.io/en/latest/django.html#using-whitenoise-in-development
 INSTALLED_APPS = [
     "whitenoise.runserver_nostatic"
@@ -48,7 +48,7 @@ INSTALLED_APPS = [
 
 
 # django-debug-toolbar
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # https://django-debug-toolbar.readthedocs.io/en/latest/installation.html#prerequisites
 INSTALLED_APPS += ["debug_toolbar"]  # noqa F405
 # https://django-debug-toolbar.readthedocs.io/en/latest/installation.html#middleware
@@ -63,7 +63,7 @@ INTERNAL_IPS = ["127.0.0.1", "10.0.2.2"]
 
 
 # django-extensions
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # https://django-extensions.readthedocs.io/en/latest/installation_instructions.html#configuration
 INSTALLED_APPS += ["django_extensions"]  # noqa F405
 
@@ -71,9 +71,9 @@ INSTALLED_APPS += ["django_extensions"]  # noqa F405
 ACCOUNT_ALLOW_REGISTRATION = True
 
 if not DEBUG:
-    # ------------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # django-compressor
-    # ------------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # https://django-compressor.readthedocs.io/en/latest/settings/#django.conf.settings.COMPRESS_ENABLED
     COMPRESS_ENABLED = env.bool("COMPRESS_ENABLED", default=True)
     # https://django-compressor.readthedocs.io/en/latest/settings/#django.conf.settings.COMPRESS_STORAGE

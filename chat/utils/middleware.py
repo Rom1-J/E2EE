@@ -3,7 +3,7 @@ from typing import Optional
 
 from django.conf import settings
 from django.conf.urls.i18n import is_language_prefix_patterns_used
-from django.core.handlers.wsgi import WSGIRequest
+from django.core.handlers.asgi import ASGIRequest
 from django.http import HttpResponse
 from django.middleware.locale import LocaleMiddleware
 from django.shortcuts import redirect
@@ -74,7 +74,7 @@ def strip_spaces_in_template(template_source):
 class SpacelessMiddleware(MiddlewareMixin):
     @staticmethod
     def process_response(
-        request: WSGIRequest, response: HttpResponse
+        request: ASGIRequest, response: HttpResponse
     ) -> HttpResponse:
         if not settings.DEBUG:
             response.content = strip_spaces_in_template(
@@ -88,7 +88,7 @@ class SpacelessMiddleware(MiddlewareMixin):
 
 class CustomLocaleMiddleware(LocaleMiddleware):
     @staticmethod
-    def process_request(request: WSGIRequest) -> None:  # type: ignore
+    def process_request(request: ASGIRequest) -> None:  # type: ignore
         urlconf = getattr(request, "urlconf", settings.ROOT_URLCONF)
         (
             i18n_patterns_used,
@@ -120,7 +120,7 @@ class CustomLocaleMiddleware(LocaleMiddleware):
 
 class EnsureMnemonicGeneration(MiddlewareMixin):
     @staticmethod
-    def process_request(request: WSGIRequest) -> Optional[HttpResponse]:
+    def process_request(request: ASGIRequest) -> Optional[HttpResponse]:
         # ensure type of User to be our custom model
         if (
             not isinstance(request.user, User)

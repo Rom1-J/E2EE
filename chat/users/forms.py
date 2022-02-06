@@ -6,7 +6,7 @@ from django import forms
 from django.contrib.auth import forms as admin_forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import check_password
-from django.core.handlers.wsgi import WSGIRequest
+from django.core.handlers.asgi import ASGIRequest
 from django.http import JsonResponse
 from django.utils.translation import gettext_lazy as _
 
@@ -61,7 +61,7 @@ class SignupForm(AllauthSignupForm):
 
         self.fields.pop("email")
 
-    def save(self, request: WSGIRequest, *args, **kwargs):
+    def save(self, request: ASGIRequest, *args, **kwargs):
         adapter = get_adapter(request)
         user = adapter.new_user(request)
         adapter.save_user(request, user, self)
@@ -99,7 +99,7 @@ class ResetPasswordForm(forms.Form):
 
 
 def collapse_category(
-    request: WSGIRequest, data: dict
+    request: ASGIRequest, data: dict
 ) -> Optional[Tuple[bool, dict]]:
     user_settings: UserSettings = request.user.settings  # type: ignore
     category: Category = data["values"]["category"]
@@ -119,7 +119,7 @@ def collapse_category(
 
 
 def collapse_category_check_category_id(
-    request: WSGIRequest, data: dict
+    request: ASGIRequest, data: dict
 ) -> Optional[Tuple[bool, dict]]:
     values = data.get("values", {})
 
@@ -139,7 +139,7 @@ def collapse_category_check_category_id(
 
 
 def collapse_category_check_existing_category(
-    request: WSGIRequest, data: dict
+    request: ASGIRequest, data: dict
 ) -> Optional[Tuple[bool, dict]]:
     values = data.get("values", {})
 
@@ -173,7 +173,7 @@ class UserClientUpdateProcessAction:
         .add_checks("collapse_category", *collapse_category_checks)
     )
 
-    def __init__(self, request: WSGIRequest):
+    def __init__(self, request: ASGIRequest):
         self.process.process(request)
 
     def response(self) -> JsonResponse:

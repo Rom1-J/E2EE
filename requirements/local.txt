@@ -3,6 +3,7 @@
 Werkzeug==1.0.1 # https://github.com/pallets/werkzeug
 ipdb==0.13.9  # https://github.com/gotcha/ipdb
 psycopg2-binary==2.9.1  # https://github.com/psycopg/psycopg2
+watchgod==0.7  # https://github.com/samuelcolvin/watchgod
 
 # Testing
 # ------------------------------------------------------------------------------
@@ -38,3 +39,4 @@ mdgen==0.1.9
 rich==10.13.0
 pygraphviz==1.7
 pre-commit==2.13.0
+gunicorn==20.1.0  # https://github.com/benoitc/gunicorn

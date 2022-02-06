@@ -16,7 +16,7 @@ if READ_DOT_ENV_FILE:
     env.read_env(str(ROOT_DIR / ".env"))
 
 # GENERAL
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#debug
 DEBUG = env.bool("DJANGO_DEBUG", False)
 # Local time zone. Choices are
@@ -43,7 +43,7 @@ LANGUAGES = [
 ]
 
 # DATABASES
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 
 DATABASES = {
@@ -52,14 +52,14 @@ DATABASES = {
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
 # URLS
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#root-urlconf
 ROOT_URLCONF = "config.urls"
-# https://docs.djangoproject.com/en/dev/ref/settings/#wsgi-application
-WSGI_APPLICATION = "config.wsgi.application"
+# https://docs.djangoproject.com/en/dev/ref/settings/#asgi-application
+ASGI_APPLICATION = "config.asgi.application"
 
 # APPS
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 DJANGO_APPS = [
     "jazzmin",
     "django.contrib.auth",
@@ -76,6 +76,7 @@ THIRD_PARTY_APPS = [
     "allauth",
     "allauth.account",
     "corsheaders",
+    "channels",
 ]
 
 LOCAL_APPS = [
@@ -88,7 +89,7 @@ LOCAL_APPS = [
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 # AUTHENTICATION
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#authentication-backends
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
@@ -102,7 +103,7 @@ LOGIN_REDIRECT_URL = "users:redirect"
 LOGIN_URL = "account_login"
 
 # PASSWORDS
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#password-hashers
 PASSWORD_HASHERS = [
     # https://docs.djangoproject.com/en/dev/topics/auth/passwords/#using-argon2-with-django
@@ -114,19 +115,33 @@ PASSWORD_HASHERS = [
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-password-validators
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
+        "NAME": (
+            "django.contrib.auth.password_validation"
+            ".UserAttributeSimilarityValidator"
+        )
     },
     {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "NAME": (
+            "django.contrib.auth.password_validation" ".MinimumLengthValidator"
+        ),
         "OPTIONS": {"min_length": 15},
     },
     {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"
+        "NAME": (
+            "django.contrib.auth.password_validation"
+            ".CommonPasswordValidator"
+        )
+    },
+    {
+        "NAME": (
+            "django.contrib.auth.password_validation"
+            ".NumericPasswordValidator"
+        ),
     },
 ]
 
 # MIDDLEWARE
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#middleware
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
@@ -146,7 +161,7 @@ MIDDLEWARE = [
 ]
 
 # STATIC
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#static-root
 STATIC_ROOT = str(ROOT_DIR / "staticfiles")
 # https://docs.djangoproject.com/en/dev/ref/settings/#static-url
@@ -160,14 +175,14 @@ STATICFILES_FINDERS = [
 ]
 
 # MEDIA
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#media-root
 MEDIA_ROOT = str(APPS_DIR / "media")
 # https://docs.djangoproject.com/en/dev/ref/settings/#media-url
 MEDIA_URL = "/media/"
 
 # TEMPLATES
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#templates
 TEMPLATES = [
     {
@@ -205,12 +220,12 @@ FORM_RENDERER = "django.forms.renderers.TemplatesSetting"
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 # FIXTURES
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#fixture-dirs
 FIXTURE_DIRS = (str(APPS_DIR / "fixtures"),)
 
 # SECURITY
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#session-cookie-httponly
 SESSION_COOKIE_HTTPONLY = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#csrf-cookie-httponly
@@ -221,7 +236,7 @@ SECURE_BROWSER_XSS_FILTER = True
 X_FRAME_OPTIONS = "DENY"
 
 # EMAIL
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
 EMAIL_BACKEND = env(
     "DJANGO_EMAIL_BACKEND",
@@ -231,7 +246,7 @@ EMAIL_BACKEND = env(
 EMAIL_TIMEOUT = 5
 
 # ADMIN
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # Django Admin URL.
 ADMIN_URL = "admin/"
 # https://docs.djangoproject.com/en/dev/ref/settings/#admins
@@ -240,7 +255,7 @@ ADMINS = [("""romain""", "romain@gnous.eu")]
 MANAGERS = ADMINS
 
 # LOGGING
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#logging
 # See https://docs.djangoproject.com/en/dev/topics/logging for
 # more details on how to customize your logging configuration.
@@ -264,7 +279,7 @@ LOGGING = {
 }
 
 # django-allauth
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 ACCOUNT_ALLOW_REGISTRATION = env.bool(
     "DJANGO_ACCOUNT_ALLOW_REGISTRATION", False
 )
@@ -279,13 +294,13 @@ ACCOUNT_ADAPTER = "chat.users.adapters.AccountAdapter"
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 SOCIALACCOUNT_ADAPTER = "chat.users.adapters.SocialAccountAdapter"
 # django-compressor
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # https://django-compressor.readthedocs.io/en/latest/quickstart/#installation
 INSTALLED_APPS += ["compressor"]
 STATICFILES_FINDERS += ["compressor.finders.CompressorFinder"]
 
 # Your stuff...
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 APP_NAME = "E2EE Chat"
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
@@ -301,3 +316,12 @@ ACCOUNT_FORMS = {
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 CORS_ALLOWED_ORIGINS = ["http://127.0.0.1:8000", "http://127.0.0.1:3000"]
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("localhost", 6379)],
+        },
+    },
+}

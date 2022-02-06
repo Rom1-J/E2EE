@@ -1,9 +1,12 @@
-.uk-navbar.uk-background-secondary {
-    .uk-navbar-item {
-        color: #fff;
+.uk-navbar {
+    &.uk-background-secondary {
+        .uk-navbar-item, .uk-navbar-nav > li > a, .uk-navbar-toggle {
+            color: #fff;
+            min-height: unset;
+        }
     }
-}
 
-.uk-navbar-dropdown {
-    padding: 10px;
+    .uk-navbar-dropdown {
+        padding: 10px;
+    }
 }

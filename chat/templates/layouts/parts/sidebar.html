@@ -4,12 +4,31 @@
 {% load static %}
 {% load compress %}
 {% load i18n %}
+{% load tags %}
 
+
+{% define channel as current_channel %}
 
 <div class="uk-card-header uk-padding-remove">
     <div class="uk-navbar-container uk-navbar-transparent" uk-navbar="duration: 100; offset: 100px;">
         <div class="uk-navbar-left">
-            <div class="uk-grid-small uk-flex-middle uk-margin-remove-left" uk-grid>
+            <a class="uk-navbar-toggle uk-position-relative" uk-toggle="target: #offcanvas-overlay">
+                <span uk-navbar-toggle-icon></span>
+                <span class="uk-margin-small-left">{% trans "Channels" %}</span>
+                <span class="uk-badge uk-badge-danger">99+</span>
+            </a>
+        </div>
+
+        {% if current_channel %}
+            <div class="uk-navbar-center uk-card-title uk-visible@m">
+                <span uk-icon="icon: hashtag"></span>
+                {{ current_channel.name }}
+            </div>
+        {% endif %}
+
+
+        <div class="uk-navbar-right">
+            <div class="uk-grid-small uk-flex-middle uk-margin-right" uk-grid>
                 <div class="uk-width-auto">
                     <img class="uk-border-rounded" width="40" height="40" src="{{ guild.avatar.url }}"
                          alt="{{ guild.name }}">
@@ -30,21 +49,6 @@
                 </div>
             </div>
         </div>
-
-        {% if channel %}
-            <div class="uk-navbar-center uk-card-title uk-visible@m">
-                <span uk-icon="icon: hashtag"></span>
-                {{ channel.name }}
-            </div>
-        {% endif %}
-
-        <div class="uk-navbar-right">
-            <a class="uk-navbar-toggle uk-position-relative" uk-toggle="target: #offcanvas-overlay">
-                <span uk-navbar-toggle-icon></span>
-                <span class="uk-margin-small-left">{% trans "Channels" %}</span>
-                <span class="uk-badge uk-badge-danger">99+</span>
-            </a>
-        </div>
     </div>
 </div>
 
@@ -56,10 +60,7 @@
             {% for row in guild|show_channels_and_categories %}
                 <li>
                     {% if not row|isinstance:"chat.guilds.models.Category" %}
-                        <a href="{% url 'guild:channel_details' guild.id row.id %}" class="uk-link uk-text-muted">
-                            <span uk-icon="icon: hashtag"></span>
-                            <span>{{ row.name }}</span>
-                        </a>
+                        {% channel_anchor guild row current=current_channel.id %}
                     {% else %}
                         {% collapsed_category category=row member=request.user as collasped %}
                         <a class="uk-nav-header uk-text-muted" uk-toggle="target: .toggle_{{ row.id }};">
@@ -73,11 +74,7 @@
                         <ul class="uk-list uk-margin-left toggle_{{ row.id }}" {% if collasped %}hidden{% endif %}>
                             {% for channel in row|show_channels_from_category %}
                                 <li>
-                                    <a href="{% url 'guild:channel_details' guild.id channel.id %}"
-                                       class="uk-link uk-text-muted">
-                                        <span uk-icon="icon: hashtag"></span>
-                                        <span>{{ channel.name }}</span>
-                                    </a>
+                                    {% channel_anchor guild channel current=current_channel.id %}
                                 </li>
                             {% endfor %}
                         </ul>
