@@ -1,7 +1,7 @@
 import pytest
 
-from chat.users.models import User
-from chat.users.tests.factories import UserFactory
+from chat.apps.users.models import User
+from chat.apps.users.tests.factories import UserFactory
 
 
 @pytest.fixture(autouse=True)

@@ -76,9 +76,8 @@ class GuildChannelDetailView(BaseChannelView):
         if not channel:
             return redirect("guild:guild_details", guild_id=str(guild_id))
 
-        params["channel"] = channel
+        params["room_name"] = channel
 
-        print("pre render")
         return render(request, self.template_name, params)
 
     # =========================================================================

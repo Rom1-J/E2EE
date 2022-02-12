@@ -1,7 +1,7 @@
 {% extends "layouts/base.html" %}
 {% load i18n %}
 
-{% block title %}{{ channel.name }} - {{ APP_NAME }}{% endblock %}
+{% block title %}{{ room_name.name }} - {{ APP_NAME }}{% endblock %}
 
 {% block inline_stylesheet %}
     <style>
@@ -15,7 +15,7 @@
 {% block content %}
     <div class="uk-padding-small uk-card-body uk-padding-remove-bottom uk-overflow-auto" id="messages"
          uk-height-viewport="offset-top: true; offset-bottom: true">
-        {% with messages=channel.messages.all %}
+        {% with messages=room_name.messages.all %}
             {% if messages %}
                 {% for message in messages %}
                     {% include "layouts/components/message/block.html" with message=message %}
@@ -41,7 +41,7 @@
 
                 <textarea id="message_input" class="uk-textarea"
                           style="resize: none; max-height: 20vh" autofocus
-                          rows="2" placeholder="Message {{ channel }}"
+                          rows="2" placeholder="Message {{ room_name }}"
                 ></textarea>
 
                 <button type="submit"
@@ -57,16 +57,17 @@
             <h2 class="uk-modal-title uk-text-danger">WebSocket Error</h2>
             <p>
                 {% blocktrans %}
-                The connection with the websocket could not be established,
-                this problem can either come from your connection rules on the network,
-                or from a problem on the server.<br>
-                You can ignore this error and view your messages without the automatic refresh,
-                or try reloading the page.
+                    The connection with the websocket could not be established,
+                    this problem can either come from your connection rules on the network,
+                    or from a problem on the server.<br>
+                    You can ignore this error and view your messages without the automatic refresh,
+                    or try reloading the page.
                 {% endblocktrans %}
             </p>
             <p class="uk-text-right">
                 <button class="uk-button uk-button-default uk-modal-close" type="button">{% trans "Dismiss" %}</button>
-                <a href="{{ request.get_full_path }}" class="uk-button uk-button-primary" type="button">{% trans "Reload" %}</a>
+                <a href="{{ request.get_full_path }}" class="uk-button uk-button-primary"
+                   type="button">{% trans "Reload" %}</a>
             </p>
         </div>
     </div>
@@ -80,7 +81,7 @@
 
         const form = document.getElementById("message_form");
 
-        const POST_MESSAGE_ENDPOINT = "{% url 'guild:channel_details' guild.id channel.id %}"
+        const POST_MESSAGE_ENDPOINT = "{% url 'guild:channel_details' guild.id room_name.id %}"
 
         //////////////////////////////////////////////////////
 
@@ -101,9 +102,12 @@
         //////////////////////////////////////////////////////
 
         function send_message() {
-            ws.send(JSON.stringify({
-                'content': textarea.value,
-                'attachments': attachments
+            window.ws.send(JSON.stringify({
+                "cmd": "POST_MESSAGE",
+                "data": {
+                    "content": textarea.value,
+                    "attachments": attachments
+                }
             }));
 
             textarea.value = "";
@@ -124,45 +128,6 @@
                 else send_message();
             }
         })
-
-        //////////////////////////////////////////////////////
-
-        let ws;
-        let fail_count = 0;
-
-        (function get_websocket() {
-            let chatSocket = new WebSocket(
-                'ws://'
-                + '127.0.0.1:8000'
-                + '/ws/chat/'
-                + "{{ guild.id }}"
-                + '/'
-                + "{{ channel.id }}"
-                + '/'
-            );
-
-            chatSocket.onmessage = (e) => {
-                const data = JSON.parse(e.data);
-                add_message(data)
-            };
-
-            chatSocket.onopen = (e) => {
-                console.log('Websocket connected');
-            };
-
-            chatSocket.onclose = (e) => {
-                if (fail_count > 2) {
-                    UIkit.modal(document.getElementById("ws_error_modal")).show();
-                } else {
-                    fail_count += 1;
-                    console.error('Chat socket closed unexpectedly');
-                    console.info('Trying to reconnect in 5s...');
-                    setTimeout(() => get_websocket(), 5000)
-                }
-            };
-
-            ws = chatSocket;
-        })();
 
     </script>
     {% include "layouts/components/message/decryptor.html" %}

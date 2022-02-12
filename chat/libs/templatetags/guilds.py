@@ -3,9 +3,13 @@ from typing import List, Union
 from django import template
 from django.contrib.auth import get_user_model
 
-from chat.guilds.features.channels.models import Category, Channel, Message
-from chat.guilds.models import Guild
-from chat.users.models import UserSettings
+from chat.apps.guilds.features.channels.models import (
+    Category,
+    Channel,
+    Message,
+)
+from chat.apps.guilds.models import Guild
+from chat.apps.users.models import UserSettings
 
 User = get_user_model()
 register = template.Library()

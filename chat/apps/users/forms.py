@@ -10,8 +10,9 @@ from django.core.handlers.asgi import ASGIRequest
 from django.http import JsonResponse
 from django.utils.translation import gettext_lazy as _
 
+from chat.utils.patch_processor import ProcessAction
+
 from ..guilds.features.channels.models import Category
-from ..utils.patch_processor import ProcessAction
 from .models import UserSettings
 
 User = get_user_model()

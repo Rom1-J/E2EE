@@ -3,6 +3,7 @@ from typing import Optional
 
 from django.conf import settings
 from django.conf.urls.i18n import is_language_prefix_patterns_used
+from django.contrib.auth import get_user_model
 from django.core.handlers.asgi import ASGIRequest
 from django.http import HttpResponse
 from django.middleware.locale import LocaleMiddleware
@@ -11,7 +12,7 @@ from django.urls import resolve
 from django.utils import translation
 from django.utils.deprecation import MiddlewareMixin
 
-from chat.users.models import User
+User = get_user_model()
 
 
 def strip_spaces_in_template(template_source):

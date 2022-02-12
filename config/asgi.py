@@ -8,13 +8,13 @@ import os
 import sys
 from pathlib import Path
 
-import channels.routing
 from channels.auth import AuthMiddlewareStack
+from channels.routing import ProtocolTypeRouter, URLRouter
 from django.core.asgi import get_asgi_application
 
 # This allows easy placement of apps within the interior
 # Chat directory.
-import chat.guilds.features.channels.routing
+from chat.apps.guilds.features.channels.routing import websocket_urlpatterns
 
 ROOT_DIR = Path(__file__).resolve(strict=True).parent.parent
 sys.path.append(str(ROOT_DIR / "chat"))
@@ -30,13 +30,9 @@ django_application = get_asgi_application()
 # application = HelloWorldApplication(application)
 
 
-application = channels.routing.ProtocolTypeRouter(
+application = ProtocolTypeRouter(
     {
         "http": django_application,
-        "websocket": AuthMiddlewareStack(
-            channels.routing.URLRouter(
-                chat.guilds.features.channels.routing.websocket_urlpatterns
-            )
-        ),
+        "websocket": AuthMiddlewareStack(URLRouter(websocket_urlpatterns)),
     }
 )

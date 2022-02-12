@@ -7,8 +7,6 @@
 {% load tags %}
 
 
-{% define channel as current_channel %}
-
 <div class="uk-card-header uk-padding-remove">
     <div class="uk-navbar-container uk-navbar-transparent" uk-navbar="duration: 100; offset: 100px;">
         <div class="uk-navbar-left">
@@ -19,13 +17,12 @@
             </a>
         </div>
 
-        {% if current_channel %}
+        {% if room_name %}
             <div class="uk-navbar-center uk-card-title uk-visible@m">
                 <span uk-icon="icon: hashtag"></span>
-                {{ current_channel.name }}
+                {{ room_name.name }}
             </div>
         {% endif %}
-
 
         <div class="uk-navbar-right">
             <div class="uk-grid-small uk-flex-middle uk-margin-right" uk-grid>
@@ -59,7 +56,7 @@
         <ul class="uk-list">
             {% for row in guild|show_channels_and_categories %}
                 <li>
-                    {% if not row|isinstance:"chat.guilds.models.Category" %}
+                    {% if not row|isinstance:"chat.apps.guilds.models.Category" %}
                         {% channel_anchor guild row current=current_channel.id %}
                     {% else %}
                         {% collapsed_category category=row member=request.user as collasped %}

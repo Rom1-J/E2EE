@@ -1,6 +1,6 @@
 import pytest
 
-from chat.users.models import User
+from ..models import User
 
 pytestmark = pytest.mark.django_db
 

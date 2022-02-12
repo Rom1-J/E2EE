@@ -33,7 +33,7 @@
 
                                 <ul class="uk-list">
                                     {% for row in guild|show_channels_and_categories %}
-                                        {% define row|isinstance:"chat.guilds.models.Category" as is_category %}
+                                        {% define row|isinstance:"chat.apps.guilds.models.Category" as is_category %}
 
                                         <li class="uk-box-shadow-small uk-background uk-padding-small">
                                             <div class="uk-flex uk-flex-between">

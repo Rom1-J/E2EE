@@ -4,7 +4,7 @@ from io import BytesIO
 import qrcode
 from django import template
 
-from chat.guilds.features.invites.models import Invite
+from chat.apps.guilds.features.invites.models import Invite
 
 register = template.Library()
 

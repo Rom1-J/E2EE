@@ -6,8 +6,8 @@ from django.http import JsonResponse
 from django.utils.translation import gettext_lazy as _
 from rich import inspect
 
-# =============================================================================
-from ..utils.patch_processor import ProcessAction
+from chat.utils.patch_processor import ProcessAction
+
 from .features.channels.models import Category, Channel
 from .models import Guild
 

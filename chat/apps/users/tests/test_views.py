@@ -2,8 +2,8 @@ import pytest
 from django.http import HttpRequest
 from django.test import RequestFactory
 
-from chat.users.models import User
-from chat.users.views import UserRedirectView
+from ..models import User
+from ..views import UserRedirectView
 
 pytestmark = pytest.mark.django_db
 

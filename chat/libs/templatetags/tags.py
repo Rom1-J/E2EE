@@ -2,8 +2,8 @@ from django import template
 from django.shortcuts import resolve_url
 from django.utils.html import format_html
 
-from chat.guilds.features.channels.models import Channel
-from chat.guilds.models import Guild
+from chat.apps.guilds.features.channels.models import Channel
+from chat.apps.guilds.models import Guild
 
 register = template.Library()
 

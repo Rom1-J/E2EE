@@ -1,9 +1,10 @@
 import uuid
 
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
 
-from chat.users.models import User
+User = get_user_model()
 
 
 class Invite(models.Model):

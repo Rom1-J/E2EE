@@ -1,6 +1,6 @@
 from django.urls import path
 
-from chat.users.views import (
+from .views import (
     UserClientUpdateView,
     UserDetailView,
     UserFistConnectView,

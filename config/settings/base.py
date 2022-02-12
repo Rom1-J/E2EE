@@ -80,10 +80,10 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
-    "chat.users.apps.UsersConfig",
+    "chat.apps.users.apps.UsersConfig",
     # Your stuff: custom apps go here
     "chat.libs.apps.LibsConfig",
-    "chat.guilds.apps.GuildsConfig",
+    "chat.apps.guilds.apps.GuildsConfig",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -122,7 +122,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         "NAME": (
-            "django.contrib.auth.password_validation" ".MinimumLengthValidator"
+            "django.contrib.auth.password_validation.MinimumLengthValidator"
         ),
         "OPTIONS": {"min_length": 15},
     },
@@ -290,9 +290,9 @@ ACCOUNT_EMAIL_REQUIRED = False
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 ACCOUNT_EMAIL_VERIFICATION = "none"
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
-ACCOUNT_ADAPTER = "chat.users.adapters.AccountAdapter"
+ACCOUNT_ADAPTER = "chat.apps.users.adapters.AccountAdapter"
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
-SOCIALACCOUNT_ADAPTER = "chat.users.adapters.SocialAccountAdapter"
+SOCIALACCOUNT_ADAPTER = "chat.apps.users.adapters.SocialAccountAdapter"
 # django-compressor
 # -----------------------------------------------------------------------------
 # https://django-compressor.readthedocs.io/en/latest/quickstart/#installation
@@ -306,11 +306,11 @@ SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 ACCOUNT_USERNAME_VALIDATORS = (
-    "chat.users.validators.custom_username_validators"
+    "chat.apps.users.validators.custom_username_validators"
 )
 ACCOUNT_FORMS = {
-    "signup": "chat.users.forms.SignupForm",
-    "reset_password": "chat.users.forms.ResetPasswordForm",
+    "signup": "chat.apps.users.forms.SignupForm",
+    "reset_password": "chat.apps.users.forms.ResetPasswordForm",
 }
 
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
@@ -318,10 +318,5 @@ DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 CORS_ALLOWED_ORIGINS = ["http://127.0.0.1:8000", "http://127.0.0.1:3000"]
 
 CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [("localhost", 6379)],
-        },
-    },
+    "default": {"BACKEND": "channels.layers.InMemoryChannelLayer"}
 }

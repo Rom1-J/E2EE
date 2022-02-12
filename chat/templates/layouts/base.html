@@ -75,10 +75,53 @@
             })
         </script>
     {% endif %}
+
+    {% if user.is_authenticated %}
+        <script>
+            let fail_count = 0;
+
+            (function get_websocket() {
+                let chatSocket = new WebSocket(
+                    'ws://'
+                    + '127.0.0.1:8000'
+                );
+
+                chatSocket.onmessage = (e) => {
+                    const data = JSON.parse(e.data);
+                    add_message(data)
+                };
+
+                chatSocket.onopen = () => {
+                    console.log('Websocket connected');
+                };
+
+                chatSocket.onclose = () => {
+                    if (fail_count > 2) {
+                        UIkit.modal(document.getElementById("ws_error_modal")).show();
+                    } else {
+                        fail_count += 1;
+                        console.error('Chat socket closed unexpectedly');
+                        console.info('Trying to reconnect in 5s...');
+                        setTimeout(() => get_websocket(), 5000)
+                    }
+                };
+
+                window.ws = chatSocket;
+            })();
+        </script>
+    {% endif %}
+
+    <script>
+        addEventListener("offline", () => {
+                UIkit.notification({
+                    message: '<span uk-icon=\'icon: warning\'></span> {% trans "Internet connection goes offline" %}',
+                    pos: 'top-right',
+                    status: 'warning'
+                })
+            }
+        )
+    </script>
 </div>
-
-
-{% block modal %}{% endblock modal %}
 
 {% block inline_javascript %}{% endblock inline_javascript %}
 

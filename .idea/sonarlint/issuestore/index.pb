@@ -9,8 +9,6 @@ F
 .github/dependabot.yml,0/9/091aff741808a09242f252264b14f4a9adaa5305
 H
 .github/workflows/ci.yml,8/9/899ce9c202bf7bb5480e72836c3edc773c9c4244
-M
-chat/users/tests/factories.py,a/e/ae2863a5e022fa5fc4ed40ed550140df3b314d0b
 Q
 !chat/templates/account/login.html,9/3/930a721a34c460ca4d389cf27470804b2d1ecb1d
 c
@@ -33,3 +31,5 @@ U
 %chat/templates/users/user_detail.html,5/c/5cfaf706ad68aebd0a285997d95a01b1c0841458
 N
 chat/templates/guild/join.html,a/f/afa3daf47b4c4e05d847c4c04ed7b0243f52b231
+Q
+!chat/templates/guild/details.html,c/1/c1cdf5b6442c62b25bd46fc4357de51a41550d21
