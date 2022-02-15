@@ -1,5 +1,3 @@
-import random
-import string
 import uuid
 
 from django.contrib import messages
@@ -148,7 +146,6 @@ class GuildInvitesView(BaseGuildView):
             invite = Invite(
                 guild=guild,
                 author=self.request.user,  # type: ignore
-                key="".join(random.choices(string.ascii_letters, k=10)),
             )
             invite.save()
 

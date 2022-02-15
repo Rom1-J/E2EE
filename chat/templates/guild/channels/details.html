@@ -51,26 +51,6 @@
             </label>
         </form>
     </div>
-
-    <div id="ws_error_modal" uk-modal>
-        <div class="uk-modal-dialog uk-modal-body">
-            <h2 class="uk-modal-title uk-text-danger">WebSocket Error</h2>
-            <p>
-                {% blocktrans %}
-                    The connection with the websocket could not be established,
-                    this problem can either come from your connection rules on the network,
-                    or from a problem on the server.<br>
-                    You can ignore this error and view your messages without the automatic refresh,
-                    or try reloading the page.
-                {% endblocktrans %}
-            </p>
-            <p class="uk-text-right">
-                <button class="uk-button uk-button-default uk-modal-close" type="button">{% trans "Dismiss" %}</button>
-                <a href="{{ request.get_full_path }}" class="uk-button uk-button-primary"
-                   type="button">{% trans "Reload" %}</a>
-            </p>
-        </div>
-    </div>
 {% endblock %}
 
 {% block inline_javascript %}

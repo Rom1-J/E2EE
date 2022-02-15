@@ -216,8 +216,8 @@ TEMPLATES = [
 # https://docs.djangoproject.com/en/dev/ref/settings/#form-renderer
 FORM_RENDERER = "django.forms.renderers.TemplatesSetting"
 
-# http://django-crispy-forms.readthedocs.io/en/latest/install.html#template-packs
-CRISPY_TEMPLATE_PACK = "bootstrap4"
+# # http://django-crispy-forms.readthedocs.io/en/latest/install.html#template-packs
+# CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 # FIXTURES
 # -----------------------------------------------------------------------------
@@ -263,17 +263,24 @@ LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
     "formatters": {
-        "verbose": {
-            "format": "%(levelname)s %(asctime)s %(module)s "
-            "%(process)d %(thread)d %(message)s"
+        "rich": {
+            "datefmt": "[%X]",
         }
     },
     "handlers": {
         "console": {
             "level": "DEBUG",
-            "class": "logging.StreamHandler",
-            "formatter": "verbose",
+            "class": "rich.logging.RichHandler",
+            "formatter": "rich",
         }
+    },
+    "loggers": {
+        "": {
+            "level": "INFO",
+            "handlers": ["console"],
+        },
+        "gunicorn.access": {"handlers": ["console"]},
+        "gunicorn.error": {"handlers": ["console"]},
     },
     "root": {"level": "INFO", "handlers": ["console"]},
 }

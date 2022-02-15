@@ -3,6 +3,7 @@ import uuid
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
+from django_extensions.db.fields import RandomCharField
 
 User = get_user_model()
 
@@ -12,7 +13,7 @@ class Invite(models.Model):
 
     guild = models.ForeignKey("Guild", on_delete=models.CASCADE)
 
-    key = models.CharField(max_length=10)
+    key = RandomCharField(length=10, unique=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     uses = models.IntegerField(default=0)

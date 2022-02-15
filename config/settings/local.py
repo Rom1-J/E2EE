@@ -1,9 +1,7 @@
-from rich.traceback import install
+import pygments.formatters
 
 from .base import *  # noqa
 from .base import env
-
-install(show_locals=True)
 
 # GENERAL
 # -----------------------------------------------------------------------------
@@ -46,7 +44,6 @@ INSTALLED_APPS = [
     "whitenoise.runserver_nostatic"
 ] + INSTALLED_APPS  # noqa F405
 
-
 # django-debug-toolbar
 # -----------------------------------------------------------------------------
 # https://django-debug-toolbar.readthedocs.io/en/latest/installation.html#prerequisites
@@ -61,7 +58,6 @@ DEBUG_TOOLBAR_CONFIG = {
 # https://django-debug-toolbar.readthedocs.io/en/latest/installation.html#internal-ips
 INTERNAL_IPS = ["127.0.0.1", "10.0.2.2"]
 
-
 # django-extensions
 # -----------------------------------------------------------------------------
 # https://django-extensions.readthedocs.io/en/latest/installation_instructions.html#configuration
@@ -69,6 +65,22 @@ INSTALLED_APPS += ["django_extensions"]  # noqa F405
 
 # Your stuff...
 ACCOUNT_ALLOW_REGISTRATION = True
+SHELL_PLUS = "bpython"
+
+SHELL_PLUS_PRINT_SQL = True
+
+# Truncate sql queries to this number of characters (this is the default)
+SHELL_PLUS_PRINT_SQL_TRUNCATE = 1000
+
+# Specify sqlparse configuration options when printing sql queries to the console
+SHELL_PLUS_SQLPARSE_FORMAT_KWARGS = dict(
+    reindent_aligned=True,
+    truncate_strings=500,
+)
+
+# Specify Pygments formatter and configuration options when printing sql queries to the console
+SHELL_PLUS_PYGMENTS_FORMATTER = pygments.formatters.TerminalFormatter
+SHELL_PLUS_PYGMENTS_FORMATTER_KWARGS = {}
 
 if not DEBUG:
     # -------------------------------------------------------------------------

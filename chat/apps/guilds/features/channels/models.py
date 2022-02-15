@@ -89,7 +89,7 @@ class Message(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     channel = models.ForeignKey(
-        Channel,
+        "Channel",
         on_delete=models.CASCADE,
         blank=True,
         null=True,

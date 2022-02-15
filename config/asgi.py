@@ -8,19 +8,25 @@ import os
 import sys
 from pathlib import Path
 
+import django
 from channels.auth import AuthMiddlewareStack
 from channels.routing import ProtocolTypeRouter, URLRouter
 from django.core.asgi import get_asgi_application
 
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.local")
+django.setup()
+
 # This allows easy placement of apps within the interior
 # Chat directory.
-from chat.apps.guilds.features.channels.routing import websocket_urlpatterns
+# pylint: disable=import-outside-toplevel
+from chat.apps.guilds.features.channels.routing import (  # noqa: E402
+    websocket_urlpatterns,
+)
 
 ROOT_DIR = Path(__file__).resolve(strict=True).parent.parent
 sys.path.append(str(ROOT_DIR / "chat"))
 
 # If DJANGO_SETTINGS_MODULE is unset, default to the local settings
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.local")
 
 # This application object is used by any ASGI server configured
 # to use this file.

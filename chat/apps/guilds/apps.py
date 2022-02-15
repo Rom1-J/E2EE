@@ -7,7 +7,6 @@ class GuildsConfig(AppConfig):
     verbose_name = _("Guilds")
 
     def ready(self):
-        print(self.path)
         try:
             # pylint: disable=import-outside-toplevel
             # pylint: disable=unused-import

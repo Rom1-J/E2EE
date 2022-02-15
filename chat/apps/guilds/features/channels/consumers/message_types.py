@@ -1,6 +1,5 @@
 import enum
 import json
-
 from typing import NamedTuple
 
 
@@ -32,12 +31,14 @@ class OutgoingEventMessageRead(NamedTuple):
     type: str = "message_read"
 
     def to_json(self) -> str:
-        return json.dumps({
-            "cmd": IngoingMessageTypes.ReadMessage,
-            "message_id": self.message_id,
-            "sender": self.sender,
-            "receiver": self.receiver
-        })
+        return json.dumps(
+            {
+                "cmd": IngoingMessageTypes.ReadMessage,
+                "message_id": self.message_id,
+                "sender": self.sender,
+                "receiver": self.receiver,
+            }
+        )
 
 
 class OutgoingEventNewMessage(NamedTuple):
@@ -49,14 +50,16 @@ class OutgoingEventNewMessage(NamedTuple):
     type: str = "new_text_message"
 
     def to_json(self) -> str:
-        return json.dumps({
-            "cmd": OutgoingMessageTypes.TextMessage,
-            "random_id": self.random_id,
-            "text": self.text,
-            "sender": self.sender,
-            "receiver": self.receiver,
-            "sender_username": self.sender_username,
-        })
+        return json.dumps(
+            {
+                "cmd": OutgoingMessageTypes.TextMessage,
+                "random_id": self.random_id,
+                "text": self.text,
+                "sender": self.sender,
+                "receiver": self.receiver,
+                "sender_username": self.sender_username,
+            }
+        )
 
 
 class OutgoingEventNewUnreadCount(NamedTuple):
@@ -65,11 +68,13 @@ class OutgoingEventNewUnreadCount(NamedTuple):
     type: str = "new_unread_count"
 
     def to_json(self) -> str:
-        return json.dumps({
-            "cmd": OutgoingMessageTypes.NewUnreadCount,
-            "sender": self.sender,
-            "unread_count": self.unread_count,
-        })
+        return json.dumps(
+            {
+                "cmd": OutgoingMessageTypes.NewUnreadCount,
+                "sender": self.sender,
+                "unread_count": self.unread_count,
+            }
+        )
 
 
 class OutgoingEventMessageIdCreated(NamedTuple):
@@ -78,8 +83,10 @@ class OutgoingEventMessageIdCreated(NamedTuple):
     type: str = "message_id_created"
 
     def to_json(self) -> str:
-        return json.dumps({
-            "cmd": OutgoingMessageTypes.MessageIdCreated,
-            "random_id": self.random_id,
-            "db_id": self.db_id,
-        })
+        return json.dumps(
+            {
+                "cmd": OutgoingMessageTypes.MessageIdCreated,
+                "random_id": self.random_id,
+                "db_id": self.db_id,
+            }
+        )
