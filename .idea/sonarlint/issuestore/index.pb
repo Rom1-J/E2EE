@@ -1,8 +1,6 @@
 
 7
 COPYING,6/1/6156cd6ac57d8b88e473d9202392ec064b623c93
-h
-8chat/templates/layouts/components/message/decryptor.html,a/0/a073b20bc7c45f0182a44f42cc1e537dbae8ea5c
 X
 (chat/static/images/icons/circle_plus.svg,7/1/710beb2266b3babcf8a315e4692012e33057d270
 F
@@ -39,22 +37,14 @@ N
 chat/libs/templatetags/tags.py,2/e/2e038f4892918c874aa4ae8d8ac7376d1d913bda
 Y
 )chat/templates/layouts/parts/sidebar.html,e/a/eabbd5a8b009dae85951e8d6a0cac8957aacfcf5
-[
-+chat/templates/guild/settings/channels.html,c/0/c0300bea52a10c856a863ff76fd1682680eda7e9
 h
 8chat/apps/guilds/features/channels/consumers/__init__.py,e/2/e291cafecaedae4562004377f14184839884fd88
 ^
 .chat/apps/guilds/features/channels/__init__.py,1/e/1ec598764d7b8851aa9d3cd178d3c844b5d132b9
 Z
 *chat/apps/guilds/features/channels/urls.py,8/f/8f71ee9eba1dbc22aca2bd86dc7d1d38dc4ed81a
-[
-+chat/apps/guilds/features/channels/views.py,2/2/22038faf2ce2d6ff3c89c0210932b5b2bf254b3b
 M
 chat/utils/patch_processor.py,2/d/2d741b1046f13d8bf79f1c3a4538d602ef3cb92f
-m
-=chat/apps/guilds/features/channels/consumers/message_types.py,1/5/152001829820446b1404cc5604a2b16bde96256a
-X
-(chat/templates/layouts/parts/footer.html,b/c/bcf0e5eedd9ad70a9b51878786fa1d538b217200
 Z
 *chat/templates/guild/channels/details.html,b/f/bf22fda0081e7ccdadfd4715003d53bcffdacfc6
 P
@@ -63,9 +53,11 @@ P
 -chat/apps/guilds/features/channels/signals.py,5/f/5f30f5d04bcb2c49cfde4a698c9a8307bbd4fa6e
 \
 ,chat/apps/guilds/features/channels/mixins.py,e/0/e0c8eac3b5c9435a0595e9cf06940511cd49ceec
-I
-chat/apps/guilds/forms.py,b/a/ba8b251c89c9bcb5e12609b39635b8ba74864e16
 [
 +chat/apps/guilds/migrations/0002_initial.py,0/2/020b45107d0df50edcd5865afacd54bf4d6632a4
-J
-chat/apps/guilds/models.py,2/c/2c8509c7edb9552a6aa016197ba982574d0be9cd
+B
+chat/pages/apps.py,b/6/b61d6a1f522283203801f2468bf9caba725507ae
+H
+chat/apps/users/forms.py,c/5/c590740c4ac867b1db50168e191a9f5bbca5397c
+H
+chat/apps/guilds/apps.py,f/8/f8550eeba98ecb491e727fb1d0f24ad5c394d099

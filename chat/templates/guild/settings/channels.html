@@ -93,17 +93,23 @@
                             </fieldset>
                         </div>
 
+
                         <div class="uk-width-1-2@m">
                             <fieldset class="uk-fieldset">
                                 <legend class="uk-legend uk-text-center">{% trans "Creation" %}</legend>
 
-                                <form>
+                                <form action="{% url 'guild:guild_settings_channels' guild.id %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="type" value="category">
                                     <fieldset class="uk-fieldset">
                                         <legend class="uk-legend">{% trans "Category" %}</legend>
                                         <div class="uk-margin">
-                                            <label class="uk-form-label" for="form_category_name">Category name</label>
-                                            <input type="text" class="uk-input" id="form_category_name"
-                                                   placeholder="Name">
+                                            <label class="uk-form-label" for="id_{{ categories_form.name.name }}">
+                                                {{ categories_form.name.label }}
+                                            </label>
+                                            <input type="text" class="uk-input" id="id_{{ categories_form.name.name }}"
+                                                   placeholder="{{ categories_form.name.label }}"
+                                                   name="{{ categories_form.name.name }}">
                                         </div>
 
                                         <div class="uk-margin">
@@ -116,26 +122,42 @@
 
                                 <hr>
 
-                                <form>
+                                <form action="{% url 'guild:guild_settings_channels' guild.id %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="type" value="channel">
                                     <fieldset class="uk-fieldset">
                                         <legend class="uk-legend">{% trans "Channel" %}</legend>
                                         <div class="uk-margin">
-                                            <label class="uk-form-label" for="form_channel_name">Channel name</label>
-                                            <input type="text" class="uk-input" placeholder="Name"
-                                                   id="form_channel_name">
+                                            <label class="uk-form-label" for="id_{{ channels_form.name.name }}">
+                                                {{ channels_form.name.label }}
+                                            </label>
+                                            <input type="text" class="uk-input"
+                                                   placeholder="{{ channels_form.name.label }}"
+                                                   id="id_{{ channels_form.name.name }}"
+                                                   name="{{ channels_form.name.name }}">
                                         </div>
 
                                         <div class="uk-margin">
-                                            <label class="uk-form-label" for="form_channel_parent">
-                                                Parent category
+                                            <label class="uk-form-label" for="id_{{ channels_form.topic.name }}">
+                                                {{ channels_form.topic.label }}
                                             </label>
-                                            <select class="uk-select" id="form_channel_parent">
+                                            <textarea class="uk-textarea" id="id_{{ channels_form.topic.name }}"
+                                                      placeholder="{{ channels_form.topic.label }}"
+                                                      name="{{ channels_form.topic.name }}"></textarea>
+                                        </div>
+
+                                        <div class="uk-margin">
+                                            <label class="uk-form-label" for="id_{{ channels_form.parent.name }}">
+                                                {{ channels_form.parent.label }}
+                                            </label>
+                                            <select class="uk-select" id="id_{{ channels_form.parent.name }}"
+                                                    name="{{ channels_form.parent.name }}">
                                                 <optgroup label="Default">
                                                     <option selected>{% trans "None" %}</option>
                                                 </optgroup>
                                                 <optgroup label="_________">
                                                     {% for row in guild|show_channels_and_categories %}
-                                                        <option>{{ row.name }}</option>
+                                                        <option value="{{ row.id }}">{{ row.name }}</option>
                                                     {% endfor %}
                                                 </optgroup>
                                             </select>

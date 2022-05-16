@@ -13,10 +13,10 @@
 
                     <label for="id_message" class="height-100">
                             <textarea style="resize: none"
-                                      class="height-100 input input-icon-right input-icon-left {% if form.name.errors %} input-error {% endif %}"
+                                      class="height-100 input input-icon-right input-icon-left {% if message_form.name.errors %} input-error {% endif %}"
                                       type="text" name="message"
                                       placeholder="{% trans "Message" %} #{{ channel.name }}"
-                                      required id="id_{{ form.name.name }}"></textarea>
+                                      required id="id_{{ message_form.name.name }}"></textarea>
                     </label>
 
                     <label for="id_send" class="form-icon form-icon-flip">
@@ -29,3 +29,5 @@
         </form>
     </div>
 {% endif %}
+
+{% include "layouts/components/message/decryptor.html" %}

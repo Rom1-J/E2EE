@@ -78,11 +78,37 @@ class GuildMembersForm(forms.ModelForm):
 # =============================================================================
 
 
+class GuildCategoriesForm(forms.ModelForm):
+    class Meta:
+        model = Category
+
+        fields = ["name"]
+
+    def __init__(self, *args, **kwargs):
+        guild = kwargs.pop("guild", None)
+
+        super().__init__(*args, **kwargs)
+
+        if guild:
+            self.initial["guild"] = guild
+
+
+# =============================================================================
+
+
 class GuildChannelsForm(forms.ModelForm):
     class Meta:
-        model = Guild
+        model = Channel
 
-        fields = ["channels"]
+        fields = ["parent", "name", "topic"]
+
+    def __init__(self, *args, **kwargs):
+        guild = kwargs.pop("guild", None)
+
+        super().__init__(*args, **kwargs)
+
+        if guild:
+            self.initial["guild"] = guild
 
 
 # =============================================================================

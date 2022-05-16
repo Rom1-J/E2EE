@@ -74,6 +74,7 @@ class User(AbstractUser):
     first_name = None  # type: ignore
     last_name = None  # type: ignore
     email = None  # type: ignore
+    # email = models.EmailField(unique=True, blank=True, null=True)  # None  # type: ignore
 
     first_connect = models.BooleanField(default=True)
     mnemonic = models.CharField(max_length=255, blank=True, null=True)

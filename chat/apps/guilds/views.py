@@ -8,11 +8,13 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.utils.translation import ugettext_lazy as _
 from django.views import View
+from rich import inspect
 
 from .features.channels.models import Channel
 from .features.invites.models import Invite
 from .forms import (
     GuildChangeForm,
+    GuildCategoriesForm,
     GuildChannelsForm,
     GuildCreationForm,
     GuildMembersForm,
@@ -233,38 +235,50 @@ class GuildSettingsChannelsView(BaseGuildSettingsView):
 
     def get(self, request: ASGIRequest, guild_id: uuid.UUID) -> HttpResponse:
         guild = get_guild(guild_id)
-        form = GuildChannelsForm(instance=guild)
+
+        categories_form = GuildCategoriesForm(instance=guild)
+        channels_form = GuildChannelsForm(instance=guild)
 
         return render(
-            request, self.template_name, {"form": form, "guild": guild}
+            request,
+            self.template_name,
+            {
+                "categories_form": categories_form,
+                "channels_form": channels_form,
+                "guild": guild,
+            },
         )
 
     def post(self, request: ASGIRequest, guild_id: uuid.UUID) -> HttpResponse:
         guild = get_guild(guild_id)
-        form = GuildChannelsForm(request.POST, instance=guild)
+        categories_form = GuildCategoriesForm(request.POST, guild=guild)
+        channels_form = GuildChannelsForm(request.POST, guild=guild)
 
-        if form.is_valid() and (members := form.data.get("members")):
-            if form.data.get("action") == "kick":
-                for member in members:
-                    guild.members.remove(User.objects.get(id=member))
-
-                messages.add_message(
-                    request,
-                    messages.SUCCESS,
-                    f"{len(members)} {_('members kicked')}",
-                )
-
-            elif form.data.get("action") == "ban":
-                messages.add_message(
-                    request, messages.INFO, "Not Implemented Yet"
-                )
+        if (
+            categories_form.is_valid()
+            and request.POST.get("type") == "category"
+        ):
+            categories_form.save()
 
             return redirect(
-                "guild:guild_details", guild_id=str(form.instance.id)
+                "guild:guild_settings_channels", guild_id=str(guild.id)
+            )
+
+        if channels_form.is_valid() and request.POST.get("type") == "channel":
+            channels_form.save()
+
+            return redirect(
+                "guild:guild_settings_channels", guild_id=str(guild.id)
             )
 
         return render(
-            request, self.template_name, {"form": form, "guild": guild}
+            request,
+            self.template_name,
+            {
+                "categories_form": categories_form,
+                "channels_form": channels_form,
+                "guild": guild,
+            },
         )
 
     # noinspection PyMethodMayBeStatic
