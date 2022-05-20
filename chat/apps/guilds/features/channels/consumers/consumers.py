@@ -1,10 +1,13 @@
 import json
 
+from asgiref.sync import sync_to_async
+from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
 from rich import inspect
 
 from ..forms import CreateMessageForm
 from . import message_types
+from ..models import Channel
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -92,8 +95,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
         self, cmd: message_types.IngoingMessageTypes, data: dict
     ):
         if cmd == message_types.IngoingMessageTypes.PostMessage:
+            channel = await self._get_channel(data["channel"])
+            data |= {"channel": channel, "author": self.user}
             form = CreateMessageForm(data)
-            inspect(form)
+
+            if await database_sync_to_async(form.is_valid)():
+                await database_sync_to_async(form.save)()
 
     # =========================================================================
 
@@ -104,3 +111,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps({"content": content}))
 
     # =========================================================================
+    # =========================================================================
+
+    @database_sync_to_async
+    def _get_channel(self, channel_id: str):
+        return Channel.objects.filter(id=channel_id).first()
+
+    # =========================================================================
+
+    @database_sync_to_async
+    def _can_see(self, channel: Channel):
+        return self.user.can_see(channel)

@@ -6,52 +6,49 @@
 {% load humanize %}
 {% load humanize_plus %}
 
-{% with request|fake_message as message %}
-    {% if message.author.settings.avatar %}
-        {% define message.author.settings.avatar.url as messageAvatar %}
-    {% else %}
-        {% static "images/icons/circle_user.svg" as messageAvatar %}
-    {% endif %}
+{% if message.author.settings.avatar %}
+    {% define message.author.settings.avatar.url as messageAvatar %}
+{% else %}
+    {% static "images/icons/circle_user.svg" as messageAvatar %}
+{% endif %}
 
-    <article class="uk-alert uk-comment uk-position-relative uk-padding-small uk-margin-small uk-border-rounded
+<article class="uk-alert uk-comment uk-position-relative uk-padding-small uk-margin-small uk-border-rounded
         message {% if message.author == request.user %}message-me uk-alert-success{% else %}uk-alert-primary{% endif %}
         uk-box-shadow-hover-medium uk-text-secondary">
 
-        <header class="uk-comment-header">
-            <div class="uk-grid-medium uk-flex-middle" uk-grid>
-                <div class="uk-width-auto">
-                    <img class="uk-comment-avatar" src="{{ messageAvatar }}" width="42" height="42" alt="">
-                </div>
-                <div class="uk-width-expand">
-                    <h4 class="uk-comment-title uk-margin-remove">
-                        <a class="uk-link-reset" target="_blank" href="{% url 'users:detail' message.author %}">{{ message.author }}</a>
-                    </h4>
-
-                    <div class="uk-overflow-auto">
-                        <ul class="uk-comment-meta uk-subnav-divider uk-subnav uk-margin-remove-top">
-                            {% with attachments=message.attachments %}
-                                {% if attachments %}
-                                    {% for attachment in attachments %}
-                                        <li>
-                                            <a target="_blank" class="link" href="{{ attachment.file.url }}">
-                                                {{ attachment.filename|bold_extension }}
-                                                <span>({{ attachment.file.size|naturalsize }})</span>
-                                            </a>
-                                        </li>
-                                    {% endfor %}
-                                {% endif %}
-                            {% endwith %}
-                        </ul>
-                    </div>
-
-                </div>
+    <header class="uk-comment-header">
+        <div class="uk-grid-medium uk-flex-middle" uk-grid>
+            <div class="uk-width-auto">
+                <img class="uk-comment-avatar" src="{{ messageAvatar }}" width="42" height="42" alt="">
             </div>
-        </header>
+            <div class="uk-width-expand">
+                <h4 class="uk-comment-title uk-margin-remove">
+                    <a class="uk-link-reset" target="_blank"
+                       href="{% url 'users:detail' message.author %}">{{ message.author }}</a>
+                </h4>
 
-        <div class="uk-comment-body">
-            <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore
-                et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
-                rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+                <div class="uk-overflow-auto">
+                    <ul class="uk-comment-meta uk-subnav-divider uk-subnav uk-margin-remove-top">
+                        {% with attachments=message.attachments %}
+                            {% if attachments %}
+                                {% for attachment in attachments.all %}
+                                    <li>
+                                        <a target="_blank" class="link" href="{{ attachment.file.url }}">
+                                            {{ attachment.filename|bold_extension }}
+                                            <span>({{ attachment.file.size|naturalsize }})</span>
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                    </ul>
+                </div>
+
+            </div>
         </div>
-    </article>
-{% endwith %}
+    </header>
+
+    <div class="uk-comment-body">
+        <p>{{ message.content }}</p>
+    </div>
+</article>

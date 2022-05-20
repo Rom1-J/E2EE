@@ -29,8 +29,6 @@ U
 %chat/templates/users/user_detail.html,5/c/5cfaf706ad68aebd0a285997d95a01b1c0841458
 N
 chat/templates/guild/join.html,a/f/afa3daf47b4c4e05d847c4c04ed7b0243f52b231
-Q
-!chat/templates/guild/details.html,c/1/c1cdf5b6442c62b25bd46fc4357de51a41550d21
 V
 &chat/libs/templatetags/qr_generator.py,7/a/7a7f2347c6fcd297de4ae8b927d4e209a2c0f861
 N
@@ -45,14 +43,8 @@ Z
 *chat/apps/guilds/features/channels/urls.py,8/f/8f71ee9eba1dbc22aca2bd86dc7d1d38dc4ed81a
 M
 chat/utils/patch_processor.py,2/d/2d741b1046f13d8bf79f1c3a4538d602ef3cb92f
-Z
-*chat/templates/guild/channels/details.html,b/f/bf22fda0081e7ccdadfd4715003d53bcffdacfc6
-P
- chat/templates/layouts/base.html,e/5/e5da7743739def483357ee23717045c522dcfeb7
 ]
 -chat/apps/guilds/features/channels/signals.py,5/f/5f30f5d04bcb2c49cfde4a698c9a8307bbd4fa6e
-\
-,chat/apps/guilds/features/channels/mixins.py,e/0/e0c8eac3b5c9435a0595e9cf06940511cd49ceec
 [
 +chat/apps/guilds/migrations/0002_initial.py,0/2/020b45107d0df50edcd5865afacd54bf4d6632a4
 B

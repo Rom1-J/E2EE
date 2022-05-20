@@ -1,4 +1,5 @@
 import uuid
+from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
@@ -8,6 +9,9 @@ from django.utils.translation import gettext_lazy as _
 from PIL import Image
 
 from chat.utils.functions import PathAndRename
+
+if TYPE_CHECKING:
+    from chat.apps.guilds.features.channels.models import Channel
 
 
 class UserSettings(models.Model):
@@ -104,6 +108,13 @@ class User(AbstractUser):
 
         """
         return reverse("users:detail", kwargs={"username": self.username})
+
+    # =========================================================================
+
+    def can_see(self, channel: "Channel") -> bool:
+        """Return either the user can see the channel or not"""
+
+        return self in channel.guild.members.all()
 
     # =========================================================================
 

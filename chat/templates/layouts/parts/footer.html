@@ -11,7 +11,7 @@
                                id="id_upload" name="upload">
                     </label>
 
-                    <label for="id_message" class="height-100">
+                    <label for="id_{{ message_form.name.name }}" class="height-100">
                             <textarea style="resize: none"
                                       class="height-100 input input-icon-right input-icon-left {% if message_form.name.errors %} input-error {% endif %}"
                                       type="text" name="message"

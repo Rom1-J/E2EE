@@ -15,19 +15,15 @@
 {% block content %}
     <div class="uk-padding-small uk-card-body uk-padding-remove-bottom uk-overflow-auto" id="messages"
          uk-height-viewport="offset-top: true; offset-bottom: true">
-        {% with messages=room_name.messages.all %}
+        {% with messages=room_name.get_messages.all %}
             {% if messages %}
                 {% for message in messages %}
                     {% include "layouts/components/message/block.html" with message=message %}
                 {% endfor %}
             {% else %}
-                {#                            <div class="uk-text-center">#}
-                {#                                {% trans "No message..." %}#}
-                {#                            </div>#}
-
-                {% for message in "x"|rjust:"20" %}
-                    {% include "layouts/components/message/block.html" with message=message %}
-                {% endfor %}
+                <div class="uk-text-center">
+                    {% trans "No message..." %}
+                </div>
             {% endif %}
         {% endwith %}
     </div>
@@ -85,6 +81,7 @@
             window.ws.send(JSON.stringify({
                 "cmd": "POST_MESSAGE",
                 "data": {
+                    "channel": '{{ room_name.id }}',
                     "content": textarea.value,
                     "attachments": attachments
                 }
