@@ -23,16 +23,10 @@ P
  chat/templates/guild/invite.html,f/3/f332a50b0d8418d8cadfc4ef7f7630983a6dd653
 f
 6chat/templates/account/snippets/already_logged_in.html,4/f/4f3077e89d1e6445d37c9983da76939d69b94362
-R
-"chat/templates/account/logout.html,b/1/b186a66404c165d9a7dcab18041e2f057bf7a4d4
-U
-%chat/templates/users/user_detail.html,5/c/5cfaf706ad68aebd0a285997d95a01b1c0841458
 N
 chat/templates/guild/join.html,a/f/afa3daf47b4c4e05d847c4c04ed7b0243f52b231
 V
 &chat/libs/templatetags/qr_generator.py,7/a/7a7f2347c6fcd297de4ae8b927d4e209a2c0f861
-N
-chat/libs/templatetags/tags.py,2/e/2e038f4892918c874aa4ae8d8ac7376d1d913bda
 h
 8chat/apps/guilds/features/channels/consumers/__init__.py,e/2/e291cafecaedae4562004377f14184839884fd88
 ^

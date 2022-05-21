@@ -15,14 +15,19 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% if latest_channels and False %}
+                {% if latest_channels %}
                     {% for channel in latest_channels %}
                         <tr>
                             <td>
-                                <a class="uk-link">{{ channel }}</a>
+                                <a class="uk-link"
+                                href="{% url 'guild:channel_details' guild.id channel.id %}">{{ channel }}</a>
                             </td>
                             <td class="uk-overflow-auto">
-                                {% include "layouts/components/message/block.html" with message=channel.messages.first %}
+                                {% if channel.last_message %}
+    {#                                {% include "layouts/components/message/block.html" with message=channel.messages.first %}#}
+                                    <b class="uk-text-bold">[{{ channel.last_message.author }}]</b>
+                                    {{ channel.last_message.content }}
+                                {% endif %}
                             </td>
                             <td>
                                 <span>{{ channel.messages_count }}</span>

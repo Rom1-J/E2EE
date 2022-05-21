@@ -121,6 +121,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
             if await database_sync_to_async(form.is_valid)():
                 message = await database_sync_to_async(form.save)()
+                channel.last_message = message
+                await database_sync_to_async(channel.save)()
 
                 response = await self._make_response(message)
 
