@@ -81,7 +81,6 @@
             window.ws.send(JSON.stringify({
                 "cmd": "POST_MESSAGE",
                 "data": {
-                    "channel": '{{ room_name.id }}',
                     "content": textarea.value,
                     "attachments": attachments
                 }
@@ -91,7 +90,9 @@
         }
 
         function add_message(data) {
-            console.log(data)
+            const new_message = createMessage(data);
+            messages.insertAdjacentHTML("beforeend", new_message);
+            messages.scrollTop = messages.scrollHeight;
         }
 
         form.addEventListener("submit", (e) => {

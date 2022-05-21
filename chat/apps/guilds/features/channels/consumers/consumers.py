@@ -1,17 +1,18 @@
 import json
 
-from asgiref.sync import sync_to_async
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
+from django.templatetags.static import static
+from django.urls import reverse
+from django.utils.html import escape
 from rich import inspect
 
 from ..forms import CreateMessageForm
 from . import message_types
-from ..models import Channel
+from ..models import Channel, Message
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
-    room_name: str
     room_group_name: str
 
     # =========================================================================
@@ -22,14 +23,33 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     # =========================================================================
 
+    @property
+    def guild(self):
+        return self.scope["url_route"]["kwargs"]["guild_id"]
+
+    # =========================================================================
+
+    @property
+    def channel(self):
+        return self.scope["url_route"]["kwargs"]["channel_id"]
+
+    # =========================================================================
+
     async def connect(self):
         if not self.user.is_authenticated:
             await self.close(code=3000)
             return
 
-        self.room_name = str(self.user.pk)
+        if not await self._can_see(await self._get_channel(self.channel)):
+            await self.close(code=3000)
+            return
 
-        await self.channel_layer.group_add(self.room_name, self.channel_name)
+        self.room_group_name = self.guild
+        self.room_group_name += "--" + self.channel
+
+        await self.channel_layer.group_add(
+            self.room_group_name, self.channel_name
+        )
         await self.accept()
 
     # =========================================================================
@@ -95,20 +115,24 @@ class ChatConsumer(AsyncWebsocketConsumer):
         self, cmd: message_types.IngoingMessageTypes, data: dict
     ):
         if cmd == message_types.IngoingMessageTypes.PostMessage:
-            channel = await self._get_channel(data["channel"])
+            channel = await self._get_channel(self.channel)
             data |= {"channel": channel, "author": self.user}
             form = CreateMessageForm(data)
 
             if await database_sync_to_async(form.is_valid)():
-                await database_sync_to_async(form.save)()
+                message = await database_sync_to_async(form.save)()
+
+                response = await self._make_response(message)
+
+                await self.channel_layer.group_send(
+                    self.room_group_name,
+                    {"type": "chat.message", "content": json.dumps(response)},
+                )
 
     # =========================================================================
 
     async def chat_message(self, event):
-        content = event["content"]
-
-        # Send message to WebSocket
-        await self.send(text_data=json.dumps({"content": content}))
+        await self.send(text_data=event["content"])
 
     # =========================================================================
     # =========================================================================
@@ -122,3 +146,33 @@ class ChatConsumer(AsyncWebsocketConsumer):
     @database_sync_to_async
     def _can_see(self, channel: Channel):
         return self.user.can_see(channel)
+
+    # =========================================================================
+
+    @database_sync_to_async
+    def _make_response(self, message: Message):
+        return {
+            "author": {
+                "id": str(message.author.id),
+                "avatar_url": escape(
+                    message.author.settings.avatar.url
+                    if message.author.settings.avatar
+                    else static("images/icons/circle_user.svg")
+                ),
+                "url": reverse(
+                    "users:detail", kwargs={"username": message.author}
+                ),
+                "name": escape(str(message.author)),
+            },
+            "attachments": [
+                {
+                    "file": {
+                        "name": escape(f.filename),
+                        "url": f.file.url,
+                        "size": f.file.size,
+                    }
+                }
+                for f in message.attachments.all()
+            ],
+            "content": escape(message.content),
+        }

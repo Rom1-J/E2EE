@@ -39,8 +39,6 @@ h
 8chat/apps/guilds/features/channels/consumers/__init__.py,e/2/e291cafecaedae4562004377f14184839884fd88
 ^
 .chat/apps/guilds/features/channels/__init__.py,1/e/1ec598764d7b8851aa9d3cd178d3c844b5d132b9
-Z
-*chat/apps/guilds/features/channels/urls.py,8/f/8f71ee9eba1dbc22aca2bd86dc7d1d38dc4ed81a
 M
 chat/utils/patch_processor.py,2/d/2d741b1046f13d8bf79f1c3a4538d602ef3cb92f
 ]
