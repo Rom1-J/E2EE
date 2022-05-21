@@ -8,7 +8,6 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.utils.translation import ugettext_lazy as _
 from django.views import View
-from rich import inspect
 
 from .features.channels.models import Channel
 from .features.invites.models import Invite
@@ -262,6 +261,7 @@ class GuildSettingsChannelsView(BaseGuildSettingsView):
             guild.categories.add(category)
             guild.save()
 
+            category.position = guild.categories.count()
             category.guild = guild
             category.save()
 
@@ -270,13 +270,12 @@ class GuildSettingsChannelsView(BaseGuildSettingsView):
                 guild_id=str(guild.id),
             )
 
-        inspect(channels_form)
         if channels_form.is_valid() and request.POST.get("type") == "channel":
             channel = channels_form.save()
             guild.channels.add(channel)
             guild.save()
 
-            channel.position = guild.channels.count()
+            channel.position = channel.parent.channels_count()
             channel.guild = guild
             channel.save()
 
