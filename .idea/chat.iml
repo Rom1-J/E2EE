@@ -19,6 +19,7 @@
       <excludeFolder url="file://$MODULE_DIR$/staticfiles" />
       <excludeFolder url="file://$MODULE_DIR$/chat/static/css" />
       <excludeFolder url="file://$MODULE_DIR$/.pytest_cache" />
+      <excludeFolder url="file://$MODULE_DIR$/.mypy_cache" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.10 (e2ee_chat)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />

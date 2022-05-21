@@ -308,7 +308,7 @@ STATICFILES_FINDERS += ["compressor.finders.CompressorFinder"]
 
 # Your stuff...
 # -----------------------------------------------------------------------------
-APP_NAME = "E2EE Chat"
+APP_NAME = "C3E Chat"
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
