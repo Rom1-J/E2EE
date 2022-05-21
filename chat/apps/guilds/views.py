@@ -251,21 +251,34 @@ class GuildSettingsChannelsView(BaseGuildSettingsView):
 
     def post(self, request: ASGIRequest, guild_id: uuid.UUID) -> HttpResponse:
         guild = get_guild(guild_id)
-        categories_form = GuildCategoriesForm(request.POST, guild=guild)
-        channels_form = GuildChannelsForm(request.POST, guild=guild)
+        categories_form = GuildCategoriesForm(request.POST)
+        channels_form = GuildChannelsForm(request.POST)
 
         if (
             categories_form.is_valid()
             and request.POST.get("type") == "category"
         ):
-            categories_form.save()
+            category = categories_form.save()
+            guild.categories.add(category)
+            guild.save()
+
+            category.guild = guild
+            category.save()
 
             return redirect(
-                "guild:guild_settings_channels", guild_id=str(guild.id)
+                "guild:guild_settings_channels",
+                guild_id=str(guild.id),
             )
 
+        inspect(channels_form)
         if channels_form.is_valid() and request.POST.get("type") == "channel":
-            channels_form.save()
+            channel = channels_form.save()
+            guild.channels.add(channel)
+            guild.save()
+
+            channel.position = guild.channels.count()
+            channel.guild = guild
+            channel.save()
 
             return redirect(
                 "guild:guild_settings_channels", guild_id=str(guild.id)

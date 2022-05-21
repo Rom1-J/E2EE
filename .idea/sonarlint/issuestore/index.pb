@@ -33,14 +33,10 @@ V
 &chat/libs/templatetags/qr_generator.py,7/a/7a7f2347c6fcd297de4ae8b927d4e209a2c0f861
 N
 chat/libs/templatetags/tags.py,2/e/2e038f4892918c874aa4ae8d8ac7376d1d913bda
-Y
-)chat/templates/layouts/parts/sidebar.html,e/a/eabbd5a8b009dae85951e8d6a0cac8957aacfcf5
 h
 8chat/apps/guilds/features/channels/consumers/__init__.py,e/2/e291cafecaedae4562004377f14184839884fd88
 ^
 .chat/apps/guilds/features/channels/__init__.py,1/e/1ec598764d7b8851aa9d3cd178d3c844b5d132b9
-M
-chat/utils/patch_processor.py,2/d/2d741b1046f13d8bf79f1c3a4538d602ef3cb92f
 ]
 -chat/apps/guilds/features/channels/signals.py,5/f/5f30f5d04bcb2c49cfde4a698c9a8307bbd4fa6e
 [

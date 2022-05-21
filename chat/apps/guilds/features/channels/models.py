@@ -53,7 +53,7 @@ class Channel(models.Model):
 
     position = models.IntegerField(default=1)
     parent = models.ForeignKey(
-        "Category", on_delete=models.SET_NULL, blank=True, null=True
+        "Category", on_delete=models.SET_NULL, default=None, blank=True, null=True
     )
 
     name = models.TextField(max_length=100)

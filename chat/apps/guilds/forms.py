@@ -84,15 +84,6 @@ class GuildCategoriesForm(forms.ModelForm):
 
         fields = ["name"]
 
-    def __init__(self, *args, **kwargs):
-        guild = kwargs.pop("guild", None)
-
-        super().__init__(*args, **kwargs)
-
-        if guild:
-            self.initial["guild"] = guild
-
-
 # =============================================================================
 
 
@@ -101,15 +92,6 @@ class GuildChannelsForm(forms.ModelForm):
         model = Channel
 
         fields = ["parent", "name", "topic"]
-
-    def __init__(self, *args, **kwargs):
-        guild = kwargs.pop("guild", None)
-
-        super().__init__(*args, **kwargs)
-
-        if guild:
-            self.initial["guild"] = guild
-
 
 # =============================================================================
 # Custom forms

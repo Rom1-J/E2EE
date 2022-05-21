@@ -13,12 +13,13 @@
             <a class="uk-navbar-toggle uk-position-relative" uk-toggle="target: #offcanvas-overlay">
                 <span uk-navbar-toggle-icon></span>
                 <span class="uk-margin-small-left">{% trans "Channels" %}</span>
-                <span class="uk-badge uk-badge-danger">99+</span>
+{#                <span class="uk-badge uk-badge-danger">99+</span>#}
             </a>
         </div>
 
         {% if room_name %}
-            <div class="uk-navbar-center uk-card-title uk-visible@m">
+            <div class="uk-navbar-center uk-card-title uk-visible@m"
+                 uk-tooltip="title: {{ room_name.topic }}; pos: bottom">
                 <span uk-icon="icon: hashtag"></span>
                 {{ room_name.name }}
             </div>

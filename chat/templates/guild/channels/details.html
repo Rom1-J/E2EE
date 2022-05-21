@@ -13,7 +13,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="uk-padding-small uk-card-body uk-padding-remove-bottom uk-overflow-auto" id="messages"
+    <div class="uk-padding-small uk-card-body uk-overflow-auto" id="messages"
          uk-height-viewport="offset-top: true; offset-bottom: true">
         {% with messages=room_name.get_messages.all %}
             {% if messages %}
@@ -31,9 +31,9 @@
     <div class="uk-card-footer">
         <form id="message_form">
             <label class="uk-flex">
-                <button class="uk-button uk-button-default uk-padding-small uk-padding-remove-vertical">
-                    <span uk-icon="icon: plus-circle"></span>
-                </button>
+{#                <button class="uk-button uk-button-default uk-padding-small uk-padding-remove-vertical">#}
+{#                    <span uk-icon="icon: plus-circle"></span>#}
+{#                </button>#}
 
                 <textarea id="message_input" class="uk-textarea"
                           style="resize: none; max-height: 20vh" autofocus
