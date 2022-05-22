@@ -15,6 +15,9 @@
 .uk-navbar .uk-navbar-dropdown {
   padding: 10px; }
 
+.uk-navbar .uk-logo > img {
+  height: 42px; }
+
 .uk-offcanvas-bar {
   min-width: -webkit-fit-content;
   min-width: -moz-fit-content;

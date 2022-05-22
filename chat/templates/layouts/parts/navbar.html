@@ -3,7 +3,9 @@
 
 <nav class="uk-background-secondary" uk-navbar="mode: click">
     <div class="uk-navbar-left">
-        <a class="uk-navbar-item uk-logo" href="{% url 'pages:home' %}">C3E Chat</a>
+        <a class="uk-navbar-item uk-logo" href="{% url 'pages:home' %}">
+            <img src="{% static 'images/logo.png' %}" alt="C3E">
+        </a>
     </div>
 
     {% if request.user.is_authenticated %}
