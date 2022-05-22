@@ -83,14 +83,13 @@
     </div>
 </div>
 
-{% compress js %}
     <script>
         const UPDATE_CLIENT_ENDPOINT = "{% url "users:update_client" %}";
 
         function toggle(e) {
             let category_id = Array.from(e.target.classList).filter(cls => {
                 return cls.startsWith("toggle_");
-            })
+            });
 
             if (category_id.length === 0) return;
             else category_id = category_id[0].slice(7);
@@ -117,9 +116,8 @@
             {% for category in guild.categories.all %}
                 toggle_id = document.querySelector("ul.toggle_{{ category.id }}");
 
-                toggle_id.addEventListener("hide", toggle)
-                toggle_id.addEventListener("show", toggle)
+                toggle_id.addEventListener("hide", toggle);
+                toggle_id.addEventListener("show", toggle);
             {% endfor %}
         })
     </script>
-{% endcompress %}

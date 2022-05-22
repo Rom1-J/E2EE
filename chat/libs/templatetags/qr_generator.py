@@ -11,7 +11,7 @@ register = template.Library()
 
 @register.filter
 def generate_qr_code(invite: Invite):
-    url = "http://127.0.0.1:3000" + invite.key_url()
+    url = "https://c3e.gnous.eu" + invite.key_url()
 
     qr = qrcode.QRCode(
         version=1,

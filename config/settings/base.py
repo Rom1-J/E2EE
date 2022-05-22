@@ -15,6 +15,7 @@ if READ_DOT_ENV_FILE:
     # OS environment variables take precedence over variables from .env
     env.read_env(str(ROOT_DIR / ".env"))
 
+
 # GENERAL
 # -----------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#debug
@@ -322,7 +323,7 @@ ACCOUNT_FORMS = {
 
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
-CORS_ALLOWED_ORIGINS = ["http://127.0.0.1:8000", "http://127.0.0.1:3000"]
+CORS_ALLOWED_ORIGINS = ["https://c3e.gnous.eu", "http://127.0.0.1:8000", "http://127.0.0.1:3000"]
 
 CHANNEL_LAYERS = {
     "default": {"BACKEND": "channels.layers.InMemoryChannelLayer"}

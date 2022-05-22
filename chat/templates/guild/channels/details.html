@@ -57,9 +57,6 @@
 
         const form = document.getElementById("message_form");
 
-        const POST_MESSAGE_ENDPOINT = "{% url 'guild:channel_details' guild.id room_name.id %}"
-
-        //////////////////////////////////////////////////////
 
         const observer = new MutationObserver(function (mutations) {
             mutations.forEach(function (mutationRecord) {
@@ -73,9 +70,8 @@
             });
         });
 
-        observer.observe(messages, {attributes: true, attributeFilter: ['style']})
+        observer.observe(messages, {attributes: true, attributeFilter: ['style']});
 
-        //////////////////////////////////////////////////////
 
         function send_message() {
             window.ws.send(JSON.stringify({
@@ -98,14 +94,14 @@
         form.addEventListener("submit", (e) => {
             e.preventDefault();
             send_message();
-        })
+        });
 
         textarea.addEventListener("keyup", (e) => {
             if (e.key === "Enter") {
                 if (e.ctrlKey) textarea.value += "\n";
                 else send_message();
             }
-        })
+        });
 
     </script>
     {% include "layouts/components/message/decryptor.html" %}

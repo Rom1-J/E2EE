@@ -333,3 +333,5 @@ dump.rdb
 
 key.pem
 cert.pem
+
+.env
