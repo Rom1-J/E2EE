@@ -59,7 +59,7 @@ function createMessage(data) {
         </header>
 
         <div class="uk-comment-body">
-            <p>${data.content}</p>
+            <p>${decipher(data.content, data.author.id)}</p>
         </div>
     </article>`;
 }

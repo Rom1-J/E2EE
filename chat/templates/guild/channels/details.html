@@ -77,7 +77,7 @@
             window.ws.send(JSON.stringify({
                 "cmd": "POST_MESSAGE",
                 "data": {
-                    "content": textarea.value,
+                    "content": cipher(textarea.value),
                     "attachments": attachments
                 }
             }));

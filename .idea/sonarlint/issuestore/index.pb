@@ -39,3 +39,11 @@ H
 chat/apps/users/forms.py,c/5/c590740c4ac867b1db50168e191a9f5bbca5397c
 H
 chat/apps/guilds/apps.py,f/8/f8550eeba98ecb491e727fb1d0f24ad5c394d099
+@
+.readthedocs.yml,8/1/81ccd5c4e1f93eb3ab80c73b5532455bf4f82fe9
+V
+&chat/libs/templatetags/qr_generator.py,7/a/7a7f2347c6fcd297de4ae8b927d4e209a2c0f861
+Y
+)chat/templates/layouts/parts/sidebar.html,e/a/eabbd5a8b009dae85951e8d6a0cac8957aacfcf5
+Q
+!chat/libs/templatetags/abs_url.py,a/5/a5dc085793ad7a9c90ce7a0624500212ae09a943
