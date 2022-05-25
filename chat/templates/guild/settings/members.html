@@ -42,7 +42,7 @@
                                     <tr>
                                         <td>
                                             <input id="user_checkbox_{{ member.id }}" type="checkbox"
-                                                   name="{{ form.members.name }}" value="{{ member.id }}"
+                                                   name="{{ form.members.name }}[{{ member.id }}]"
                                                    {% if member == request.user %}disabled{% endif %}>
                                         </td>
                                         <td>

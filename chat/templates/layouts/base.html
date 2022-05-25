@@ -104,9 +104,16 @@
             let fail_count = 0;
 
             (function get_websocket() {
+                {#let chatSocket = new WebSocket(#}
+                {#    'wss://'#}
+                {#    + 'c3e.gnous.eu'#}
+                {#    + '/ws'#}
+                {#    + '/{{ room_name.guild.id }}'#}
+                {#    + '/{{ room_name.id }}'#}
+                {#);    #}
                 let chatSocket = new WebSocket(
-                    'wss://'
-                    + 'c3e.gnous.eu'
+                    'ws://'
+                    + '127.0.0.1:8000'
                     + '/ws'
                     + '/{{ room_name.guild.id }}'
                     + '/{{ room_name.id }}'
