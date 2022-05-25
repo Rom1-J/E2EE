@@ -21,9 +21,9 @@ function createAttachments(attachments) {
     for (let attachment in attachments) {
         block += `
             <li>
-                <a target="_blank" class="link" href="${ attachment.file.url }">
+                <a target="_blank" class="link" href="${attachment.file.url}">
                     ${boldExtension(attachment.file.name)}
-                    <span>(${ attachment.file.size })</span>
+                    <span>(${attachment.file.size})</span>
                 </a>
             </li>`
     }

@@ -1,3 +1,4 @@
+{% load utils %}
 {% load define %}
 {% load static %}
 {% load debug %}
@@ -51,13 +52,22 @@
     <div class="uk-comment-body">
         <p id="{{ message.id }}">{% trans "Loading..." %}</p>
         <script>
-            window.addEventListener('load', () => {
-                document.getElementById("{{ message.id }}").innerText = (
-                    decipher(
-                        {box: '{{ message.content }}', nonce: '{{ message.nonce }}'},
-                        '{{ message.author.id }}'
-                    )
-                );
+            document.addEventListener('DOMContentLoaded', () => {
+                function _decipher_message_{{ message.id|replace:"-|_" }}() {
+                    document.getElementById("{{ message.id }}").innerText = (
+                        decipher(
+                            {box: '{{ message.content }}', nonce: '{{ message.nonce }}'},
+                            '{{ message.author.id }}'
+                        )
+                    );
+                }
+
+                (async () => {
+                    while (!window.hasOwnProperty("recipients"))
+                        await new Promise(resolve => setTimeout(resolve, 100));
+                    _decipher_message_{{ message.id|replace:"-|_" }}();
+                })();
+
             });
         </script>
     </div>

@@ -5,8 +5,6 @@ X
 (chat/static/images/icons/circle_plus.svg,7/1/710beb2266b3babcf8a315e4692012e33057d270
 F
 .github/dependabot.yml,0/9/091aff741808a09242f252264b14f4a9adaa5305
-H
-.github/workflows/ci.yml,8/9/899ce9c202bf7bb5480e72836c3edc773c9c4244
 Q
 !chat/templates/account/login.html,9/3/930a721a34c460ca4d389cf27470804b2d1ecb1d
 c
@@ -37,5 +35,3 @@ V
 &chat/libs/templatetags/qr_generator.py,7/a/7a7f2347c6fcd297de4ae8b927d4e209a2c0f861
 Y
 )chat/templates/layouts/parts/sidebar.html,e/a/eabbd5a8b009dae85951e8d6a0cac8957aacfcf5
-Q
-!chat/libs/templatetags/abs_url.py,a/5/a5dc085793ad7a9c90ce7a0624500212ae09a943

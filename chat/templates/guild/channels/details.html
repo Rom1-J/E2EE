@@ -1,5 +1,7 @@
 {% extends "layouts/base.html" %}
 {% load i18n %}
+{% load utils %}
+
 
 {% block title %}{{ room_name.name }} - {{ APP_NAME }}{% endblock %}
 
@@ -81,6 +83,15 @@
 
 
             function send_message() {
+                if (!window.recipients) {
+                    UIkit.notification({
+                        message: '{% trans "Please wait few seconds..." %}',
+                        pos: 'top-right',
+                        status: 'primary'
+                    });
+                    return
+
+                }
                 for (const [recipient_id, recipient_pubKey] of Object.entries(recipients)) {
                     const sharedKey = nacl.box.before(nacl.util.decodeBase64(recipient_pubKey), usableKeyPair.secretKey);
 
@@ -90,7 +101,7 @@
                         nacl.util.decodeUTF8(textarea.value),
                         nonce,
                         sharedKey
-                    )
+                    );
                     const message = {box, nonce};
 
                     ws.send(JSON.stringify({
