@@ -28,8 +28,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     (function get_websocket() {
         let chatSocket = new WebSocket(
-            'ws://'
-            + '127.0.0.1:8000'
+            'wss://'
+            + 'c3e.gnous.eu'
             + '/ws'
             + `/${room_name.guild.id}`
             + `/${room_name.id}`
