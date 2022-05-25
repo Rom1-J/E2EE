@@ -29,6 +29,8 @@
             <form action="{% url 'users:first_connect' page='next' %}" method="post">
                 {% csrf_token %}
 
+                <input type="hidden" name="public_key" value="">
+
                 {% if redirect_field_value %}
                     <input type="hidden" name="{{ redirect_field_name }}"
                            value="{{ redirect_field_value }}"/>
@@ -54,4 +56,14 @@
             </form>
         {% endfor %}
     </div>
+
+    {% block inline_javascript %}
+        <script>
+            const keyPair = window.sessionStorage.getItem("keySet").split("|");
+
+            document.querySelectorAll("input[name='public_key']").forEach(input => {
+                input.value = keyPair[1];
+            });
+        </script>
+    {% endblock inline_javascript %}
 {% endblock %}

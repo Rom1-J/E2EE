@@ -12,9 +12,9 @@
     <div class="uk-margin uk-margin-auto uk-card-body">
         <h1 class="uk-card-title uk-text-center">{% translate "Sign Out" %}</h1>
 
-{#        <div class="uk-alert uk-alert-primary">#}
-{#            <p>{% trans "Don't forget to export your key ;)" %}</p>#}
-{#        </div>#}
+        <div class="uk-alert uk-alert-primary">
+            <p>{% trans "Don't forget to export your key ;)" %}</p>
+        </div>
 
         {% if form.non_field_errors %}
             <div class="uk-alert uk-alert-danger">
@@ -31,15 +31,15 @@
                        value="{{ redirect_field_value }}"/>
             {% endif %}
 
-{#            <div class="uk-margin">#}
-{#                <label class="uk-inline uk-width-1-1" for="secret_key">#}
-{#                    {% trans "Secret key" %}#}
-{#                    <textarea class="uk-textarea uk-resize-vertical" id="secret_key" cols="30" rows="10"></textarea>#}
-{#                </label>#}
-{#                <div class="uk-width-1-1">#}
-{#                    <a id="secret_key_export">{% trans "Download" %}</a>#}
-{#                </div>#}
-{#            </div>#}
+            <div class="uk-margin">
+                <label class="uk-inline uk-width-1-1" for="private_key">
+                    {% trans "Private key" %}
+                    <textarea class="uk-textarea uk-resize-vertical" id="private_key" cols="30" rows="10"></textarea>
+                </label>
+                <div class="uk-width-1-1">
+                    <a id="private_key_export">{% trans "Download" %}</a>
+                </div>
+            </div>
 
             <div class="uk-margin">
                 <button class="uk-button uk-button-primary uk-button-large uk-width-1-1">
@@ -56,12 +56,16 @@
 
 {% block inline_javascript %}
     <script>
-        const textarea = document.getElementById("secret_key");
-        const anchor = document.getElementById("secret_key_export");
-        const secret_key = atob(sessionStorage.getItem("secret_key"));
+        if (window.keyPair === undefined) {
+            window.keyPair = window.sessionStorage.getItem("keySet").split("|");
+        }
+
+        const textarea = document.getElementById("private_key");
+        const anchor = document.getElementById("private_key_export");
+        const secret_key = keyPair[1];
 
         textarea.innerHTML = secret_key;
         anchor.setAttribute("href", `data:text/plain;charset=utf-8,${encodeURIComponent(secret_key)}`);
-        anchor.setAttribute('download', "secret_key");
+        anchor.setAttribute('download', "private_key");
     </script>
 {% endblock %}

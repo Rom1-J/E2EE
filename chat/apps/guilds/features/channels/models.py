@@ -59,21 +59,13 @@ class Channel(models.Model):
     name = models.TextField(max_length=100)
     topic = models.TextField(max_length=1024, blank=True, null=True)
 
-    last_message = models.ForeignKey(
-        "Message",
-        on_delete=models.SET_NULL,
-        related_name="last_message",
-        blank=True,
-        null=True,
-    )
-
     # =========================================================================
 
-    def get_messages(self):
+    def get_messages(self, recipient: User):
         return Message.objects.filter(channel=self)
 
-    def messages_count(self):
-        return len(self.get_messages().all())
+    # def messages_count(self):
+    #     return len(self.get_messages().all())
 
     # =========================================================================
 
@@ -99,26 +91,11 @@ class Message(models.Model):
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="author"
     )
+    recipient = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="recipient"
+    )
 
     attachments = models.ManyToManyField("Attachment", blank=True)
-
-    previous = models.OneToOneField(
-        "self",
-        null=True,
-        blank=True,
-        related_name="previous_message",
-        on_delete=models.SET_NULL,
-    )
-    same_previous_author = models.BooleanField(blank=True, null=True)
-
-    next = models.OneToOneField(
-        "self",
-        null=True,
-        blank=True,
-        related_name="next_message",
-        on_delete=models.SET_NULL,
-    )
-    same_next_author = models.BooleanField(blank=True, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -131,9 +108,8 @@ class Message(models.Model):
     def __str__(self):
         return (
             f"from: {self.author}, "
+            f"to: {self.recipient}, "
             f"id: {self.id}, "
-            f"same_previous_author: {self.same_previous_author}, "
-            f"same_next_author: {self.same_next_author}"
         )
 
 

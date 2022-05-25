@@ -69,8 +69,6 @@ class ChannelAdmin(admin.ModelAdmin):
         "guild",
         "position",
         "parent",
-        "last_message",
-        "messages_count",
     ]
     search_fields = ["id", "name"]
 

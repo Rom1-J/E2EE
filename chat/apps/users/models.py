@@ -81,7 +81,9 @@ class User(AbstractUser):
     # email = models.EmailField(unique=True, blank=True, null=True)  # None  # type: ignore
 
     first_connect = models.BooleanField(default=True)
+
     mnemonic = models.CharField(max_length=255, blank=True, null=True)
+    public_key = models.CharField(max_length=255, blank=True, null=True)
 
     # =========================================================================
 

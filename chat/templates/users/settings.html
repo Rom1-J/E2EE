@@ -25,7 +25,7 @@
                 </div>
             {% endif %}
 
-            <div class="uk-margin uk-width-1-1">
+            <div class="uk-margin uk-width-1-2">
                 <label class="uk-form-label" for="id_username">
                     {% trans "Username" %}
                 </label>
@@ -33,6 +33,17 @@
                     <input class="uk-input" type="text" required disabled
                            value="{{ request.user.username }}"
                            id="id_username" placeholder="{% trans 'Username' %}">
+                </div>
+            </div>
+
+            <div class="uk-margin uk-width-1-2">
+                <label class="uk-form-label" for="id_username">
+                    {% trans "Private key" %}
+                </label>
+                <div class="uk-form-controls">
+                    <a class="uk-button uk-button-primary uk-width-expand" id="private_key_export">
+                        {% trans "Export/Download" %}
+                    </a>
                 </div>
             </div>
 
@@ -156,4 +167,16 @@
             </div>
         </form>
     </div>
+
+    {% block inline_javascript %}
+        <script>
+            if (window.keyPair === undefined) {
+                window.keyPair = window.sessionStorage.getItem("keySet").split("|");
+            }
+
+            const anchor = document.getElementById("private_key_export");
+            anchor.setAttribute("href", `data:text/plain;charset=utf-8,${encodeURIComponent(keyPair[1])}`);
+            anchor.setAttribute('download', "private_key");
+        </script>
+    {% endblock inline_javascript %}
 {% endblock %}

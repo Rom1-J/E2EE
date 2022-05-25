@@ -18,8 +18,8 @@
                     time by
                     closing the current tab.
                     <br><br>
-                    Also, each time you log in, you will be asked to enter your private key which will
-                    be
+                    Also, each time you log in, you will be asked to enter your private key
+                    which will be
                     used to read and send messages. This key will be saved in your browser like the
                     session,
                     and will not be communicated to the server at any time.
@@ -62,4 +62,16 @@
             </a>
         </div>
     </div>
+
+    {% block inline_javascript %}
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const keyPair = nacl.box.keyPair();
+                window.sessionStorage.setItem(
+                    "keySet",
+                    `${nacl.util.encodeBase64(keyPair.publicKey)}|${nacl.util.encodeBase64(keyPair.secretKey)}`
+                );
+            });
+        </script>
+    {% endblock inline_javascript %}
 {% endblock %}

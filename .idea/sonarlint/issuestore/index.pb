@@ -29,16 +29,10 @@ h
 8chat/apps/guilds/features/channels/consumers/__init__.py,e/2/e291cafecaedae4562004377f14184839884fd88
 ^
 .chat/apps/guilds/features/channels/__init__.py,1/e/1ec598764d7b8851aa9d3cd178d3c844b5d132b9
-]
--chat/apps/guilds/features/channels/signals.py,5/f/5f30f5d04bcb2c49cfde4a698c9a8307bbd4fa6e
-[
-+chat/apps/guilds/migrations/0002_initial.py,0/2/020b45107d0df50edcd5865afacd54bf4d6632a4
 B
 chat/pages/apps.py,b/6/b61d6a1f522283203801f2468bf9caba725507ae
 H
 chat/apps/users/forms.py,c/5/c590740c4ac867b1db50168e191a9f5bbca5397c
-H
-chat/apps/guilds/apps.py,f/8/f8550eeba98ecb491e727fb1d0f24ad5c394d099
 @
 .readthedocs.yml,8/1/81ccd5c4e1f93eb3ab80c73b5532455bf4f82fe9
 V

@@ -127,6 +127,9 @@ class UserFistConnectView(BaseUsersView, View):
     template_name = template_path + "first_connect"
 
     def get(self, request: ASGIRequest, page: str = "first") -> HttpResponse:
+        if (user_settings := User.objects.get(id=request.user.id)) and not user_settings.first_connect:
+            return redirect("users:redirect")
+
         if page == "first":
             return render(request, self.template_name + "/first.html")
 
@@ -151,6 +154,7 @@ class UserFistConnectView(BaseUsersView, View):
             return redirect("users:first_connect")
 
         mnemonic = request.POST.get("mnemonic")
+        public_key = request.POST.get("public_key")
         mnemonics = request.session["mnemonics"]
 
         if mnemonic not in mnemonics.values():
@@ -164,11 +168,23 @@ class UserFistConnectView(BaseUsersView, View):
                 self.template_name + "/next.html",
                 {"mnemonics": mnemonics},
             )
+        if not public_key:
+            messages.add_message(
+                request,
+                messages.WARNING,
+                _("Please do not edit autofilled inputs"),
+            )
+            return render(
+                request,
+                self.template_name + "/next.html",
+                {"mnemonics": mnemonics},
+            )
 
         del request.session["mnemonics"]
 
         user = User.objects.get(id=request.user.id)
         user.mnemonic = make_password(mnemonic)
+        user.public_key = public_key
         user.first_connect = False
         user.save()
 
