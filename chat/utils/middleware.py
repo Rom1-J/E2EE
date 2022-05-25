@@ -96,7 +96,7 @@ class CustomLocaleMiddleware(LocaleMiddleware):
             prefixed_default_language,
         ) = is_language_prefix_patterns_used(urlconf)
         language = translation.get_language_from_request(
-            request, check_path=i18n_patterns_used
+            request, check_path=i18n_patterns_used  # type: ignore
         )
         language_from_path = translation.get_language_from_path(
             request.path_info
@@ -110,7 +110,7 @@ class CustomLocaleMiddleware(LocaleMiddleware):
             language = settings.LANGUAGE_CODE
 
         if request.user.is_authenticated and hasattr(request.user, "settings"):
-            language = getattr(request.user.settings, "language", language)
+            language = getattr(request.user.settings, "language", language)  # type: ignore
 
         translation.activate(language)
         request.LANGUAGE_CODE = translation.get_language()  # type: ignore
@@ -129,6 +129,7 @@ class EnsureMnemonicGeneration(MiddlewareMixin):
         ):
             return None
 
+        # noinspection PyUnresolvedReferences
         if request.user.is_authenticated and request.user.first_connect:
             return redirect("users:first_connect")
 

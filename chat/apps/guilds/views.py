@@ -146,7 +146,7 @@ class GuildInvitesView(BaseGuildView):
         if not (invite := Invite.objects.filter(guild_id=guild.id).first()):
             invite = Invite(
                 guild=guild,
-                author=self.request.user,  # type: ignore
+                author=self.request.user,
             )
             invite.save()
 

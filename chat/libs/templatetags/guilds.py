@@ -45,7 +45,7 @@ def show_channels_from_category(category: Category):
 
 @register.simple_tag(name="collapsed_category")
 def collapsed_category(category: Category, member: User):  # type: ignore
-    if hasattr(member, "settings") and member.settings:
+    if hasattr(member, "settings") and member.settings:  # type: ignore
         user_settings: UserSettings = member.settings  # type: ignore
 
         return user_settings.collapsed_categories.filter(

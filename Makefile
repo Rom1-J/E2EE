@@ -8,8 +8,6 @@ PYTHON_PATH := $(VIRTUAL_ENV)/bin/python
 
 MANAGE_PY := DJANGO_READ_DOT_ENV_FILE=True $(PYTHON_PATH) manage.py
 
-TESTS := chat/pages/tests/ chat/users/tests/ chat/guilds/tests/
-
 #######################
 # Dev
 #######################
@@ -58,9 +56,7 @@ graph_model:
 lint:
 	$(PYTHON_PATH) -m pylint chat \
 		--load-plugins=pylint_django \
-		--django-settings-module=config.settings.local \
-		$(addprefix -d duplicate-code , $(TESTS)) \
-		$(addprefix -d line-too-long , $(TESTS))
+		--django-settings-module=config.settings.local
 
 .PHONY: black
 black:

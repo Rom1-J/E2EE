@@ -84,6 +84,7 @@ class GuildCategoriesForm(forms.ModelForm):
 
         fields = ["name"]
 
+
 # =============================================================================
 
 
@@ -92,6 +93,7 @@ class GuildChannelsForm(forms.ModelForm):
         model = Channel
 
         fields = ["parent", "name", "topic"]
+
 
 # =============================================================================
 # Custom forms
@@ -116,11 +118,13 @@ def move_row(request: ASGIRequest, data: dict) -> Optional[Tuple[bool, dict]]:
             }
 
         row.position += 1 if direction == "down" else -1
-        old_row = Category.objects.filter(guild=guild, position=row.position).first()
-        old_row.position -= 1 if direction == "down" else -1
+        old_row = Category.objects.filter(
+            guild=guild, position=row.position
+        ).first()
+        old_row.position -= 1 if direction == "down" else -1  # type: ignore
 
         row.save()
-        old_row.save()
+        old_row.save()  # type: ignore
 
     if isinstance(row, Channel):
         if (direction == "up" and row.position == 1) or (
@@ -135,11 +139,13 @@ def move_row(request: ASGIRequest, data: dict) -> Optional[Tuple[bool, dict]]:
             }
 
         row.position += 1 if direction == "down" else -1
-        old_row = Channel.objects.filter(guild=guild, position=row.position).first()
-        old_row.position -= 1 if direction == "down" else -1
+        old_row = Channel.objects.filter(
+            guild=guild, position=row.position
+        ).first()
+        old_row.position -= 1 if direction == "down" else -1  # type: ignore
 
         row.save()
-        old_row.save()
+        old_row.save()  # type: ignore
 
     return True, {
         "data": {"success": True, "message": "Row moved."},

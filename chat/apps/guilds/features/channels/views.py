@@ -90,6 +90,6 @@ class GuildChannelDetailView(BaseChannelView):
         guild_id: uuid.UUID,
         channel_id: uuid.UUID,
     ) -> JsonResponse:
-        result = {}
+        result = {}  # type: ignore
 
         return JsonResponse(result)

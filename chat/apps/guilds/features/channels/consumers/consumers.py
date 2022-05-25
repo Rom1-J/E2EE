@@ -150,10 +150,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
         for member in await self._get_members(guild):
             public_keys[str(member.id)] = member.public_key
 
-        await self.send(text_data=json.dumps({
-            "cmd": message_types.OutgoingMessageTypes.GiveMembersPubKeys,
-            "data": public_keys
-        }))
+        await self.send(
+            text_data=json.dumps(
+                {
+                    "cmd": message_types.OutgoingMessageTypes.GiveMembersPubKeys,
+                    "data": public_keys,
+                }
+            )
+        )
 
     # =========================================================================
     # =========================================================================
@@ -212,5 +216,5 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 "recipient": str(message.recipient.id),
                 "content": escape(message.content),
                 "nonce": escape(message.nonce),
-            }
+            },
         }

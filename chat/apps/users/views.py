@@ -51,7 +51,7 @@ class UserRedirectView(BaseUsersView, RedirectView):
 
     def get_redirect_url(self):
         return reverse(
-            "users:detail", kwargs={"username": self.request.user.username}
+            "users:detail", kwargs={"username": self.request.user.username}  # type: ignore
         )
 
 
@@ -127,7 +127,9 @@ class UserFistConnectView(BaseUsersView, View):
     template_name = template_path + "first_connect"
 
     def get(self, request: ASGIRequest, page: str = "first") -> HttpResponse:
-        if (user_settings := User.objects.get(id=request.user.id)) and not user_settings.first_connect:
+        if (
+            user_settings := User.objects.get(id=request.user.id)  # type: ignore
+        ) and not user_settings.first_connect:
             return redirect("users:redirect")
 
         if page == "first":
@@ -182,7 +184,7 @@ class UserFistConnectView(BaseUsersView, View):
 
         del request.session["mnemonics"]
 
-        user = User.objects.get(id=request.user.id)
+        user = User.objects.get(id=request.user.id)  # type: ignore
         user.mnemonic = make_password(mnemonic)
         user.public_key = public_key
         user.first_connect = False
@@ -198,4 +200,4 @@ class UserFistConnectView(BaseUsersView, View):
             ),
         )
 
-        return redirect("users:detail", username=request.user.username)
+        return redirect("users:detail", username=request.user.username)  # type: ignore

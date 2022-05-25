@@ -323,7 +323,11 @@ ACCOUNT_FORMS = {
 
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
-CORS_ALLOWED_ORIGINS = ["https://c3e.gnous.eu", "http://127.0.0.1:8000", "http://127.0.0.1:3000"]
+CORS_ALLOWED_ORIGINS = [
+    "https://c3e.gnous.eu",
+    "http://127.0.0.1:8000",
+    "http://127.0.0.1:3000",
+]
 
 CHANNEL_LAYERS = {
     "default": {"BACKEND": "channels.layers.InMemoryChannelLayer"}

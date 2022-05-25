@@ -1,5 +1,6 @@
 [MASTER]
 load-plugins=pylint_django
+ignore=tests
 disable=
 	W0221,  # arguments-differ
 	R0201,  # no-self-use

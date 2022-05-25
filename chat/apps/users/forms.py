@@ -88,8 +88,8 @@ class ResetPasswordForm(forms.Form):
                 username=cleaned_data["username"]
             ).first()
 
-            if not (self.user and self.user.mnemonic) or not check_password(
-                cleaned_data["mnemonic"], self.user.mnemonic
+            if not (self.user and self.user.mnemonic) or not check_password(  # type: ignore
+                cleaned_data["mnemonic"], self.user.mnemonic  # type: ignore
             ):
                 self.add_error("__all__", _("Username or mnemonic incorrect."))
 
