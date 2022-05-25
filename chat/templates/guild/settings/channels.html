@@ -196,7 +196,7 @@
         rows.forEach((el) => {
             el.addEventListener("click", () => {
                 const direction = el.getAttribute("data-direction");
-                const row_id = el.getAttribute("data-row-id")
+                const row_id = el.getAttribute("data-row-id");
 
                 fetch(
                     UPDATE_GUILD_ENDPOINT,

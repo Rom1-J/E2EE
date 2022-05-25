@@ -84,14 +84,15 @@
                 for (const [recipient_id, recipient_pubKey] of Object.entries(recipients)) {
                     const sharedKey = nacl.box.before(nacl.util.decodeBase64(recipient_pubKey), usableKeyPair.secretKey);
 
-                    const nonce = nacl.randomBytes(24)
+                    const nonce = nacl.randomBytes(24);
 
                     const box = nacl.box.after(
                         nacl.util.decodeUTF8(textarea.value),
                         nonce,
                         sharedKey
                     )
-                    const message = {box, nonce}
+                    const message = {box, nonce};
+
                     ws.send(JSON.stringify({
                         cmd: "POST_MESSAGE",
                         data: {
@@ -99,7 +100,7 @@
                             nonce: nacl.util.encodeBase64(message.nonce),
                             recipient: recipient_id
                         }
-                    }))
+                    }));
                 }
 
                 textarea.value = "";
@@ -125,7 +126,7 @@
                 }
             });
 
-            window.add_message = add_message
+            window.add_message = add_message;
         });
 
     </script>
