@@ -80,42 +80,98 @@
         </script>
     {% endif %}
 
-    {% if user.is_authenticated and room_name %}
-        <div id="ws_error_modal" uk-modal>
+    {% if user.is_authenticated %}
+        {% if room_name %}
+            <div id="ws_error_modal" uk-modal>
+                <div class="uk-modal-dialog uk-modal-body">
+                    <h2 class="uk-modal-title uk-text-danger">WebSocket Error</h2>
+                    <p>
+                        {% blocktrans %}
+                            The connection with the websocket could not be established,
+                            this problem can either come from your connection rules on the network,
+                            or from a problem on the server.<br>
+                            You can ignore this error and view your messages without the automatic refresh,
+                            or try reloading the page.
+                        {% endblocktrans %}
+                    </p>
+                    <p class="uk-text-right">
+                        <button class="uk-button uk-button-default uk-modal-close"
+                                type="button">{% trans "Dismiss" %}</button>
+                        <a href="{{ request.get_full_path }}" class="uk-button uk-button-primary"
+                           type="button">{% trans "Reload" %}</a>
+                    </p>
+                </div>
+            </div>
+
+            <script>
+                window.room_name = {
+                    id: '{{ room_name.id }}',
+                    guild: {
+                        name: '{{ room_name.guild.name }}',
+                        id: '{{ room_name.guild.id }}',
+                    },
+                }
+            </script>
+
+            {% compress js %}
+                <script src="{% static 'js/ws.js' %}"></script>
+            {% endcompress %}
+        {% endif %}
+
+        <div id="private_key_modal" uk-modal>
             <div class="uk-modal-dialog uk-modal-body">
-                <h2 class="uk-modal-title uk-text-danger">WebSocket Error</h2>
+                <h2 class="uk-modal-title uk-text-info">Enter your private key</h2>
+
+                <div id="invalid_private_key" class="uk-hidden uk-alert uk-alert-danger">
+                    <p>{% trans "Invalid private key passed" %}</p>
+                </div>
+
                 <p>
                     {% blocktrans %}
-                        The connection with the websocket could not be established,
-                        this problem can either come from your connection rules on the network,
-                        or from a problem on the server.<br>
-                        You can ignore this error and view your messages without the automatic refresh,
-                        or try reloading the page.
+                        thank you to inform your private key in order to be able to read and send messages. <br>
+                        We remind you that this last one remains only on your navigator and is not in no case
+                        communicated to the server
                     {% endblocktrans %}
                 </p>
+                <label>
+                    <input id="private_key" type="text" class="uk-input" placeholder="Private key">
+                </label>
                 <p class="uk-text-right">
                     <button class="uk-button uk-button-default uk-modal-close"
-                            type="button">{% trans "Dismiss" %}</button>
-                    <a href="{{ request.get_full_path }}" class="uk-button uk-button-primary"
-                       type="button">{% trans "Reload" %}</a>
+                            type="button">{% trans "Enter" %}</button>
                 </p>
             </div>
         </div>
 
         <script>
-            window.room_name = {
-                id: '{{ room_name.id }}',
-                guild: {
-                    name: '{{ room_name.guild.name }}',
-                    id: '{{ room_name.guild.id }}',
-                },
-            }
-        </script>
-        {% compress js %}
-            <script src="{% static 'js/ws.js' %}"></script>
-        {% endcompress %}
-        <script>
-            window.me = '{{ user.id }}'
+            window.me = '{{ user.id }}';
+
+            document.addEventListener("DOMContentLoaded", () => {
+                let private_key = document.getElementById("private_key");
+                let invalid_private_key = document.getElementById("invalid_private_key");
+
+                invalid_private_key.classList.add("uk-hidden");
+
+                if (window.sessionStorage.getItem("keySet") === null) {
+                    let keySet_modal = UIkit.modal(document.getElementById("private_key_modal"));
+                    keySet_modal.show();
+
+                    UIkit.util.on(keySet_modal.$el, "hidden", () => {
+                        try {
+                            window.keyPair = nacl.box.keyPair.fromSecretKey(nacl.util.decodeBase64(private_key.value));
+
+                            window.sessionStorage.setItem(
+                                "keySet",
+                                `${nacl.util.encodeBase64(keyPair.publicKey)}|${nacl.util.encodeBase64(keyPair.secretKey)}`
+                            );
+                            location.reload();
+                        } catch (e) {
+                            invalid_private_key.classList.remove("uk-hidden");
+                            keySet_modal.show();
+                        }
+                    })
+                }
+            });
         </script>
     {% endif %}
 

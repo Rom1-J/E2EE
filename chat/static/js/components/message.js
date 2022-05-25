@@ -32,18 +32,6 @@ function createAttachments(attachments) {
 }
 
 function createMessage(data) {
-    const sharedKey = nacl.box.before(
-        nacl.util.decodeBase64(recipients[data.author.id]), usableKeyPair.secretKey
-    );
-
-    const message = {
-        box: nacl.util.decodeBase64(data.content),
-        nonce: nacl.util.decodeBase64(data.nonce)
-    }
-
-    const payload = nacl.box.open.after(message.box, message.nonce, sharedKey);
-
-
     return `
     <article class="uk-alert uk-comment uk-position-relative uk-padding-small uk-margin-small uk-border-rounded
             message ${data.author.id === me ? 'message-me uk-alert-success' : 'uk-alert-primary'}
