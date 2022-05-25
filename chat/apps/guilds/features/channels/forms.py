@@ -9,7 +9,7 @@ class CreateMessageForm(forms.ModelForm):
     class Meta:
         model = Message
 
-        fields = ["author", "channel", "content", "attachments"]
+        fields = ["author", "channel", "recipient", "content", "nonce"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

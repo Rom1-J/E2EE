@@ -103,51 +103,19 @@
         </div>
 
         <script>
-            let fail_count = 0;
-
-            (function get_websocket() {
-                {#let chatSocket = new WebSocket(#}
-                {#    'wss://'#}
-                {#    + 'c3e.gnous.eu'#}
-                {#    + '/ws'#}
-                {#    + '/{{ room_name.guild.id }}'#}
-                {#    + '/{{ room_name.id }}'#}
-                {#);    #}
-                let chatSocket = new WebSocket(
-                    'ws://'
-                    + '127.0.0.1:8000'
-                    + '/ws'
-                    + '/{{ room_name.guild.id }}'
-                    + '/{{ room_name.id }}'
-                );
-
-                chatSocket.onmessage = (e) => {
-                    const data = JSON.parse(e.data);
-                    add_message(data)
-                };
-
-                chatSocket.onopen = () => {
-                    console.log('Websocket connected');
-                    fail_count = 0
-                };
-
-                chatSocket.onclose = () => {
-                    if (fail_count > 2) {
-                        UIkit.modal(document.getElementById("ws_error_modal")).show();
-                    } else {
-                        fail_count += 1;
-                        console.error('Chat socket closed unexpectedly');
-                        console.info('Trying to reconnect in 5s...');
-                        setTimeout(() => get_websocket(), 5000)
-                    }
-                };
-
-                window.ws = chatSocket;
-            })();
+            window.room_name = {
+                id: '{{ room_name.id }}',
+                guild: {
+                    name: '{{ room_name.guild.name }}',
+                    id: '{{ room_name.guild.id }}',
+                },
+            }
         </script>
-
+        {% compress js %}
+            <script src="{% static 'js/ws.js' %}"></script>
+        {% endcompress %}
         <script>
-        window.me = '{{ user.id }}'
+            window.me = '{{ user.id }}'
         </script>
     {% endif %}
 

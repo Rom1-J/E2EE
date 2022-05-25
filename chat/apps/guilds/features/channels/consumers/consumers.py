@@ -1,5 +1,6 @@
 import json
 
+from asgiref.sync import sync_to_async
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
 from django.templatetags.static import static
@@ -7,6 +8,7 @@ from django.urls import reverse
 from django.utils.html import escape
 from rich import inspect
 
+from chat.apps.guilds.models import Guild
 from ..forms import CreateMessageForm
 from . import message_types
 from ..models import Channel, Message
@@ -51,6 +53,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.room_group_name, self.channel_name
         )
         await self.accept()
+
+        await self.give_users()
 
     # =========================================================================
 
@@ -137,11 +141,38 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.send(text_data=event["content"])
 
     # =========================================================================
+
+    async def give_users(self):
+        guild = await self._get_guild(self.guild)
+
+        public_keys = {}
+
+        for member in await self._get_members(guild):
+            public_keys[str(member.id)] = member.public_key
+
+        await self.send(text_data=json.dumps({
+            "cmd": message_types.OutgoingMessageTypes.GiveMembersPubKeys,
+            "data": public_keys
+        }))
+
+    # =========================================================================
     # =========================================================================
 
     @database_sync_to_async
     def _get_channel(self, channel_id: str):
         return Channel.objects.filter(id=channel_id).first()
+
+    # =========================================================================
+
+    @database_sync_to_async
+    def _get_guild(self, guild_id: str):
+        return Guild.objects.filter(id=guild_id).first()
+
+    # =========================================================================
+
+    @sync_to_async
+    def _get_members(self, guild: Guild):
+        return list(guild.members.all())
 
     # =========================================================================
 
@@ -154,27 +185,32 @@ class ChatConsumer(AsyncWebsocketConsumer):
     @database_sync_to_async
     def _make_response(self, message: Message):
         return {
-            "author": {
-                "id": str(message.author.id),
-                "avatar_url": escape(
-                    message.author.settings.avatar.url
-                    if message.author.settings.avatar
-                    else static("images/icons/circle_user.svg")
-                ),
-                "url": reverse(
-                    "users:detail", kwargs={"username": message.author}
-                ),
-                "name": escape(str(message.author)),
-            },
-            "attachments": [
-                {
-                    "file": {
-                        "name": escape(f.filename),
-                        "url": f.file.url,
-                        "size": f.file.size,
+            "cmd": "TEXT_MESSAGE",
+            "data": {
+                "author": {
+                    "id": str(message.author.id),
+                    "avatar_url": escape(
+                        message.author.settings.avatar.url
+                        if message.author.settings.avatar
+                        else static("images/icons/circle_user.svg")
+                    ),
+                    "url": reverse(
+                        "users:detail", kwargs={"username": message.author}
+                    ),
+                    "name": escape(str(message.author)),
+                },
+                "attachments": [
+                    {
+                        "file": {
+                            "name": escape(f.filename),
+                            "url": f.file.url,
+                            "size": f.file.size,
+                        }
                     }
-                }
-                for f in message.attachments.all()
-            ],
-            "content": escape(message.content),
+                    for f in message.attachments.all()
+                ],
+                "recipient": str(message.recipient.id),
+                "content": escape(message.content),
+                "nonce": escape(message.nonce),
+            }
         }

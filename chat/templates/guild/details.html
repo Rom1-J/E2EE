@@ -10,8 +10,6 @@
                 <thead>
                 <tr>
                     <th scope="col" class="uk-width-auto">{% trans "Channel" %}</th>
-                    <th scope="col" class="uk-width-expand">{% trans "Last message" %}</th>
-                    <th scope="col">{% trans "Messages" %}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -21,21 +19,6 @@
                             <td>
                                 <a class="uk-link"
                                 href="{% url 'guild:channel_details' guild.id channel.id %}">{{ channel }}</a>
-                            </td>
-                            <td class="uk-overflow-auto">
-{#                                {% if channel.last_message %}#}
-    {#                                {% include "layouts/components/message/block.html" with message=channel.messages.first %}#}
-{#                                    <b class="uk-text-bold">[{{ channel.last_message.author }}]</b>#}
-{#                                    <span id="prev_{{ channel.last_message.id }}">{{ channel.last_message.content }}</span>#}
-{#                                    <script>#}
-{#                                        window.addEventListener('load', () => {#}
-{#                                            document.getElementById("prev_{{ channel.last_message.id }}").innerText = decipher('{{ channel.last_message.content }}', '{{ channel.last_message.author.id }}');#}
-{#                                        });#}
-{#                                    </script>#}
-{#                                {% endif %}#}
-                            </td>
-                            <td>
-{#                                <span>{{ channel.messages_count }}</span>#}
                             </td>
                         </tr>
                     {% endfor %}

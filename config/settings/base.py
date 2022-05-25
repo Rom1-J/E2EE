@@ -328,3 +328,5 @@ CORS_ALLOWED_ORIGINS = ["https://c3e.gnous.eu", "http://127.0.0.1:8000", "http:/
 CHANNEL_LAYERS = {
     "default": {"BACKEND": "channels.layers.InMemoryChannelLayer"}
 }
+
+DJANGO_ALLOW_ASYNC_UNSAFE = True

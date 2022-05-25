@@ -62,10 +62,7 @@ class Channel(models.Model):
     # =========================================================================
 
     def get_messages(self, recipient: User):
-        return Message.objects.filter(channel=self)
-
-    # def messages_count(self):
-    #     return len(self.get_messages().all())
+        return Message.objects.filter(channel=self, recipient=recipient)
 
     # =========================================================================
 
@@ -88,6 +85,8 @@ class Message(models.Model):
     )
 
     content = models.TextField()
+    nonce = models.TextField()
+
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="author"
     )

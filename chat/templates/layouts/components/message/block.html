@@ -49,10 +49,15 @@
     </header>
 
     <div class="uk-comment-body">
-        <p id="{{ message.id }}">{{ message.content }}</p>
+        <p id="{{ message.id }}">{% trans "Loading..." %}</p>
         <script>
             window.addEventListener('load', () => {
-                document.getElementById("{{ message.id }}").innerText = decipher('{{ message.content }}', '{{ message.author.id }}');
+                document.getElementById("{{ message.id }}").innerText = (
+                    decipher(
+                        {box: '{{ message.content }}', nonce: '{{ message.nonce }}'},
+                        '{{ message.author.id }}'
+                    )
+                );
             });
         </script>
     </div>

@@ -5,6 +5,7 @@ from django.core.handlers.asgi import ASGIRequest
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 
+from .models import Channel
 from ...models import Guild
 from ...utils import get_guild
 from ...views import BaseGuildView, template_path
@@ -71,12 +72,13 @@ class GuildChannelDetailView(BaseChannelView):
         params = get_params(request, guild_id)
         guild: Guild = params["guild"]
 
-        channel = guild.channels.get(id__exact=channel_id)
+        channel: Channel = guild.channels.get(id__exact=channel_id)
 
         if not channel:
             return redirect("guild:guild_details", guild_id=str(guild_id))
 
         params["room_name"] = channel
+        params["room_messages"] = channel.get_messages(request.user)
 
         return render(request, self.template_name, params)
 

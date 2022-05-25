@@ -62,7 +62,7 @@
             const keyPair = window.sessionStorage.getItem("keySet").split("|");
 
             document.querySelectorAll("input[name='public_key']").forEach(input => {
-                input.value = keyPair[1];
+                input.value = keyPair[0];
             });
         </script>
     {% endblock inline_javascript %}

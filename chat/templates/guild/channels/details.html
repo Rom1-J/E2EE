@@ -15,7 +15,7 @@
 {% block content %}
     <div class="uk-padding-small uk-card-body uk-overflow-auto" id="messages"
          uk-height-viewport="offset-top: true; offset-bottom: true">
-        {% with messages=room_name.get_messages.all %}
+        {% with messages=room_messages %}
             {% if messages %}
                 {% for message in messages %}
                     {% include "layouts/components/message/block.html" with message=message %}
@@ -31,9 +31,9 @@
     <div class="uk-card-footer">
         <form id="message_form">
             <label class="uk-flex">
-{#                <button class="uk-button uk-button-default uk-padding-small uk-padding-remove-vertical">#}
-{#                    <span uk-icon="icon: plus-circle"></span>#}
-{#                </button>#}
+                {#                <button class="uk-button uk-button-default uk-padding-small uk-padding-remove-vertical">#}
+                {#                    <span uk-icon="icon: plus-circle"></span>#}
+                {#                </button>#}
 
                 <textarea id="message_input" class="uk-textarea"
                           style="resize: none; max-height: 20vh" autofocus
@@ -51,56 +51,81 @@
 
 {% block inline_javascript %}
     <script>
-        const messages = document.getElementById("messages");
-        const textarea = document.getElementById("message_input");
-        const attachments = undefined;
-
-        const form = document.getElementById("message_form");
-
-
-        const observer = new MutationObserver(function (mutations) {
-            mutations.forEach(function (mutationRecord) {
-                const style = mutationRecord.target.style;
-
-                if (style) {
-                    style.maxHeight = style.minHeight;
-                }
-
-                messages.scrollTop = messages.scrollHeight;
-            });
-        });
-
-        observer.observe(messages, {attributes: true, attributeFilter: ['style']});
-
-
-        function send_message() {
-            window.ws.send(JSON.stringify({
-                "cmd": "POST_MESSAGE",
-                "data": {
-                    "content": cipher(textarea.value),
-                    "attachments": attachments
-                }
-            }));
-
-            textarea.value = "";
-        }
-
-        function add_message(data) {
-            const new_message = createMessage(data);
-            messages.insertAdjacentHTML("beforeend", new_message);
-            messages.scrollTop = messages.scrollHeight;
-        }
-
-        form.addEventListener("submit", (e) => {
-            e.preventDefault();
-            send_message();
-        });
-
-        textarea.addEventListener("keyup", (e) => {
-            if (e.key === "Enter") {
-                if (e.ctrlKey) textarea.value += "\n";
-                else send_message();
+        document.addEventListener("DOMContentLoaded", () => {
+            if (window.keyPair === undefined) {
+                window.keyPair = window.sessionStorage.getItem("keySet").split("|");
             }
+
+            window.usableKeyPair = constructKeyPair(keyPair);
+
+            const messages = document.getElementById("messages");
+            const textarea = document.getElementById("message_input");
+            const attachments = undefined;
+
+            const form = document.getElementById("message_form");
+
+
+            const observer = new MutationObserver(function (mutations) {
+                mutations.forEach(function (mutationRecord) {
+                    const style = mutationRecord.target.style;
+
+                    if (style) {
+                        style.maxHeight = style.minHeight;
+                    }
+
+                    messages.scrollTop = messages.scrollHeight;
+                });
+            });
+
+            observer.observe(messages, {attributes: true, attributeFilter: ['style']});
+
+
+            function send_message() {
+                for (const [recipient_id, recipient_pubKey] of Object.entries(recipients)) {
+                    const sharedKey = nacl.box.before(nacl.util.decodeBase64(recipient_pubKey), usableKeyPair.secretKey);
+
+                    const nonce = nacl.randomBytes(24)
+
+                    const box = nacl.box.after(
+                        nacl.util.decodeUTF8(textarea.value),
+                        nonce,
+                        sharedKey
+                    )
+                    const message = {box, nonce}
+                    ws.send(JSON.stringify({
+                        cmd: "POST_MESSAGE",
+                        data: {
+                            content: nacl.util.encodeBase64(message.box),
+                            nonce: nacl.util.encodeBase64(message.nonce),
+                            recipient: recipient_id
+                        }
+                    }))
+                }
+
+                textarea.value = "";
+            }
+
+            function add_message(data) {
+                if (data.recipient !== me) return;
+
+                const new_message = createMessage(data);
+                messages.insertAdjacentHTML("beforeend", new_message);
+                messages.scrollTop = messages.scrollHeight;
+            }
+
+            form.addEventListener("submit", (e) => {
+                e.preventDefault();
+                send_message();
+            });
+
+            textarea.addEventListener("keyup", (e) => {
+                if (e.key === "Enter") {
+                    if (e.ctrlKey) textarea.value += "\n";
+                    else send_message();
+                }
+            });
+
+            window.add_message = add_message
         });
 
     </script>
